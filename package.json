@@ -15,5 +15,6 @@
   "bugs": {
     "url": "https://github.com/sam2017x/fsharj/issues"
   },
-  "homepage": "https://github.com/sam2017x/fsharj#readme"
+  "homepage": "https://github.com/sam2017x/fsharj#readme",
+  "dependencies": {}
 }
