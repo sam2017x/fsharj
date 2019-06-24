@@ -1,13 +1,14 @@
 import React from 'react';
 import { Nav, Navbar, Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Togglable from './Togglable';
 
 const Header = props => {
   const styles = {
     color: 'white',
   };
   return (
-    <Navbar expand="sm" collapseOnSelect bg="primary" variant="dark">
+    <Navbar expand="md" collapseOnSelect bg="primary" variant="dark">
       <Navbar.Brand href="/">
         <Link to="/" style={styles}>
           FSHT
@@ -27,10 +28,23 @@ const Header = props => {
             </Link>
           </Nav.Link>
         </Nav>
-        <Form inline>
-          <Form.Control type="text" placeholder="Search" className="mr-sm-2" />
-          <Button variant="outline-dark">GO</Button>
-        </Form>
+        {!window.localStorage.getItem('userLoggedIn') && (
+          <Togglable value="Log in">
+            <Form inline>
+              <Form.Control
+                type="text"
+                placeholder="Username"
+                className="mr-sm-3"
+              />
+              <Form.Control
+                type="password"
+                placeholder="Password"
+                className="mr-sm-3"
+              />
+              <Button variant="outline-dark">GO</Button>
+            </Form>
+          </Togglable>
+        )}
       </Navbar.Collapse>
     </Navbar>
   );
