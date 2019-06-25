@@ -1,3 +1,5 @@
+import userService from '../services/user';
+
 const reducer = (state = {}, action) => {
   switch (action.type) {
     case 'LOGIN':
@@ -10,7 +12,7 @@ const reducer = (state = {}, action) => {
 export const userLogin = info => {
   return async dispatch => {
     try {
-      const user = { user: 'xd' };
+      const user = await userService.login(info);
       dispatch({
         type: 'LOGIN',
         data: user,

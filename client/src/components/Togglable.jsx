@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Nav, Navbar, Form, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 const Togglable = ({ children, value }) => {
@@ -16,7 +16,14 @@ const Togglable = ({ children, value }) => {
           {value}
         </Button>
       )}
-      {!toggle && children}
+      {!toggle && (
+        <>
+          {children}{' '}
+          <Button variant="warning" onClick={() => setToggle(!toggle)}>
+            cancel
+          </Button>
+        </>
+      )}
     </>
   );
 };

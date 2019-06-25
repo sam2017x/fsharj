@@ -2,6 +2,7 @@ import React from 'react';
 import { Nav, Navbar, Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Togglable from './Togglable';
+import Login from './Login';
 
 const Header = props => {
   const styles = {
@@ -30,19 +31,7 @@ const Header = props => {
         </Nav>
         {!window.localStorage.getItem('userLoggedIn') && (
           <Togglable value="Log in">
-            <Form inline>
-              <Form.Control
-                type="text"
-                placeholder="Username"
-                className="mr-sm-3"
-              />
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                className="mr-sm-3"
-              />
-              <Button variant="outline-dark">GO</Button>
-            </Form>
+            <Login />
           </Togglable>
         )}
       </Navbar.Collapse>
