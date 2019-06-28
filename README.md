@@ -7,13 +7,13 @@ Chat-applikaatio. Ystävälistat, random-matching aikarajalla, subscription-pohj
 ## Tekniikat & teknologiat
 
 1. Frontend
- - React
- - Redux
+   - React
+   - Redux
 
 2. Backend
- - Nodejs
- - MongoDB
- - GraphQL
+   - Nodejs
+   - MongoDB
+   - GraphQL
 
 ---
 
