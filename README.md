@@ -15,3 +15,8 @@ Chat-applikaatio. Ystävälistat, random-matching aikarajalla, subscription-pohj
   - MongoDB
   - GraphQL
 
+---
+
+### Tekijä(t)
+
+Samuli Juppi (015097215)
