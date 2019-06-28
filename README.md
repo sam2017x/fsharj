@@ -7,16 +7,16 @@ Chat-applikaatio. Ystävälistat, random-matching aikarajalla, subscription-pohj
 ## Tekniikat & teknologiat
 
 1. Frontend
-  - React
-  - Redux
+ - React
+ - Redux
 
 2. Backend
-  - Nodejs
-  - MongoDB
-  - GraphQL
+ - Nodejs
+ - MongoDB
+ - GraphQL
 
 ---
 
 ### Tekijä(t)
 
-Samuli Juppi (015097215)
+Samuli Juppi __015097215__
