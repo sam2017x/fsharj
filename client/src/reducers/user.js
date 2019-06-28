@@ -11,15 +11,14 @@ const reducer = (state = {}, action) => {
 
 export const userLogin = info => {
   return async dispatch => {
-    try {
-      const user = await userService.login(info);
+    const { data, error, loading } = await userService.login(info);
+    if (!loading && !error) {
       dispatch({
         type: 'LOGIN',
-        data: user,
+        data,
       });
-    } catch (error) {
-      throw new Error(error.message);
     }
+    if (error) throw new Error(error.message);
   };
 };
 
