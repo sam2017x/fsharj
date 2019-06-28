@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 const { PubSub } = require("apollo-server");
 const bcrypt = require("bcrypt");
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
+
 const pubsub = new PubSub();
 const {
   ApolloServer,
