@@ -10,7 +10,7 @@ const Header = props => {
   };
   return (
     <Navbar expand="md" collapseOnSelect bg="primary" variant="dark">
-      <Navbar.Brand href="/">
+      <Navbar.Brand href="/" as="span">
         <Link to="/" style={styles}>
           FSHT
         </Link>
@@ -18,12 +18,12 @@ const Header = props => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link href="/stats">
+          <Nav.Link href="/stats" as="span">
             <Link to="/stats" style={styles}>
               Stats
             </Link>
           </Nav.Link>
-          <Nav.Link href="/about">
+          <Nav.Link href="/about" as="span">
             <Link to="/about" style={styles}>
               About
             </Link>
