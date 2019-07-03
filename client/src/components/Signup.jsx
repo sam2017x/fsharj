@@ -1,30 +1,29 @@
 import React from 'react';
+import { useMutation } from 'react-apollo-hooks';
 import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useMutation } from 'react-apollo-hooks';
 import { useField } from '../hooks/index';
-import { userLogin } from '../reducers/user';
-import { LOGIN } from '../services/user';
+import { SIGN } from '../services/user';
 import { setNotification } from '../reducers/notification';
 
-const Login = props => {
-  const ufields = useField('text');
-  const pfields = useField('password');
+const Signup = props => {
+  const uname = useField('text');
+  const pw = useField('password');
 
-  const loggedUser = useMutation(LOGIN);
+  const signup = useMutation(SIGN);
 
-  const handleLogin = async () => {
+  const handleSign = async () => {
     try {
-      const { loading, data } = await loggedUser({
+      const { loading, data } = signup({
         variables: {
-          username: ufields.value,
-          password: pfields.value,
+          username: uname.value,
+          password: pw.value,
         },
       });
+
       if (!loading) {
-        props.setNotification(`Welcome ${data.login.username}`, 'success', 5);
-        //props.userLogin(data.login);
+        props.setNotification(`Signed up successfully!`, 'success', 5);
       }
     } catch (error) {
       props.setNotification(`${error.message}`, 'danger', 5);
@@ -34,35 +33,33 @@ const Login = props => {
   return (
     <Form inline>
       <Form.Control
-        {...ufields}
+        {...uname}
         reset={null}
         placeholder="Username"
         className="mr-sm-3"
       />
       <Form.Control
-        {...pfields}
+        {...pw}
         reset={null}
         placeholder="Password"
         className="mr-sm-3"
       />
-      <Button variant="warning" onClick={() => handleLogin()}>
-        Login
+      <Button variant="success" onClick={() => handleSign()}>
+        Sign up
       </Button>
     </Form>
   );
 };
 
-Login.propTypes = {
-  userLogin: PropTypes.func.isRequired,
-  setNotification: PropTypes.func.isRequired,
+const mapDispatchToProps = {
+  setNotification,
 };
 
-const mapDispatchToProps = {
-  userLogin,
-  setNotification,
+Signup.propTypes = {
+  setNotification: PropTypes.func.isRequired,
 };
 
 export default connect(
   null,
   mapDispatchToProps
-)(Login);
+)(Signup);

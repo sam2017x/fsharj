@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { Alert } from 'react-bootstrap';
 import { gql } from 'apollo-boost';
+import PropTypes from 'prop-types';
 import { useQuery, useMutation, useApolloClient } from 'react-apollo-hooks';
 import { Subscription } from 'react-apollo';
 import {
@@ -9,13 +12,19 @@ import {
   withRouter,
   Redirect,
 } from 'react-router-dom';
+import { setUser } from './reducers/user';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { SIGN } from './services/user';
-import { sign } from 'crypto';
 
 const App = props => {
-  useEffect(() => {});
+  const { notification } = props;
+  useEffect(() => {
+    const user = JSON.parse(window.localStorage.getItem('loggedUser'));
+    if (user) {
+      props.setUser(user);
+    }
+  });
 
   const [uname, setUname] = useState('');
   const [pw, setPw] = useState('');
@@ -40,6 +49,9 @@ const App = props => {
     <div>
       <Router>
         <Header />
+        {notification.text !== undefined && (
+          <Alert variant={notification.style}>{notification.text}</Alert>
+        )}
         <div className="container-fluid">
           <Route
             exact
@@ -73,4 +85,22 @@ const App = props => {
   );
 };
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    notification: state.notification,
+  };
+};
+
+const mapDispatchToProps = {
+  setUser,
+};
+
+App.propTypes = {
+  notification: PropTypes.object,
+  setUser: PropTypes.func.isRequired,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

@@ -1,13 +1,24 @@
 import React from 'react';
 import { Nav, Navbar, Form, Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Togglable from './Togglable';
+import Signup from './Signup';
 import Login from './Login';
 
-const Header = props => {
+const Header = ({ user }) => {
   const styles = {
     color: 'white',
   };
+  console.log(user)
+
+  const loginRef = React.createRef();
+
+  const toggleLoginForm = () => {
+    loginRef.current.toggleVisibility();
+  };
+
   return (
     <Navbar expand="md" collapseOnSelect bg="primary" variant="dark">
       <Navbar.Brand href="/" as="span">
@@ -29,14 +40,30 @@ const Header = props => {
             </Link>
           </Nav.Link>
         </Nav>
-        {!window.localStorage.getItem('userLoggedIn') && (
-          <Togglable value="Log in">
-            <Login />
-          </Togglable>
+        {user.token === undefined && (
+          <>
+            <Togglable ref={loginRef} value="Log in" color="warning">
+              <Login />
+              <Signup />
+            </Togglable>
+            {/*<Togglable ref={signupRef} value="Sign up" color="success">
+              <Signup />
+        </Togglable> */}
+          </>
         )}
       </Navbar.Collapse>
     </Navbar>
   );
 };
 
-export default Header;
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+  };
+};
+
+Header.propTypes = {
+  user: PropTypes.objectOf(PropTypes.object).isRequired,
+};
+
+export default connect(mapStateToProps)(Header);

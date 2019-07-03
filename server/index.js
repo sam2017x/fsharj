@@ -72,11 +72,12 @@ const resolvers = {
     login: async (root, args) => {
       const user = await User.findOne({ username: args.username });
 
-      const pw = await bcrypt.compare(args.password, user.password);
-
-      if (!user || !pw) {
-        throw new UserInputError("wrong crendentials");
+      if (!user) {
+        throw new UserInputError("Wrong crendentials");
       }
+
+      if (!(await bcrypt.compare(args.password, user.password)))
+        throw new UserInputError("Wrong credentials");
 
       const userForToken = {
         username: args.username,
