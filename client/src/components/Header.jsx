@@ -1,22 +1,30 @@
 import React from 'react';
 import { Nav, Navbar, Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { setUser } from '../reducers/user';
 import Togglable from './Togglable';
 import Signup from './Signup';
 import Login from './Login';
 
-const Header = ({ user }) => {
+const Header = props => {
+  const { user, history } = props;
   const styles = {
     color: 'white',
   };
-  console.log(user)
+  console.log(user);
 
   const loginRef = React.createRef();
 
   const toggleLoginForm = () => {
     loginRef.current.toggleVisibility();
+  };
+
+  const logout = () => {
+    window.localStorage.clear();
+    props.setUser({});
+    history.push('/');
   };
 
   return (
@@ -51,6 +59,22 @@ const Header = ({ user }) => {
         </Togglable> */}
           </>
         )}
+        {user.token && (
+          <>
+            <Nav.Link>
+              <span style={{ color: 'white' }}>Signed in as: </span>
+              <Link
+                to={`/user/${user.username}`}
+                style={{ color: 'black', textUnderlinePosition: 'auto' }}
+              >
+                {user.username}
+              </Link>
+            </Nav.Link>
+            <Button onClick={() => logout()} variant="danger">
+              Logout
+            </Button>
+          </>
+        )}
       </Navbar.Collapse>
     </Navbar>
   );
@@ -62,8 +86,19 @@ const mapStateToProps = state => {
   };
 };
 
-Header.propTypes = {
-  user: PropTypes.objectOf(PropTypes.object).isRequired,
+const mapDispatchToProps = {
+  setUser,
 };
 
-export default connect(mapStateToProps)(Header);
+Header.propTypes = {
+  user: PropTypes.objectOf(PropTypes.object).isRequired,
+  history: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired,
+};
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Header)
+);

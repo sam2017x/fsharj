@@ -15,10 +15,12 @@ import {
 import { setUser } from './reducers/user';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import UserPage from './components/UserPage';
 import { SIGN } from './services/user';
 
 const App = props => {
   const { notification } = props;
+
   useEffect(() => {
     const user = JSON.parse(window.localStorage.getItem('loggedUser'));
     if (user) {
@@ -53,6 +55,13 @@ const App = props => {
           <Alert variant={notification.style}>{notification.text}</Alert>
         )}
         <div className="container-fluid">
+          <Route
+            exact
+            path="/user/:username"
+            render={({ match }) => {
+              return <UserPage data={match} />;
+            }}
+          />
           <Route
             exact
             path="/"
