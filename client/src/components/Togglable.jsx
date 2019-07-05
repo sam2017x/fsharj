@@ -6,7 +6,7 @@ const Togglable = React.forwardRef((props, ref) => {
   const [toggle, setToggle] = useState('none');
 
   const toggleVisibility = () => {
-    setToggle(!toggle);
+    setToggle('none');
   };
 
   useImperativeHandle(ref, () => {
@@ -35,30 +35,8 @@ const Togglable = React.forwardRef((props, ref) => {
           </Button>
         </>
       )}
-      {toggle === 'log' && (
-        <>
-          {props.children[0]}{' '}
-          <Button
-            variant="dark"
-            onClick={() => setToggle('none')}
-            className="ml-sm-1"
-          >
-            X
-          </Button>
-        </>
-      )}
-      {toggle === 'sign' && (
-        <>
-          {props.children[1]}
-          <Button
-            variant="dark"
-            onClick={() => setToggle('none')}
-            className="ml-sm-1"
-          >
-            X
-          </Button>
-        </>
-      )}
+      {toggle === 'log' && <>{props.children[0]} </>}
+      {toggle === 'sign' && <>{props.children[1]}</>}
     </>
   );
 });

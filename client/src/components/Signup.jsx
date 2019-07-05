@@ -1,6 +1,6 @@
 import React from 'react';
 import { useMutation } from 'react-apollo-hooks';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Col, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useField } from '../hooks/index';
@@ -31,23 +31,28 @@ const Signup = props => {
   };
 
   return (
-    <Form inline>
-      <Form.Control
-        {...uname}
-        reset={null}
-        placeholder="Username"
-        className="mr-sm-3"
-      />
-      <Form.Control
-        {...pw}
-        reset={null}
-        placeholder="Password"
-        className="mr-sm-3"
-      />
-      <Button variant="success" onClick={() => handleSign()}>
+    <>
+      <Form inline>
+        <Form.Control
+          {...uname}
+          reset={null}
+          placeholder="Username"
+          className="mr-sm-3"
+        />
+        <Form.Control
+          {...pw}
+          reset={null}
+          placeholder="Password"
+          className="mr-sm-3"
+        />
+      </Form>
+      <Button variant="success" onClick={() => handleSign()} className="mr-1">
         Sign up
       </Button>
-    </Form>
+      <Button variant="light" onClick={() => props.toggleForm()}>
+        Cancel
+      </Button>
+    </>
   );
 };
 
@@ -57,6 +62,7 @@ const mapDispatchToProps = {
 
 Signup.propTypes = {
   setNotification: PropTypes.func.isRequired,
+  toggleForm: PropTypes.func.isRequired,
 };
 
 export default connect(

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nav, Navbar, Form, Button } from 'react-bootstrap';
+import { Nav, Navbar, Button, NavDropdown } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -13,12 +13,11 @@ const Header = props => {
   const styles = {
     color: 'white',
   };
-  console.log(user);
 
-  const loginRef = React.createRef();
-
-  const toggleLoginForm = () => {
-    loginRef.current.toggleVisibility();
+  // Ref toggle, for reference.
+  const formToggle = React.createRef();
+  const toggleForm = () => {
+    formToggle.current.toggleVisibility();
   };
 
   const logout = () => {
@@ -28,7 +27,7 @@ const Header = props => {
   };
 
   return (
-    <Navbar expand="md" collapseOnSelect bg="primary" variant="dark">
+    <Navbar expand="lg" collapseOnSelect bg="primary" variant="dark">
       <Navbar.Brand href="/" as="span">
         <Link to="/" style={styles}>
           FSHT
@@ -42,6 +41,17 @@ const Header = props => {
               Stats
             </Link>
           </Nav.Link>
+          <NavDropdown title="Search" id="collasible-nav-dropdown">
+            <NavDropdown.Item as="span">
+              <Link to="/s/users">Users</Link>
+            </NavDropdown.Item>
+            <NavDropdown.Item as="span">
+              <Link to="/s/groups">Groups</Link>
+            </NavDropdown.Item>
+            <NavDropdown.Item as="span">
+              <Link to="/s/posts">Posts</Link>
+            </NavDropdown.Item>
+          </NavDropdown>
           <Nav.Link href="/about" as="span">
             <Link to="/about" style={styles}>
               About
@@ -50,13 +60,10 @@ const Header = props => {
         </Nav>
         {user.token === undefined && (
           <>
-            <Togglable ref={loginRef} value="Log in" color="warning">
-              <Login />
-              <Signup />
+            <Togglable ref={formToggle} color="warning">
+              <Login toggleForm={toggleForm} />
+              <Signup toggleForm={toggleForm} />
             </Togglable>
-            {/*<Togglable ref={signupRef} value="Sign up" color="success">
-              <Signup />
-        </Togglable> */}
           </>
         )}
         {user.token && (
@@ -92,7 +99,7 @@ const mapDispatchToProps = {
 
 Header.propTypes = {
   user: PropTypes.objectOf(PropTypes.object).isRequired,
-  history: PropTypes.func.isRequired,
+  history: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   setUser: PropTypes.func.isRequired,
 };
 
