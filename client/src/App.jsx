@@ -16,7 +16,16 @@ import { setUser } from './reducers/user';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import UserPage from './components/UserPage';
-import { SIGN } from './services/user';
+import UserSearch from './components/UserSearch';
+import { SIGN } from './services/queries';
+
+const CHECK_ME = gql`
+  {
+    me {
+      username
+    }
+  }
+`;
 
 const App = props => {
   const { notification } = props;
@@ -33,8 +42,10 @@ const App = props => {
 
   const signup = useMutation(SIGN);
 
+  const check = useQuery(CHECK_ME);
+
   const handleSign = async () => {
-    const { error, loading, data } = await signup({
+    /*const { error, loading, data } = await signup({
       variables: {
         username: uname,
         password: pw,
@@ -44,7 +55,10 @@ const App = props => {
 
     if (!loading) {
       console.log('signup successful', data);
-    }
+    }*/
+
+    const { data, loading } = check;
+    if (!loading) console.log('ME CHECK RETURN', data.me);
   };
 
   return (
@@ -62,6 +76,7 @@ const App = props => {
               return <UserPage data={match} />;
             }}
           />
+          <Route path="/search/" render={() => <UserSearch />} />
           <Route
             exact
             path="/"
@@ -105,7 +120,7 @@ const mapDispatchToProps = {
 };
 
 App.propTypes = {
-  notification: PropTypes.object,
+  notification: PropTypes.objectOf(PropTypes.object).isRequired,
   setUser: PropTypes.func.isRequired,
 };
 

@@ -18,3 +18,12 @@ export const SIGN = gql`
     }
   }
 `;
+
+export const ALL_USERS = gql`
+  {
+    allUsers {
+      username
+      id
+    }
+  }
+`;

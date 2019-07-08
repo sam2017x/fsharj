@@ -68,7 +68,7 @@ const Header = props => {
         )}
         {user.token && (
           <>
-            <Nav.Link>
+            <Nav.Link as="span">
               <span style={{ color: 'white' }}>Signed in as: </span>
               <Link
                 to={`/user/${user.username}`}
@@ -98,7 +98,11 @@ const mapDispatchToProps = {
 };
 
 Header.propTypes = {
-  user: PropTypes.objectOf(PropTypes.object).isRequired,
+  user: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.string,
+    PropTypes.string,
+  ]).isRequired,
   history: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   setUser: PropTypes.func.isRequired,
 };

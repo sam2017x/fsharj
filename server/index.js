@@ -25,6 +25,7 @@ mongoose
 const typeDefs = gql`
   type Query {
     allUsers: [User]!
+    me: User
   }
 
   type Mutation {
@@ -52,6 +53,9 @@ const resolvers = {
       } catch (error) {
         throw new Error(error.message);
       }
+    },
+    me: async (root, args, context) => {
+      return context.currentUser;
     }
   },
   Mutation: {
@@ -97,7 +101,15 @@ const server = new ApolloServer({
   AuthenticationError,
   UserInputError,
   typeDefs,
-  resolvers
+  resolvers,
+  context: async ({ req }) => {
+    const auth = req ? req.headers.authorization : null;
+    if (auth && auth.toLowerCase().startsWith("bearer ")) {
+      const decodedToken = jwt.verify(auth.substring(7), JWT_SECRET);
+      const currentUser = await User.findById(decodedToken.id);
+      return { currentUser };
+    }
+  }
 });
 
 server.listen().then(({ url, subscriptionsUrl }) => {

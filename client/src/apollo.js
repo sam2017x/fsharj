@@ -17,11 +17,11 @@ const wsLink = new WebSocketLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('loggedUser');
+  const token = JSON.parse(localStorage.getItem('loggedUser'));
   return {
     headers: {
       ...headers,
-      authorization: token ? `bearer ${token}` : null,
+      authorization: token ? `bearer ${token.token}` : null,
     },
   };
 });
