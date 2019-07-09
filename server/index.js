@@ -42,6 +42,7 @@ const typeDefs = gql`
   type Token {
     value: String!
     username: String!
+    id: ID!
   }
 `;
 
@@ -90,7 +91,8 @@ const resolvers = {
 
       return {
         value: jwt.sign(userForToken, JWT_SECRET),
-        username: args.username
+        username: args.username,
+        id: user._id
       };
     }
   }

@@ -14,7 +14,9 @@ const Login = props => {
 
   const loggedUser = useMutation(LOGIN);
 
-  const handleLogin = async () => {
+  const handleLogin = async e => {
+    e.preventDefault();
+
     try {
       const { loading, data } = await loggedUser({
         variables: {
@@ -33,26 +35,30 @@ const Login = props => {
 
   return (
     <>
-      <Form inline>
+      <Form inline onSubmit={event => handleLogin(event)}>
         <Form.Control
+          maxLength={20}
+          autoFocus
           {...ufields}
           reset={null}
           placeholder="Username"
           className="mr-sm-3"
         />
         <Form.Control
+          maxLength={20}
+          width={10}
           {...pfields}
           reset={null}
           placeholder="Password"
           className="mr-sm-3"
         />
+        <Button type="submit" size="sm" variant="warning" className="mr-1">
+          Login
+        </Button>
+        <Button size="sm" variant="light" onClick={() => props.toggleForm()}>
+          Cancel
+        </Button>
       </Form>
-      <Button variant="warning" onClick={() => handleLogin()} className="mr-1">
-        Login
-      </Button>
-      <Button variant="light" onClick={() => props.toggleForm()}>
-        Cancel
-      </Button>
     </>
   );
 };

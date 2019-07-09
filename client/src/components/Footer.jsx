@@ -3,7 +3,7 @@ import { Container, Row, Col, Navbar, Nav } from 'react-bootstrap';
 
 const Footer = props => {
   return (
-    <Navbar className="fixed-bottom" bg="primary" variant="dark">
+    <Navbar className="sticky-bottom" bg="primary" variant="dark">
       <Container>
         <Row>
           <Col>

@@ -5,6 +5,7 @@ export const LOGIN = gql`
     login(username: $username, password: $password) {
       value
       username
+      id
     }
   }
 `;
@@ -13,7 +14,6 @@ export const SIGN = gql`
   mutation sign($username: String!, $password: String!) {
     addUser(username: $username, password: $password) {
       username
-      password
       id
     }
   }

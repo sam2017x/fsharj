@@ -18,6 +18,7 @@ export const userLogin = info => {
       data: {
         token: info.value,
         username: info.username,
+        id: info.id,
       },
     });
   };
@@ -30,6 +31,7 @@ export const setUser = info => {
       data: {
         token: info.token,
         username: info.username,
+        id: info.id,
       },
     });
   };

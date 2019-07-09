@@ -34,7 +34,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {};
 
 UserPage.propTypes = {
-  user: PropTypes.objectOf(PropTypes.object).isRequired,
+  user: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
 };
 
 export default withRouter(

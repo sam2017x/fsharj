@@ -23,6 +23,7 @@ const CHECK_ME = gql`
   {
     me {
       username
+      id
     }
   }
 `;
@@ -68,7 +69,7 @@ const App = props => {
         {notification.text !== undefined && (
           <Alert variant={notification.style}>{notification.text}</Alert>
         )}
-        <div className="container-fluid">
+        <div className="container">
           <Route
             exact
             path="/user/:username"
@@ -76,7 +77,7 @@ const App = props => {
               return <UserPage data={match} />;
             }}
           />
-          <Route path="/search/" render={() => <UserSearch />} />
+          <Route path="/s/users" render={() => <UserSearch />} />
           <Route
             exact
             path="/"
@@ -103,7 +104,6 @@ const App = props => {
             }}
           ></Route>
         </div>
-        <Footer />
       </Router>
     </div>
   );
@@ -120,7 +120,8 @@ const mapDispatchToProps = {
 };
 
 App.propTypes = {
-  notification: PropTypes.objectOf(PropTypes.object).isRequired,
+  notification: PropTypes.oneOfType([PropTypes.object, PropTypes.string])
+    .isRequired,
   setUser: PropTypes.func.isRequired,
 };
 

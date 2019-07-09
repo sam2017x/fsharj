@@ -13,17 +13,24 @@ const Signup = props => {
 
   const signup = useMutation(SIGN);
 
-  const handleSign = async () => {
+  const handleSign = async e => {
+    e.preventDefault();
+
     try {
-      const { loading, data } = signup({
+      const { loading, data } = await signup({
         variables: {
           username: uname.value,
           password: pw.value,
         },
       });
+      props.toggleForm();
 
       if (!loading) {
-        props.setNotification(`Signed up successfully!`, 'success', 5);
+        props.setNotification(
+          `Signed up successfully as ${data.addUser.username}!`,
+          'success',
+          5
+        );
       }
     } catch (error) {
       props.setNotification(`${error.message}`, 'danger', 5);
@@ -32,8 +39,9 @@ const Signup = props => {
 
   return (
     <>
-      <Form inline>
+      <Form inline onSubmit={e => handleSign(e)}>
         <Form.Control
+          autoFocus
           {...uname}
           reset={null}
           placeholder="Username"
@@ -45,13 +53,13 @@ const Signup = props => {
           placeholder="Password"
           className="mr-sm-3"
         />
+        <Button type="submit" size="sm" variant="success" className="mr-1">
+          Sign up
+        </Button>
+        <Button size="sm" variant="light" onClick={() => props.toggleForm()}>
+          Cancel
+        </Button>
       </Form>
-      <Button variant="success" onClick={() => handleSign()} className="mr-1">
-        Sign up
-      </Button>
-      <Button variant="light" onClick={() => props.toggleForm()}>
-        Cancel
-      </Button>
     </>
   );
 };

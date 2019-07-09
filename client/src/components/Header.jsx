@@ -27,7 +27,7 @@ const Header = props => {
   };
 
   return (
-    <Navbar expand="lg" collapseOnSelect bg="primary" variant="dark">
+    <Navbar expand="md" collapseOnSelect bg="primary" variant="dark">
       <Navbar.Brand href="/" as="span">
         <Link to="/" style={styles}>
           FSHT
@@ -36,11 +36,6 @@ const Header = props => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link href="/stats" as="span">
-            <Link to="/stats" style={styles}>
-              Stats
-            </Link>
-          </Nav.Link>
           <NavDropdown title="Search" id="collasible-nav-dropdown">
             <NavDropdown.Item as="span">
               <Link to="/s/users">Users</Link>
@@ -68,18 +63,25 @@ const Header = props => {
         )}
         {user.token && (
           <>
-            <Nav.Link as="span">
+            <Navbar.Text as="span">
               <span style={{ color: 'white' }}>Signed in as: </span>
               <Link
+                className="mr-2"
                 to={`/user/${user.username}`}
                 style={{ color: 'black', textUnderlinePosition: 'auto' }}
               >
                 {user.username}
               </Link>
-            </Nav.Link>
-            <Button onClick={() => logout()} variant="danger">
-              Logout
-            </Button>
+              |
+              <Button
+                size="sm"
+                className="ml-2"
+                onClick={() => logout()}
+                variant="danger"
+              >
+                Logout
+              </Button>
+            </Navbar.Text>
           </>
         )}
       </Navbar.Collapse>
