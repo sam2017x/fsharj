@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Form, Container, Row, Col, Table } from 'react-bootstrap';
+import { Link, withRouter } from 'react-router-dom';
 import { useQuery } from 'react-apollo-hooks';
 import { ALL_USERS } from '../services/queries';
 
@@ -9,8 +10,6 @@ const UserSearch = props => {
   const [searchValue, setSearchValue] = useState('');
   const { data, loading } = useQuery(ALL_USERS);
   const { user } = props;
-
-  if (user.token === undefined) return null;
 
   const focusRef = React.createRef();
 
@@ -61,15 +60,19 @@ const UserSearch = props => {
               .map((usr, i) => (
                 <tr key={`${usr.username}-list`}>
                   <td>{i + 1}</td>
-                  <td>{usr.username}</td>
                   <td>
-                    <Button
-                      variant="primary"
-                      onClick={() => console.log('invited')}
-                    >
-                      Invite
-                    </Button>
+                    <Link to={`/user/${usr.username}`}>{usr.username}</Link>
                   </td>
+                  {user.token && (
+                    <td>
+                      <Button
+                        variant="primary"
+                        onClick={() => console.log('invited')}
+                      >
+                        Invite
+                      </Button>
+                    </td>
+                  )}
                 </tr>
               ))}
         </tbody>
@@ -89,4 +92,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(UserSearch);
+export default withRouter(connect(mapStateToProps)(UserSearch));

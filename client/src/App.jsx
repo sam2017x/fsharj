@@ -74,7 +74,7 @@ const App = props => {
             exact
             path="/user/:username"
             render={({ match }) => {
-              return <UserPage data={match} />;
+              return <UserPage foo={match} />;
             }}
           />
           <Route path="/s/users" render={() => <UserSearch />} />

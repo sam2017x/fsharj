@@ -1,18 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Container, Col, Row } from 'react-bootstrap';
+import { useQuery } from 'react-apollo-hooks';
+import { Container, Col, Row, Spinner } from 'react-bootstrap';
 import { withRouter, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { GET_USER_INFO } from '../services/queries';
 
 const UserPage = props => {
-  const { user } = props;
-  if (!user.token) return null;
+  const { foo } = props;
+
+  const { data, loading } = useQuery(GET_USER_INFO, {
+    variables: {
+      username: foo.params.username,
+    },
+  });
+
+  if (!loading)
+    return (
+      <Container>
+        <Row>
+          <Col style={{ textAlign: 'center', marginTop: '50%' }}>
+            <Spinner animation="border" role="status">
+              <span className="sr-only">Loading...</span>
+            </Spinner>
+          </Col>
+        </Row>
+      </Container>
+    );
+
+  if (!loading) console.log(data);
 
   return (
     <>
       <Container>
         <Row>
-          <Col> {user.username} </Col>
+          <Col> awdawd </Col>
         </Row>
       </Container>
       <Container>
@@ -35,6 +57,7 @@ const mapDispatchToProps = {};
 
 UserPage.propTypes = {
   user: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
+  foo: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
 };
 
 export default withRouter(

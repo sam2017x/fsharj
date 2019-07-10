@@ -26,6 +26,7 @@ const typeDefs = gql`
   type Query {
     allUsers: [User]!
     me: User
+    getUserInfo(username: String): User
   }
 
   type Mutation {
@@ -36,6 +37,9 @@ const typeDefs = gql`
   type User {
     username: String!
     password: String!
+    posts: Int
+    level: Int
+    friends: [User]
     id: ID!
   }
 
@@ -57,6 +61,16 @@ const resolvers = {
     },
     me: async (root, args, context) => {
       return context.currentUser;
+    },
+    getUserInfo: async (root, args) => {
+      if (args.username) {
+        try {
+          return await User.findOne({ username: args.username });
+        } catch (error) {
+          throw new Error(error.message);
+        }
+      }
+      return null;
     }
   },
   Mutation: {

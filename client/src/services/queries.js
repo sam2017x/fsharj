@@ -27,3 +27,20 @@ export const ALL_USERS = gql`
     }
   }
 `;
+
+export const GET_USER_INFO = gql`
+  query getUserInfo($username: String) {
+    getUserInfo(username: $username) {
+      posts
+      username
+      level
+      id
+      friends {
+        username
+        posts
+        level
+        id
+      }
+    }
+  }
+`;
