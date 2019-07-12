@@ -8,7 +8,8 @@ const {
   ApolloServer,
   gql,
   UserInputError,
-  AuthenticationError
+  AuthenticationError,
+  ApolloError
 } = require("apollo-server");
 const User = require("./models/user");
 
@@ -32,6 +33,7 @@ const typeDefs = gql`
   type Mutation {
     addUser(username: String!, password: String!): User
     login(username: String!, password: String!): Token
+    addFriend(id: ID!): User
   }
 
   type User {
@@ -56,7 +58,10 @@ const resolvers = {
       try {
         return await User.find({});
       } catch (error) {
-        throw new Error(error.message);
+        throw new ApolloError(
+          `Database/server error. The userlist couldn't be loaded.`,
+          "500"
+        );
       }
     },
     me: async (root, args, context) => {
@@ -67,13 +72,26 @@ const resolvers = {
         try {
           return await User.findOne({ username: args.username });
         } catch (error) {
-          throw new Error(error.message);
+          throw new ApolloError(
+            `Database/server error. The userinfo couldn't be loaded.`,
+            "500"
+          );
         }
       }
       return null;
     }
   },
   Mutation: {
+    addFriend: async (root, args, context) => {
+      if (!context.currentUser) throw new AuthenticationError(`Unauthorized.`);
+      const friend = await User.findById(args.id);
+      context.currentUser.friends.push(friend._id);
+      await context.currentUser.save();
+      return context.currentUser.populate("friends", {
+        username: 1,
+        id: 1
+      });
+    },
     addUser: async (root, args) => {
       const hashedPw = await bcrypt.hash(args.password, 10);
 
@@ -85,7 +103,10 @@ const resolvers = {
       try {
         return await newUser.save();
       } catch (error) {
-        throw new Error(error.message);
+        throw new ApolloError(
+          `Database/server error. The sign up couldn't be completed. Please try again later.`,
+          "500"
+        );
       }
     },
     login: async (root, args) => {
@@ -116,6 +137,7 @@ const server = new ApolloServer({
   cors: true,
   AuthenticationError,
   UserInputError,
+  ApolloError,
   typeDefs,
   resolvers,
   context: async ({ req }) => {

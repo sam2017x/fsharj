@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Form, Container, Row, Col, Table } from 'react-bootstrap';
 import { Link, withRouter } from 'react-router-dom';
 import { useQuery } from 'react-apollo-hooks';
+import { useField } from '../hooks/index';
 import { ALL_USERS } from '../services/queries';
 
 const UserSearch = props => {
-  const [searchValue, setSearchValue] = useState('');
+  const searchField = useField('text');
+
   const { data, loading } = useQuery(ALL_USERS);
   const { user } = props;
 
@@ -18,7 +20,7 @@ const UserSearch = props => {
   };
 
   const handleClear = () => {
-    setSearchValue('');
+    searchField.reset();
     focus();
   };
 
@@ -31,10 +33,9 @@ const UserSearch = props => {
           <Form.Label>Search with username: </Form.Label>
           <Form.Control
             ref={focusRef}
-            type="text"
+            reset={null}
+            {...searchField}
             placeholder="username"
-            value={searchValue}
-            onChange={event => setSearchValue(event.target.value)}
           />
         </Form.Group>
         <Button onClick={() => handleClear()} variant="primary">
@@ -55,7 +56,8 @@ const UserSearch = props => {
                 usr =>
                   usr.username
                     .toLowerCase()
-                    .includes(searchValue.toLowerCase()) && usr.id !== user.id
+                    .includes(searchField.value.toLowerCase()) &&
+                  usr.id !== user.id
               )
               .map((usr, i) => (
                 <tr key={`${usr.username}-list`}>
