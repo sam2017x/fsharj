@@ -10,7 +10,19 @@ const schema = new mongoose.Schema({
   password: {
     type: String,
     required: true
-  }
+  },
+  posts: {
+    type: Number
+  },
+  level: {
+    type: Number
+  },
+  friends: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    }
+  ]
 });
 
 schema.plugin(uniqueValidtor);

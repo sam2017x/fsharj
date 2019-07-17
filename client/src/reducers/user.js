@@ -19,6 +19,9 @@ export const userLogin = info => {
         token: info.value,
         username: info.username,
         id: info.id,
+        level: info.level,
+        posts: info.posts,
+        friends: info.friends,
       },
     });
   };
@@ -32,6 +35,9 @@ export const setUser = info => {
         token: info.token,
         username: info.username,
         id: info.id,
+        level: info.level,
+        posts: info.posts,
+        friends: info.friends,
       },
     });
   };

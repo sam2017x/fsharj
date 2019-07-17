@@ -3,15 +3,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Form, Container, Row, Col, Table } from 'react-bootstrap';
 import { Link, withRouter } from 'react-router-dom';
-import { useQuery } from 'react-apollo-hooks';
+import { useQuery, useMutation } from 'react-apollo-hooks';
 import { useField } from '../hooks/index';
-import { ALL_USERS } from '../services/queries';
+import { setNotification } from '../reducers/notification';
+import { ALL_USERS, ADD_FRIEND } from '../services/queries';
 
 const UserSearch = props => {
   const searchField = useField('text');
 
   const { data, loading } = useQuery(ALL_USERS);
+  const addFriend = useMutation(ADD_FRIEND);
   const { user } = props;
+
+  console.log('UserSearch', user);
 
   const focusRef = React.createRef();
 
@@ -19,12 +23,26 @@ const UserSearch = props => {
     focusRef.current.focus();
   };
 
+  const handleFriendAdd = async id => {
+    try {
+      const afterAdd = await addFriend({
+        variables: {
+          id,
+        },
+      });
+
+      if (!afterAdd.loading) {
+        props.setNotification(`Friend added!`, 'success', 5);
+      }
+    } catch (error) {
+      props.setNotification(`${error.message}`, 'danger', 5);
+    }
+  };
+
   const handleClear = () => {
     searchField.reset();
     focus();
   };
-
-  console.log('PROPS USER ID', user);
 
   return (
     <>
@@ -65,16 +83,19 @@ const UserSearch = props => {
                   <td>
                     <Link to={`/user/${usr.username}`}>{usr.username}</Link>
                   </td>
-                  {user.token && (
-                    <td>
-                      <Button
-                        variant="primary"
-                        onClick={() => console.log('invited')}
-                      >
-                        Invite
-                      </Button>
-                    </td>
-                  )}
+                  {user.token &&
+                    (user.friends === null
+                      ? true
+                      : user.friends.includes(usr.id)) && (
+                      <td>
+                        <Button
+                          variant="primary"
+                          onClick={() => handleFriendAdd(usr.id)}
+                        >
+                          Invite
+                        </Button>
+                      </td>
+                    )}
                 </tr>
               ))}
         </tbody>
@@ -85,13 +106,22 @@ const UserSearch = props => {
 
 UserSearch.propTypes = {
   user: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
+  setNotification: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {
   return {
     user: state.user,
-    notification: state.notification,
   };
 };
 
-export default withRouter(connect(mapStateToProps)(UserSearch));
+const mapDispatchToProps = {
+  setNotification,
+};
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(UserSearch)
+);

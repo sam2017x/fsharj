@@ -27,6 +27,7 @@ const Login = props => {
       if (!loading) {
         props.setNotification(`Welcome ${data.login.username}`, 'success', 5);
         props.userLogin(data.login);
+        console.log('user state', props.user);
       }
     } catch (error) {
       props.setNotification(`${error.message}`, 'danger', 5);
@@ -64,6 +65,7 @@ const Login = props => {
 };
 
 Login.propTypes = {
+  user: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   userLogin: PropTypes.func.isRequired,
   setNotification: PropTypes.func.isRequired,
   toggleForm: PropTypes.func.isRequired,
@@ -74,7 +76,13 @@ const mapDispatchToProps = {
   setNotification,
 };
 
+const mapStateToProps = state => {
+  return {
+    user: state.user,
+  };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Login);

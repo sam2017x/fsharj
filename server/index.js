@@ -49,6 +49,9 @@ const typeDefs = gql`
     value: String!
     username: String!
     id: ID!
+    friends: [User]
+    posts: Int
+    level: Int
   }
 `;
 
@@ -70,7 +73,15 @@ const resolvers = {
     getUserInfo: async (root, args) => {
       if (args.username) {
         try {
-          return await User.findOne({ username: args.username });
+          return await User.findOne({ username: args.username }).populate(
+            "friends",
+            {
+              username: 1,
+              posts: 1,
+              id: 1,
+              level: 1
+            }
+          );
         } catch (error) {
           throw new ApolloError(
             `Database/server error. The userinfo couldn't be loaded.`,
@@ -89,7 +100,9 @@ const resolvers = {
       await context.currentUser.save();
       return context.currentUser.populate("friends", {
         username: 1,
-        id: 1
+        id: 1,
+        posts: 1,
+        level: 1
       });
     },
     addUser: async (root, args) => {
@@ -127,7 +140,9 @@ const resolvers = {
       return {
         value: jwt.sign(userForToken, JWT_SECRET),
         username: args.username,
-        id: user._id
+        id: user._id,
+        posts: user.posts,
+        level: user.level
       };
     }
   }

@@ -6,6 +6,14 @@ export const LOGIN = gql`
       value
       username
       id
+      friends {
+        username
+        id
+        posts
+        level
+      }
+      level
+      posts
     }
   }
 `;
@@ -40,6 +48,23 @@ export const GET_USER_INFO = gql`
         posts
         level
         id
+      }
+    }
+  }
+`;
+
+export const ADD_FRIEND = gql`
+  mutation addFriend($id: ID!) {
+    addFriend(id: $id) {
+      id
+      username
+      posts
+      level
+      friends {
+        username
+        id
+        posts
+        level
       }
     }
   }
