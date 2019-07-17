@@ -6,6 +6,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { useQuery, useMutation } from 'react-apollo-hooks';
 import { useField } from '../hooks/index';
 import { setNotification } from '../reducers/notification';
+import { setUser } from '../reducers/user';
 import { ALL_USERS, ADD_FRIEND } from '../services/queries';
 
 const UserSearch = props => {
@@ -32,9 +33,12 @@ const UserSearch = props => {
       });
 
       if (!afterAdd.loading) {
+        console.log('afterAdd', afterAdd);
+        //props.setUser(afterAdd.addFriend.data);
         props.setNotification(`Friend added!`, 'success', 5);
       }
     } catch (error) {
+      console.log(error);
       props.setNotification(`${error.message}`, 'danger', 5);
     }
   };
@@ -107,6 +111,7 @@ const UserSearch = props => {
 UserSearch.propTypes = {
   user: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   setNotification: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => {

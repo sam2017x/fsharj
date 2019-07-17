@@ -59,7 +59,12 @@ const resolvers = {
   Query: {
     allUsers: async (root, args) => {
       try {
-        return await User.find({});
+        return await User.find({}).populate("friends", {
+          username: 1,
+          posts: 1,
+          level: 1,
+          id: 1
+        });
       } catch (error) {
         throw new ApolloError(
           `Database/server error. The userlist couldn't be loaded.`,
@@ -96,30 +101,31 @@ const resolvers = {
     addFriend: async (root, args, context) => {
       if (!context.currentUser) throw new AuthenticationError(`Unauthorized.`);
       const friend = await User.findById(args.id);
-      context.currentUser.friends.push(friend._id);
+      context.currentUser.friends = context.currentUser.friends.concat(
+        friend._id
+      );
       await context.currentUser.save();
-      return context.currentUser.populate("friends", {
-        username: 1,
-        id: 1,
-        posts: 1,
-        level: 1
-      });
+      const userWithFriends = await User.findById(
+        context.currentUser._id
+      ).populate("friends", { username: 1, posts: 1, level: 1, id: 1 });
+      console.log("userWithFriends", userWithFriends);
+      return userWithFriends;
     },
     addUser: async (root, args) => {
       const hashedPw = await bcrypt.hash(args.password, 10);
 
       const newUser = new User({
         username: args.username,
-        password: hashedPw
+        password: hashedPw,
+        friends: [],
+        posts: 0,
+        level: 0
       });
 
       try {
         return await newUser.save();
       } catch (error) {
-        throw new ApolloError(
-          `Database/server error. The sign up couldn't be completed. Please try again later.`,
-          "500"
-        );
+        throw new ApolloError(`${error.message}`, "500");
       }
     },
     login: async (root, args) => {

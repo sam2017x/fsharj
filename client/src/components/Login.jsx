@@ -27,7 +27,6 @@ const Login = props => {
       if (!loading) {
         props.setNotification(`Welcome ${data.login.username}`, 'success', 5);
         props.userLogin(data.login);
-        console.log('user state', props.user);
       }
     } catch (error) {
       props.setNotification(`${error.message}`, 'danger', 5);
