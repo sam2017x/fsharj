@@ -69,3 +69,11 @@ export const ADD_FRIEND = gql`
     }
   }
 `;
+
+export const ME = gql`
+  {
+    me {
+      username
+    }
+  }
+`;

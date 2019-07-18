@@ -10,13 +10,14 @@ import { setUser } from '../reducers/user';
 import { ALL_USERS, ADD_FRIEND } from '../services/queries';
 
 const UserSearch = props => {
+  const { user, me } = props;
   const searchField = useField('text');
 
   const { data, loading } = useQuery(ALL_USERS);
   const addFriend = useMutation(ADD_FRIEND);
-  const { user } = props;
 
   console.log('UserSearch', user);
+  console.log(me.data);
 
   const focusRef = React.createRef();
 
@@ -74,12 +75,10 @@ const UserSearch = props => {
         <tbody>
           {!loading &&
             data.allUsers
-              .filter(
-                usr =>
-                  usr.username
-                    .toLowerCase()
-                    .includes(searchField.value.toLowerCase()) &&
-                  usr.id !== user.id
+              .filter(usr =>
+                usr.username
+                  .toLowerCase()
+                  .includes(searchField.value.toLowerCase())
               )
               .map((usr, i) => (
                 <tr key={`${usr.username}-list`}>
@@ -87,19 +86,6 @@ const UserSearch = props => {
                   <td>
                     <Link to={`/user/${usr.username}`}>{usr.username}</Link>
                   </td>
-                  {user.token &&
-                    (user.friends === null
-                      ? true
-                      : user.friends.includes(usr.id)) && (
-                      <td>
-                        <Button
-                          variant="primary"
-                          onClick={() => handleFriendAdd(usr.id)}
-                        >
-                          Invite
-                        </Button>
-                      </td>
-                    )}
                 </tr>
               ))}
         </tbody>
@@ -112,6 +98,7 @@ UserSearch.propTypes = {
   user: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   setNotification: PropTypes.func.isRequired,
   setUser: PropTypes.func.isRequired,
+  me: PropTypes.objectOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = state => {

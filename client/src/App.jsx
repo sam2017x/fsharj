@@ -77,7 +77,7 @@ const App = props => {
               return <UserPage foo={match} />;
             }}
           />
-          <Route path="/s/users" render={() => <UserSearch />} />
+          <Route path="/s/users" render={() => <UserSearch me={check} />} />
           <Route
             exact
             path="/"

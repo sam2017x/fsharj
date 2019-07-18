@@ -25,7 +25,7 @@ mongoose
 
 const typeDefs = gql`
   type Query {
-    allUsers: [User]!
+    allUsers: [User]
     me: User
     getUserInfo(username: String): User
   }
@@ -38,7 +38,7 @@ const typeDefs = gql`
 
   type User {
     username: String!
-    password: String!
+    password: String
     posts: Int
     level: Int
     friends: [User]
@@ -73,6 +73,7 @@ const resolvers = {
       }
     },
     me: async (root, args, context) => {
+      console.log("MEEE", context.currentUser);
       return context.currentUser;
     },
     getUserInfo: async (root, args) => {
@@ -148,7 +149,8 @@ const resolvers = {
         username: args.username,
         id: user._id,
         posts: user.posts,
-        level: user.level
+        level: user.level,
+        friends: user.friends
       };
     }
   }

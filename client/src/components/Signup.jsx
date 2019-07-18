@@ -4,7 +4,7 @@ import { Form, Button, Col, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useField } from '../hooks/index';
-import { SIGN } from '../services/queries';
+import { SIGN, ALL_USERS } from '../services/queries';
 import { setNotification } from '../reducers/notification';
 
 const Signup = props => {
@@ -22,6 +22,7 @@ const Signup = props => {
           username: uname.value,
           password: pw.value,
         },
+        refetchQueries: [{ query: ALL_USERS }],
       });
       props.toggleForm();
 
