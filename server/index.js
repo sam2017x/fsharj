@@ -73,7 +73,7 @@ const resolvers = {
       }
     },
     me: async (root, args, context) => {
-      console.log("MEEE", context.currentUser);
+      console.log("RETURNING THIS", context.currentUser);
       return context.currentUser;
     },
     getUserInfo: async (root, args) => {
@@ -130,7 +130,10 @@ const resolvers = {
       }
     },
     login: async (root, args) => {
-      const user = await User.findOne({ username: args.username });
+      const user = await User.findOne({ username: args.username }).populate(
+        "friends",
+        { username: 1, id: 1, posts: 1, level: 1 }
+      );
 
       if (!user) {
         throw new UserInputError("Wrong crendentials");

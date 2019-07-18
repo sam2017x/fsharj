@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { useMutation } from 'react-apollo-hooks';
 import { useField } from '../hooks/index';
 import { userLogin } from '../reducers/user';
-import { LOGIN } from '../services/queries';
+import { LOGIN, ME } from '../services/queries';
 import { setNotification } from '../reducers/notification';
 
 const Login = props => {
@@ -23,6 +23,7 @@ const Login = props => {
           username: ufields.value,
           password: pfields.value,
         },
+        refetchQueries: [{ query: ME }],
       });
       if (!loading) {
         props.setNotification(`Welcome ${data.login.username}`, 'success', 5);

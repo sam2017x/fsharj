@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -7,17 +8,14 @@ import { useQuery, useMutation } from 'react-apollo-hooks';
 import { useField } from '../hooks/index';
 import { setNotification } from '../reducers/notification';
 import { setUser } from '../reducers/user';
-import { ALL_USERS, ADD_FRIEND } from '../services/queries';
+import { ALL_USERS, ADD_FRIEND, ME } from '../services/queries';
 
 const UserSearch = props => {
-  const { user, me } = props;
   const searchField = useField('text');
 
   const { data, loading } = useQuery(ALL_USERS);
   const addFriend = useMutation(ADD_FRIEND);
-
-  console.log('UserSearch', user);
-  console.log(me.data);
+  const me = useQuery(ME);
 
   const focusRef = React.createRef();
 
@@ -56,8 +54,8 @@ const UserSearch = props => {
           <Form.Label>Search with username: </Form.Label>
           <Form.Control
             ref={focusRef}
-            reset={null}
             {...searchField}
+            reset={null}
             placeholder="username"
           />
         </Form.Group>
@@ -86,6 +84,17 @@ const UserSearch = props => {
                   <td>
                     <Link to={`/user/${usr.username}`}>{usr.username}</Link>
                   </td>
+                  {usr.friends !== null &&
+                  me.data.me.username ===
+                    usr.username ? null : me.data.me.friends.find(
+                      frd => frd.id === usr.id
+                    ) === undefined ? (
+                    <Button variant="primary">Add friend</Button>
+                  ) : (
+                    <Button variant="secondary" disabled>
+                      Remove
+                    </Button>
+                  )}
                 </tr>
               ))}
         </tbody>
@@ -98,7 +107,7 @@ UserSearch.propTypes = {
   user: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   setNotification: PropTypes.func.isRequired,
   setUser: PropTypes.func.isRequired,
-  me: PropTypes.objectOf(PropTypes.object).isRequired,
+  me: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired,
 };
 
 const mapStateToProps = state => {
@@ -109,6 +118,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   setNotification,
+  setUser,
 };
 
 export default withRouter(

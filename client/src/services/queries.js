@@ -32,6 +32,14 @@ export const ALL_USERS = gql`
     allUsers {
       username
       id
+      posts
+      level
+      friends {
+        username
+        id
+        posts
+        level
+      }
     }
   }
 `;
@@ -74,6 +82,15 @@ export const ME = gql`
   {
     me {
       username
+      id
+      friends {
+        username
+        id
+        posts
+        level
+      }
+      posts
+      level
     }
   }
 `;

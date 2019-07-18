@@ -17,16 +17,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import UserPage from './components/UserPage';
 import UserSearch from './components/UserSearch';
-import { SIGN } from './services/queries';
-
-const CHECK_ME = gql`
-  {
-    me {
-      username
-      id
-    }
-  }
-`;
+import { SIGN, ME } from './services/queries';
 
 const App = props => {
   const { notification } = props;
@@ -38,29 +29,7 @@ const App = props => {
     }
   });
 
-  const [uname, setUname] = useState('');
-  const [pw, setPw] = useState('');
-
-  const signup = useMutation(SIGN);
-
-  const check = useQuery(CHECK_ME);
-
-  const handleSign = async () => {
-    /*const { error, loading, data } = await signup({
-      variables: {
-        username: uname,
-        password: pw,
-      },
-    });
-    if (error) console.log(error.message);
-
-    if (!loading) {
-      console.log('signup successful', data);
-    }*/
-
-    const { data, loading } = check;
-    if (!loading) console.log('ME CHECK RETURN', data.me);
-  };
+  const check = useQuery(ME);
 
   return (
     <div>
@@ -82,25 +51,7 @@ const App = props => {
             exact
             path="/"
             render={() => {
-              return (
-                <form>
-                  <input
-                    type="text"
-                    value={uname}
-                    placeholder="username"
-                    onChange={event => setUname(event.target.value)}
-                  />
-                  <input
-                    type="text"
-                    value={pw}
-                    placeholder="pw"
-                    onChange={event => setPw(event.target.value)}
-                  />
-                  <button type="button" onClick={() => handleSign()}>
-                    ggg
-                  </button>
-                </form>
-              );
+              return <div>Hello world!</div>;
             }}
           ></Route>
         </div>
