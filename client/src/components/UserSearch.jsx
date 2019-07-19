@@ -89,11 +89,15 @@ const UserSearch = props => {
                     usr.username ? null : me.data.me.friends.find(
                       frd => frd.id === usr.id
                     ) === undefined ? (
-                    <Button variant="primary">Add friend</Button>
+                    <td>
+                      <Button variant="primary">Add friend</Button>
+                    </td>
                   ) : (
-                    <Button variant="secondary" disabled>
-                      Remove
-                    </Button>
+                    <td>
+                      <Button variant="secondary" disabled>
+                        Remove
+                      </Button>
+                    </td>
                   )}
                 </tr>
               ))}

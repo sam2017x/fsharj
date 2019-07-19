@@ -170,7 +170,10 @@ const server = new ApolloServer({
     const auth = req ? req.headers.authorization : null;
     if (auth && auth.toLowerCase().startsWith("bearer ")) {
       const decodedToken = jwt.verify(auth.substring(7), JWT_SECRET);
-      const currentUser = await User.findById(decodedToken.id);
+      const currentUser = await User.findById(decodedToken.id).populate(
+        "friends",
+        { username: 1, posts: 1, id: 1, level: 1 }
+      );
       return { currentUser };
     }
   }

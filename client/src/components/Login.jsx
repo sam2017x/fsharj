@@ -2,16 +2,19 @@ import React from 'react';
 import { Form, Button, Row, Col, Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useMutation } from 'react-apollo-hooks';
+import { useMutation, useApolloClient } from 'react-apollo-hooks';
 import { useField } from '../hooks/index';
 import { userLogin } from '../reducers/user';
 import { LOGIN, ME } from '../services/queries';
 import { setNotification } from '../reducers/notification';
 
+const includedIn = (set, object) => set.map(p => p.id).includes(object.id);
+
 const Login = props => {
   const ufields = useField('text');
   const pfields = useField('password');
 
+  const client = useApolloClient();
   const loggedUser = useMutation(LOGIN);
 
   const handleLogin = async e => {
@@ -23,9 +26,25 @@ const Login = props => {
           username: ufields.value,
           password: pfields.value,
         },
-        refetchQueries: [{ query: ME }],
       });
       if (!loading) {
+        const dataInStore = client.readQuery({ query: ME });
+        console.log('DATA CACHESSA ALUKSI', dataInStore);
+        console.log('INCOMING DATA', data);
+        dataInStore.me = {
+          id: data.login.id,
+          username: data.login.username,
+          posts: data.login.posts,
+          level: data.login.level,
+          friends: data.login.friends,
+          __typename: 'User',
+        };
+        console.log('MUOKKAUKSEN JALKEEN', dataInStore);
+        client.writeQuery({
+          query: ME,
+          data: dataInStore,
+        });
+
         props.setNotification(`Welcome ${data.login.username}`, 'success', 5);
         props.userLogin(data.login);
       }
