@@ -109,7 +109,6 @@ const resolvers = {
       const userWithFriends = await User.findById(
         context.currentUser._id
       ).populate("friends", { username: 1, posts: 1, level: 1, id: 1 });
-      console.log("userWithFriends", userWithFriends);
       return userWithFriends;
     },
     addUser: async (root, args) => {

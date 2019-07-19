@@ -1,7 +1,9 @@
 import React from 'react';
 import { Nav, Navbar, Button, NavDropdown } from 'react-bootstrap';
+import { useApolloClient } from 'react-apollo-hooks';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
+import { ME } from '../services/queries';
 import PropTypes from 'prop-types';
 import { setUser } from '../reducers/user';
 import Togglable from './Togglable';
@@ -9,6 +11,7 @@ import Signup from './Signup';
 import Login from './Login';
 
 const Header = props => {
+  const client = useApolloClient();
   const { user, history } = props;
   const styles = {
     color: 'white',
@@ -21,6 +24,8 @@ const Header = props => {
   };
 
   const logout = () => {
+    client.resetStore();
+
     window.localStorage.clear();
     props.setUser({});
     history.push('/');

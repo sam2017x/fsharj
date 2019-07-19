@@ -13,13 +13,52 @@ import { ALL_USERS, ADD_FRIEND, ME } from '../services/queries';
 const UserSearch = props => {
   const searchField = useField('text');
 
-  const client = useApolloClient();
-
+  const { me } = props.me.data;
   const { data, loading } = useQuery(ALL_USERS);
   const addFriend = useMutation(ADD_FRIEND);
-  const me = useQuery(ME);
-
   const focusRef = React.createRef();
+
+  if (me === null || me === undefined)
+    return (
+      <>
+        <Form>
+          <Form.Group>
+            <Form.Label>Search with username: </Form.Label>
+            <Form.Control
+              ref={focusRef}
+              {...searchField}
+              reset={null}
+              placeholder="username"
+            />
+          </Form.Group>
+          <Button onClick={() => handleClear()} variant="primary">
+            Clear
+          </Button>
+        </Form>
+        <Table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Username</th>
+            </tr>
+          </thead>
+          <tbody>
+            {!loading &&
+              data.allUsers.map((usr, i) => (
+                <tr key={`${usr.username}-list`}>
+                  <td>{i + 1}</td>
+                  <td>
+                    <Link to={`/user/${usr.username}`}>{usr.username}</Link>
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </Table>
+      </>
+    );
+
+  console.log('ME', me);
+  console.log('ALL USERS', data);
 
   const focus = () => {
     focusRef.current.focus();
@@ -34,13 +73,6 @@ const UserSearch = props => {
       });
 
       if (!afterAdd.loading) {
-        const dataInStore = client.readQuery({ query: ME });
-        console.log('BEFORE FRIEND ADD', dataInStore.me.friends);
-        dataInStore.me = {
-          ...dataInStore.me,
-          friends: afterAdd.addFriend.friends,
-        };
-        console.log('AFTEr', dataInStore.me.friends);
         //props.setUser(afterAdd.addFriend.data);
         props.setNotification(`Friend added!`, 'success', 5);
       }
@@ -80,6 +112,7 @@ const UserSearch = props => {
         </thead>
         <tbody>
           {!loading &&
+            me.data !== null &&
             data.allUsers
               .filter(usr =>
                 usr.username
@@ -93,8 +126,7 @@ const UserSearch = props => {
                     <Link to={`/user/${usr.username}`}>{usr.username}</Link>
                   </td>
                   {usr.friends !== null &&
-                  me.data.me.username ===
-                    usr.username ? null : me.data.me.friends.find(
+                  me.username === usr.username ? null : me.friends.find(
                       frd => frd.id === usr.id
                     ) === undefined ? (
                     <td>

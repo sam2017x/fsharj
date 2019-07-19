@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMutation } from 'react-apollo-hooks';
+import { useMutation, useApolloClient } from 'react-apollo-hooks';
 import { Form, Button, Col, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -10,6 +10,8 @@ import { setNotification } from '../reducers/notification';
 const Signup = props => {
   const uname = useField('text');
   const pw = useField('password');
+
+  const client = useApolloClient();
 
   const signup = useMutation(SIGN);
 
@@ -22,7 +24,6 @@ const Signup = props => {
           username: uname.value,
           password: pw.value,
         },
-        refetchQueries: [{ query: ALL_USERS }],
       });
       props.toggleForm();
 
