@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Form, Container, Row, Col, Table } from 'react-bootstrap';
 import { Link, withRouter } from 'react-router-dom';
-import { useQuery, useMutation } from 'react-apollo-hooks';
+import { useQuery, useMutation, useApolloClient } from 'react-apollo-hooks';
 import { useField } from '../hooks/index';
 import { setNotification } from '../reducers/notification';
 import { setUser } from '../reducers/user';
@@ -12,6 +12,8 @@ import { ALL_USERS, ADD_FRIEND, ME } from '../services/queries';
 
 const UserSearch = props => {
   const searchField = useField('text');
+
+  const client = useApolloClient();
 
   const { data, loading } = useQuery(ALL_USERS);
   const addFriend = useMutation(ADD_FRIEND);
@@ -32,7 +34,13 @@ const UserSearch = props => {
       });
 
       if (!afterAdd.loading) {
-        console.log('afterAdd', afterAdd);
+        const dataInStore = client.readQuery({ query: ME });
+        console.log('BEFORE FRIEND ADD', dataInStore.me.friends);
+        dataInStore.me = {
+          ...dataInStore.me,
+          friends: afterAdd.addFriend.friends,
+        };
+        console.log('AFTEr', dataInStore.me.friends);
         //props.setUser(afterAdd.addFriend.data);
         props.setNotification(`Friend added!`, 'success', 5);
       }
@@ -90,7 +98,12 @@ const UserSearch = props => {
                       frd => frd.id === usr.id
                     ) === undefined ? (
                     <td>
-                      <Button variant="primary">Add friend</Button>
+                      <Button
+                        variant="primary"
+                        onClick={() => handleFriendAdd(usr.id)}
+                      >
+                        Add friend
+                      </Button>
                     </td>
                   ) : (
                     <td>
