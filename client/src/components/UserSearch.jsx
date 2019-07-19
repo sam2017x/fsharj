@@ -8,7 +8,7 @@ import { useQuery, useMutation, useApolloClient } from 'react-apollo-hooks';
 import { useField } from '../hooks/index';
 import { setNotification } from '../reducers/notification';
 import { setUser } from '../reducers/user';
-import { ALL_USERS, ADD_FRIEND, ME } from '../services/queries';
+import { ALL_USERS, ADD_FRIEND } from '../services/queries';
 
 const UserSearch = props => {
   const searchField = useField('text');
@@ -17,6 +17,36 @@ const UserSearch = props => {
   const { data, loading } = useQuery(ALL_USERS);
   const addFriend = useMutation(ADD_FRIEND);
   const focusRef = React.createRef();
+
+  console.log('ME', me);
+  console.log('ALL USERS', data);
+
+  const focus = () => {
+    focusRef.current.focus();
+  };
+
+  const handleFriendAdd = async id => {
+    try {
+      const afterAdd = await addFriend({
+        variables: {
+          id,
+        },
+      });
+
+      if (!afterAdd.loading) {
+        //props.setUser(afterAdd.addFriend.data);
+        props.setNotification(`Friend added!`, 'success', 5);
+      }
+    } catch (error) {
+      console.log(error);
+      props.setNotification(`${error.message}`, 'danger', 5);
+    }
+  };
+
+  const handleClear = () => {
+    searchField.reset();
+    focus();
+  };
 
   if (me === null || me === undefined)
     return (
@@ -56,36 +86,6 @@ const UserSearch = props => {
         </Table>
       </>
     );
-
-  console.log('ME', me);
-  console.log('ALL USERS', data);
-
-  const focus = () => {
-    focusRef.current.focus();
-  };
-
-  const handleFriendAdd = async id => {
-    try {
-      const afterAdd = await addFriend({
-        variables: {
-          id,
-        },
-      });
-
-      if (!afterAdd.loading) {
-        //props.setUser(afterAdd.addFriend.data);
-        props.setNotification(`Friend added!`, 'success', 5);
-      }
-    } catch (error) {
-      console.log(error);
-      props.setNotification(`${error.message}`, 'danger', 5);
-    }
-  };
-
-  const handleClear = () => {
-    searchField.reset();
-    focus();
-  };
 
   return (
     <>
