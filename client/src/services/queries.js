@@ -44,6 +44,24 @@ export const ALL_USERS = gql`
   }
 `;
 
+export const CHECK_ROOM = gql`
+  mutation roomCheck($user1: String, $user2: String) {
+    roomCheck(user1: $user1, user2: $user2) {
+      messages {
+        sender
+        timestamp
+        message
+      }
+      users {
+        username
+        id
+        posts
+        level
+      }
+    }
+  }
+`;
+
 export const GET_USER_INFO = gql`
   query getUserInfo($username: String) {
     getUserInfo(username: $username) {

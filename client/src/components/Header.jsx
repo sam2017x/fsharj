@@ -24,10 +24,9 @@ const Header = props => {
   };
 
   const logout = () => {
-    client.resetStore();
-
     window.localStorage.clear();
     props.setUser({});
+    client.resetStore();
     history.push('/');
   };
 
