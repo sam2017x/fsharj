@@ -25,6 +25,8 @@ const UserSearch = props => {
     focusRef.current.focus();
   };
 
+  const handleChat = () => {};
+
   const handleFriendAdd = async id => {
     try {
       const afterAdd = await addFriend({
@@ -138,11 +140,18 @@ const UserSearch = props => {
                       </Button>
                     </td>
                   ) : (
-                    <td>
-                      <Button variant="secondary" disabled>
-                        Remove
-                      </Button>
-                    </td>
+                    <>
+                      <td>
+                        <Button variant="secondary" disabled>
+                          Remove
+                        </Button>
+                      </td>
+                      <td>
+                        <Link to={`/chatroom/${handleChat()}`}>
+                          <Button variant="secondary">Chat</Button>
+                        </Link>
+                      </td>
+                    </>
                   )}
                 </tr>
               ))}
