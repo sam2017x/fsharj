@@ -8,14 +8,17 @@ import { useQuery, useMutation, useApolloClient } from 'react-apollo-hooks';
 import { useField } from '../hooks/index';
 import { setNotification } from '../reducers/notification';
 import { setUser } from '../reducers/user';
-import { ALL_USERS, ADD_FRIEND } from '../services/queries';
+import { ALL_USERS, ADD_FRIEND, CREATE_ROOM } from '../services/queries';
+import { create } from 'domain';
 
 const UserSearch = props => {
   const searchField = useField('text');
 
+  const { history } = props;
   const { me } = props.me.data;
   const { data, loading } = useQuery(ALL_USERS);
   const addFriend = useMutation(ADD_FRIEND);
+  const createRoom = useMutation(CREATE_ROOM);
   const focusRef = React.createRef();
 
   console.log('ME', me);
@@ -25,8 +28,23 @@ const UserSearch = props => {
     focusRef.current.focus();
   };
 
-  const handleChat = () => {
-    
+  const handleChat = async (senderId, receiverId) => {
+    const room = await createRoom({
+      variables: {
+        user1: senderId,
+        user2: receiverId,
+        title: null,
+      },
+    });
+
+    console.log('RETURNED ROOM', room);
+    if (room.createRoom.error) {
+      props.setNotification(`Error.`, 'danger', 5);
+    }
+    if (!room.createRoom.loading) {
+      props.setNotification(`Chat started.`);
+      history.push(`/chat/${room.createRoom.id}`);
+    }
   };
 
   const handleFriendAdd = async id => {
@@ -149,7 +167,12 @@ const UserSearch = props => {
                         </Button>
                       </td>
                       <td>
-                        <Button variant="secondary">Chat</Button>
+                        <Button
+                          variant="secondary"
+                          onClick={() => handleChat(me.id, usr.id)}
+                        >
+                          Chat
+                        </Button>
                       </td>
                     </>
                   )}

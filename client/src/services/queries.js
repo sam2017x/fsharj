@@ -34,19 +34,20 @@ export const ALL_USERS = gql`
       id
       posts
       level
+      rooms {
+        id
+      }
       friends {
         username
         id
-        posts
-        level
       }
     }
   }
 `;
 
 export const CREATE_ROOM = gql`
-  mutation createRoom($user1: String, $user2: String, $title: String) {
-    createRoom(user1: $user1, user2: $user2, title: $title) {
+  mutation createRoom($senderId: String, $receiverId: String, $title: String) {
+    createRoom(senderId: $senderId, receiverId: $receiverId, title: $title) {
       messages {
         sender
         timestamp
@@ -102,6 +103,9 @@ export const ME = gql`
     me {
       username
       id
+      rooms {
+        id
+      }
       friends {
         username
         id

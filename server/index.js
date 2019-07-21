@@ -44,6 +44,7 @@ const typeDefs = gql`
     password: String
     posts: Int
     level: Int
+    rooms: [Room]!
     friends: [User]!
     id: ID!
   }
@@ -56,7 +57,7 @@ const typeDefs = gql`
 
   type Room {
     users: [User]!
-    messages: [Message]!
+    messages: [String]
     title: String
     id: ID!
   }
@@ -89,7 +90,6 @@ const resolvers = {
       }
     },
     me: async (root, args, context) => {
-      console.log("RETURNING THIS", context.currentUser);
       return context.currentUser;
     },
     getUserInfo: async (root, args) => {
@@ -119,21 +119,40 @@ const resolvers = {
       if (!context.currentUser) throw new AuthenticationError("Unauthorized.");
       if (!args.user1 || !args.user2) throw new UserInputError("Invalid args.");
 
-      const user1 = await User.findOne({ username: args.user1 });
-      const user2 = await User.findOne({ username: args.user2 });
+      console.log("INC ARGS", args);
 
-      const user2roomIds = user2.rooms.map(room => room.id);
+      const sender = await User.findById(args.senderId);
+      const receiver = await User.findById(args.receiverId);
 
-      const existingRoom = user1.rooms.filter(room =>
-        user2roomIds.includes(room)
+      const receiverRoomIds = receiver.rooms.map(room => room.id);
+
+      const existingRoom = sender.rooms.filter(room =>
+        receiverRoomIds.includes(room)
       );
 
+      console.log("EXISTING ROOM", existingRoom);
+
       if (existingRoom > 0) return existingRoom;
+
       const newRoom = new Room({
+        users: [sender, receiver],
+        messages: [],
         title: args.title || null
       });
 
-      return null;
+      console.log("CREATED ROOM", newRoom);
+
+      try {
+        await newRoom.save();
+        sender.rooms = sender.rooms.concat(newRoom._id);
+        await sender.save();
+        receiver.rooms = receiver.rooms.concat(newRoom._id);
+        await receiver.save();
+      } catch (error) {
+        throw new ApolloError("Document not found.");
+      }
+
+      return newRoom;
     },
     addFriend: async (root, args, context) => {
       if (!context.currentUser) throw new AuthenticationError(`Unauthorized.`);
@@ -154,6 +173,7 @@ const resolvers = {
         username: args.username,
         password: hashedPw,
         friends: [],
+        rooms: [],
         posts: 0,
         level: 0
       });
@@ -188,7 +208,8 @@ const resolvers = {
         id: user._id,
         posts: user.posts,
         level: user.level,
-        friends: user.friends
+        friends: user.friends,
+        rooms: user.rooms
       };
     }
   }

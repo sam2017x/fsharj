@@ -17,6 +17,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import UserPage from './components/UserPage';
 import UserSearch from './components/UserSearch';
+import ChatPage from './components/ChatPage';
 import { SIGN, ME } from './services/queries';
 
 const App = props => {
@@ -53,7 +54,12 @@ const App = props => {
             render={() => {
               return <div>Hello world!</div>;
             }}
-          ></Route>
+          />
+          <Route
+            exact
+            path="/chat/:id"
+            render={({ match }) => <ChatPage foo={match} />}
+          />
         </div>
       </Router>
     </div>
