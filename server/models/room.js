@@ -13,7 +13,10 @@ const schema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "Message"
     }
-  ]
+  ],
+  title: {
+    type: String
+  }
 });
 
 schema.plugin(uniqueValidator);

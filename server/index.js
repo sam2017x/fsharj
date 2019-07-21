@@ -12,6 +12,8 @@ const {
   ApolloError
 } = require("apollo-server");
 const User = require("./models/user");
+const Room = require("./models/room");
+const Message = require("./models/message");
 
 mongoose.set("useFindAndModify", false);
 
@@ -31,6 +33,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
+    createRoom(user1: String, user2: String, title: String): Room
     addUser(username: String!, password: String!): User
     login(username: String!, password: String!): Token
     addFriend(id: ID!): User
@@ -41,7 +44,20 @@ const typeDefs = gql`
     password: String
     posts: Int
     level: Int
-    friends: [User]
+    friends: [User]!
+    id: ID!
+  }
+
+  type Message {
+    message: String
+    sender: User
+    timestamp: String
+  }
+
+  type Room {
+    users: [User]!
+    messages: [Message]!
+    title: String
     id: ID!
   }
 
@@ -49,7 +65,7 @@ const typeDefs = gql`
     value: String!
     username: String!
     id: ID!
-    friends: [User]
+    friends: [User]!
     posts: Int
     level: Int
   }
@@ -99,6 +115,26 @@ const resolvers = {
     }
   },
   Mutation: {
+    createRoom: async (root, args, context) => {
+      if (!context.currentUser) throw new AuthenticationError("Unauthorized.");
+      if (!args.user1 || !args.user2) throw new UserInputError("Invalid args.");
+
+      const user1 = await User.findOne({ username: args.user1 });
+      const user2 = await User.findOne({ username: args.user2 });
+
+      const user2roomIds = user2.rooms.map(room => room.id);
+
+      const existingRoom = user1.rooms.filter(room =>
+        user2roomIds.includes(room)
+      );
+
+      if (existingRoom > 0) return existingRoom;
+      const newRoom = new Room({
+        title: args.title || null
+      });
+
+      return null;
+    },
     addFriend: async (root, args, context) => {
       if (!context.currentUser) throw new AuthenticationError(`Unauthorized.`);
       const friend = await User.findById(args.id);

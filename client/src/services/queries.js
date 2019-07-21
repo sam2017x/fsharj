@@ -44,9 +44,9 @@ export const ALL_USERS = gql`
   }
 `;
 
-export const CHECK_ROOM = gql`
-  mutation roomCheck($user1: String, $user2: String) {
-    roomCheck(user1: $user1, user2: $user2) {
+export const CREATE_ROOM = gql`
+  mutation createRoom($user1: String, $user2: String, $title: String) {
+    createRoom(user1: $user1, user2: $user2, title: $title) {
       messages {
         sender
         timestamp
@@ -58,6 +58,7 @@ export const CHECK_ROOM = gql`
         posts
         level
       }
+      title
     }
   }
 `;
