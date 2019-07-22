@@ -33,7 +33,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createRoom(user1: String, user2: String, title: String): Room
+    createRoom(senderId: String, receiverId: String, title: String): Room
     addUser(username: String!, password: String!): User
     login(username: String!, password: String!): Token
     addFriend(id: ID!): User
@@ -44,8 +44,15 @@ const typeDefs = gql`
     password: String
     posts: Int
     level: Int
-    rooms: [Room]!
-    friends: [User]!
+    rooms: [Room]
+    friends: [User]
+    id: ID!
+  }
+
+  type Room {
+    users: [User]
+    messages: [Message]
+    title: String
     id: ID!
   }
 
@@ -53,13 +60,6 @@ const typeDefs = gql`
     message: String
     sender: User
     timestamp: String
-  }
-
-  type Room {
-    users: [User]!
-    messages: [String]
-    title: String
-    id: ID!
   }
 
   type Token {
@@ -75,13 +75,15 @@ const typeDefs = gql`
 const resolvers = {
   Query: {
     allUsers: async (root, args) => {
+      console.log(
+        await User.find({})
+          .populate("friends")
+          .populate("rooms")
+      );
       try {
-        return await User.find({}).populate("friends", {
-          username: 1,
-          posts: 1,
-          level: 1,
-          id: 1
-        });
+        return await User.find({})
+          .populate("friends")
+          .populate("rooms");
       } catch (error) {
         throw new ApolloError(
           `Database/server error. The userlist couldn't be loaded.`,
@@ -117,22 +119,26 @@ const resolvers = {
   Mutation: {
     createRoom: async (root, args, context) => {
       if (!context.currentUser) throw new AuthenticationError("Unauthorized.");
-      if (!args.user1 || !args.user2) throw new UserInputError("Invalid args.");
+      if (!args.senderId || !args.receiverId)
+        throw new UserInputError("Invalid args.");
 
       console.log("INC ARGS", args);
 
       const sender = await User.findById(args.senderId);
       const receiver = await User.findById(args.receiverId);
 
-      const receiverRoomIds = receiver.rooms.map(room => room.id);
+      const receiverRoomIds = receiver.rooms.map(room => room._id);
+
+      console.log("RECEIVERROOM IDs", receiverRoomIds);
 
       const existingRoom = sender.rooms.filter(room =>
-        receiverRoomIds.includes(room)
+        receiverRoomIds.includes(room._id)
       );
 
       console.log("EXISTING ROOM", existingRoom);
 
-      if (existingRoom > 0) return existingRoom;
+      if (existingRoom.length > 0)
+        return Room.findById(existingRoom).populate("users");
 
       const newRoom = new Room({
         users: [sender, receiver],
@@ -152,7 +158,7 @@ const resolvers = {
         throw new ApolloError("Document not found.");
       }
 
-      return newRoom;
+      return Room.findById(newRoom._id).populate("users");
     },
     addFriend: async (root, args, context) => {
       if (!context.currentUser) throw new AuthenticationError(`Unauthorized.`);
@@ -226,10 +232,9 @@ const server = new ApolloServer({
     const auth = req ? req.headers.authorization : null;
     if (auth && auth.toLowerCase().startsWith("bearer ")) {
       const decodedToken = jwt.verify(auth.substring(7), JWT_SECRET);
-      const currentUser = await User.findById(decodedToken.id).populate(
-        "friends",
-        { username: 1, posts: 1, id: 1, level: 1 }
-      );
+      const currentUser = await User.findById(decodedToken.id)
+        .populate("friends")
+        .populate("rooms");
       return { currentUser };
     }
   }

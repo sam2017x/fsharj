@@ -58,7 +58,7 @@ const App = props => {
           <Route
             exact
             path="/chat/:id"
-            render={({ match }) => <ChatPage foo={match} />}
+            render={({ match }) => <ChatPage match={match} />}
           />
         </div>
       </Router>

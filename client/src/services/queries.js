@@ -46,19 +46,13 @@ export const ALL_USERS = gql`
 `;
 
 export const CREATE_ROOM = gql`
-  mutation createRoom($senderId: String, $receiverId: String, $title: String) {
+  mutation makeRoom($senderId: String, $receiverId: String, $title: String) {
     createRoom(senderId: $senderId, receiverId: $receiverId, title: $title) {
-      messages {
-        sender
-        timestamp
-        message
-      }
       users {
         username
         id
-        posts
-        level
       }
+      id
       title
     }
   }
@@ -76,6 +70,16 @@ export const GET_USER_INFO = gql`
         posts
         level
         id
+      }
+    }
+  }
+`;
+
+export const GET_CHATROOM_INFO = gql`
+  query getChatroomInfo($id: String) {
+    getChatroomInfo(id: $id) {
+      messages {
+        message
       }
     }
   }

@@ -2,14 +2,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Form, Container, Row, Col, Table } from 'react-bootstrap';
+import {
+  Button,
+  Form,
+  Container,
+  Row,
+  Col,
+  Table,
+  Spinner,
+} from 'react-bootstrap';
 import { Link, withRouter } from 'react-router-dom';
 import { useQuery, useMutation, useApolloClient } from 'react-apollo-hooks';
 import { useField } from '../hooks/index';
 import { setNotification } from '../reducers/notification';
 import { setUser } from '../reducers/user';
-import { ALL_USERS, ADD_FRIEND, CREATE_ROOM } from '../services/queries';
-import { create } from 'domain';
+import { ALL_USERS, ADD_FRIEND, CREATE_ROOM, ME } from '../services/queries';
 
 const UserSearch = props => {
   const searchField = useField('text');
@@ -29,21 +36,20 @@ const UserSearch = props => {
   };
 
   const handleChat = async (senderId, receiverId) => {
-    const room = await createRoom({
-      variables: {
-        user1: senderId,
-        user2: receiverId,
-        title: null,
-      },
-    });
+    try {
+      const room = await createRoom({
+        variables: {
+          senderId,
+          receiverId,
+          title: 'awdad',
+        },
+        refetchQueries: [{ query: ALL_USERS }, { query: ME }],
+      });
 
-    console.log('RETURNED ROOM', room);
-    if (room.createRoom.error) {
-      props.setNotification(`Error.`, 'danger', 5);
-    }
-    if (!room.createRoom.loading) {
-      props.setNotification(`Chat started.`);
-      history.push(`/chat/${room.createRoom.id}`);
+      props.setNotification(`Chat started.`, 'success', 5);
+      history.push(`/chat/${room.data.createRoom.id}`);
+    } catch (error) {
+      props.setNotification(`${error.message}`, 'danger', 5);
     }
   };
 
@@ -69,6 +75,40 @@ const UserSearch = props => {
     searchField.reset();
     focus();
   };
+
+  if (data.allUsers === undefined || data.allUsers === null)
+    return (
+      <>
+        <Form>
+          <Form.Group>
+            <Form.Label>Search with username: </Form.Label>
+            <Form.Control
+              ref={focusRef}
+              {...searchField}
+              reset={null}
+              placeholder="username"
+            />
+          </Form.Group>
+          <Button onClick={() => handleClear()} variant="primary">
+            Clear
+          </Button>
+        </Form>
+        <Container>
+          <Row>
+            <Col
+              style={{
+                textAlign: 'center',
+                marginTop: '5em',
+              }}
+            >
+              <Spinner animation="border" role="status">
+                <span className="sr-only">Loading...</span>
+              </Spinner>
+            </Col>
+          </Row>
+        </Container>
+      </>
+    );
 
   if (me === null || me === undefined)
     return (
