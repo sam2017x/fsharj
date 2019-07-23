@@ -107,6 +107,20 @@ export const ADD_FRIEND = gql`
   }
 `;
 
+export const SEND_MSG = gql`
+  mutation sendMessage($roomId: String, $message: String) {
+    sendMessage(roomId: $roomId, message: $message) {
+      id
+      message
+      sender {
+        id
+        username
+      }
+      timestamp
+    }
+  }
+`;
+
 export const ME = gql`
   {
     me {

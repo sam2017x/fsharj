@@ -38,6 +38,7 @@ const typeDefs = gql`
     addUser(username: String!, password: String!): User
     login(username: String!, password: String!): Token
     addFriend(id: ID!): User
+    sendMessage(roomId: String, message: String): Message
   }
 
   type User {
@@ -77,6 +78,7 @@ const resolvers = {
   Query: {
     getChatroomInfo: async (root, args, context) => {
       if (!args.id) throw new UserInputError("Invalid args.", args);
+      if (!context.currentUser) throw new AuthenticationError("Unauthorized.");
       try {
         const room = await Room.findById(args.id)
           .populate("users")
@@ -86,7 +88,7 @@ const resolvers = {
 
         return room;
       } catch (error) {
-        return ApolloError("Database error.");
+        return new ApolloError("Database error.");
       }
     },
     allUsers: async (root, args) => {
@@ -132,6 +134,17 @@ const resolvers = {
     }
   },
   Mutation: {
+    sendMessage: async (root, args, context) => {
+      if (context.currentUser) throw new AuthenticationError("Unauthorized.");
+      if (args.message.length === 0)
+        throw new UserInputError("The message cannot be null.");
+
+      const createMessage = new Message({
+        message: args.message,
+        sender: context.currentUser._id,
+        timestamp: new Date()
+      });
+    },
     createRoom: async (root, args, context) => {
       if (!context.currentUser) throw new AuthenticationError("Unauthorized.");
       if (!args.senderId || !args.receiverId)

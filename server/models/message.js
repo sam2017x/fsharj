@@ -10,6 +10,10 @@ const schema = new mongoose.Schema({
   },
   timestamp: {
     type: Date
+  },
+  room: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Room"
   }
 });
 
