@@ -78,6 +78,11 @@ export const GET_USER_INFO = gql`
 export const GET_CHATROOM_INFO = gql`
   query getChatroomInfo($id: String) {
     getChatroomInfo(id: $id) {
+      id
+      users {
+        id
+        username
+      }
       messages {
         message
       }

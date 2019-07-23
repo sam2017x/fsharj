@@ -30,6 +30,7 @@ const typeDefs = gql`
     allUsers: [User]
     me: User
     getUserInfo(username: String): User
+    getChatroomInfo(id: String): Room
   }
 
   type Mutation {
@@ -74,6 +75,20 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
+    getChatroomInfo: async (root, args, context) => {
+      if (!args.id) throw new UserInputError("Invalid args.", args);
+      try {
+        const room = await Room.findById(args.id)
+          .populate("users")
+          .populate("messages");
+        if (!room.users.map(user => user.id).includes(context.currentUser._id))
+          throw new AuthenticationError("Unauthorized.");
+
+        return room;
+      } catch (error) {
+        return ApolloError("Database error.");
+      }
+    },
     allUsers: async (root, args) => {
       console.log(
         await User.find({})
