@@ -59,9 +59,11 @@ const typeDefs = gql`
   }
 
   type Message {
+    id: ID!
     message: String
     sender: User
     timestamp: String
+    room: Room
   }
 
   type Token {
@@ -135,15 +137,31 @@ const resolvers = {
   },
   Mutation: {
     sendMessage: async (root, args, context) => {
-      if (context.currentUser) throw new AuthenticationError("Unauthorized.");
+      if (!context.currentUser) throw new AuthenticationError("Unauthorized.");
       if (args.message.length === 0)
         throw new UserInputError("The message cannot be null.");
+
+      console.log("SENDMSG", args);
+
+      const theroom = await Room.findById(args.roomId);
 
       const createMessage = new Message({
         message: args.message,
         sender: context.currentUser._id,
-        timestamp: new Date()
+        timestamp: new Date(),
+        room: theroom._id
       });
+
+      try {
+        await createMessage.save();
+        const msgToRoom = await Room.findById(args.roomId);
+        msgToRoom.messages = msgToRoom.messages.concat(createMessage._id);
+        await msgToRoom.save();
+        console.log("RETURNED MESSAGE", createMessage);
+        return Message.findById(createMessage._id).populate("sender");
+      } catch (error) {
+        throw new ApolloError("Error.");
+      }
     },
     createRoom: async (root, args, context) => {
       if (!context.currentUser) throw new AuthenticationError("Unauthorized.");

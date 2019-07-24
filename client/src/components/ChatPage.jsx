@@ -1,7 +1,7 @@
-import React, { useState, useMutation } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { useQuery } from 'react-apollo-hooks';
+import { useQuery, useApolloClient, useMutation } from 'react-apollo-hooks';
 import {
   Container,
   Row,
@@ -16,6 +16,7 @@ import { GET_CHATROOM_INFO, SEND_MSG } from '../services/queries';
 
 const ChatPage = ({ setNotification, match }) => {
   const [msg, setMsg] = useState('');
+  const client = useApolloClient();
   const sendMsg = useMutation(SEND_MSG);
   const { data, error, loading } = useQuery(GET_CHATROOM_INFO, {
     variables: {
@@ -25,17 +26,24 @@ const ChatPage = ({ setNotification, match }) => {
 
   const handleMessage = async () => {
     try {
-      const resp = sendMsg({
+      const resp = await sendMsg({
         variables: {
-          roomId: match.params.id,
+          id: match.params.id,
           message: msg,
         },
       });
 
       if (!resp.loading) {
+        const dataStore = client.readQuery({
+          query: GET_CHATROOM_INFO,
+          variables: { id: match.params.id },
+        });
+        console.log('awd', dataStore.getChatroomInfo);
+        console.log('after msg', resp);
         setNotification(`Message sent!`, 'success', 2);
       }
     } catch (error) {
+      console.log(error);
       setNotification(`${error.message}`, 'danger', 5);
     }
   };
@@ -43,7 +51,6 @@ const ChatPage = ({ setNotification, match }) => {
   if (loading) return <div>Loading...</div>;
 
   if (error) {
-    //props.setNotification(`Error: ${error.message.substring(14)}`, 'danger', 5);
     // Could show an image here.
     return <div>{error.message.substring(14)}</div>;
   }
