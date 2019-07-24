@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMutation } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { useQuery } from 'react-apollo-hooks';
@@ -12,11 +12,11 @@ import {
 } from 'react-bootstrap';
 import { setNotification } from '../reducers/notification';
 
-import { GET_CHATROOM_INFO } from '../services/queries';
+import { GET_CHATROOM_INFO, SEND_MSG } from '../services/queries';
 
-const ChatPage = props => {
+const ChatPage = ({ setNotification, match }) => {
   const [msg, setMsg] = useState('');
-  const { match } = props;
+  const sendMsg = useMutation(SEND_MSG);
   const { data, error, loading } = useQuery(GET_CHATROOM_INFO, {
     variables: {
       id: match.params.id,
@@ -24,8 +24,21 @@ const ChatPage = props => {
   });
 
   const handleMessage = async () => {
-    
-  }
+    try {
+      const resp = sendMsg({
+        variables: {
+          roomId: match.params.id,
+          message: msg,
+        },
+      });
+
+      if (!resp.loading) {
+        setNotification(`Message sent!`, 'success', 2);
+      }
+    } catch (error) {
+      setNotification(`${error.message}`, 'danger', 5);
+    }
+  };
 
   if (loading) return <div>Loading...</div>;
 
