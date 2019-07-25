@@ -84,7 +84,12 @@ export const GET_CHATROOM_INFO = gql`
         username
       }
       messages {
+        id
         message
+        sender {
+          id
+        }
+        timestamp
       }
     }
   }
@@ -114,7 +119,6 @@ export const SEND_MSG = gql`
       message
       sender {
         id
-        username
       }
       timestamp
     }

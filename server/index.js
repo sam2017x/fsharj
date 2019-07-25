@@ -84,7 +84,7 @@ const resolvers = {
       try {
         const room = await Room.findById(args.id)
           .populate("users")
-          .populate("messages");
+          .populate({ path: "messages", populate: { path: "sender" } });
         if (!room.users.map(user => user.id).includes(context.currentUser._id))
           throw new AuthenticationError("Unauthorized.");
 
@@ -117,13 +117,7 @@ const resolvers = {
       if (args.username) {
         try {
           return await User.findOne({ username: args.username }).populate(
-            "friends",
-            {
-              username: 1,
-              posts: 1,
-              id: 1,
-              level: 1
-            }
+            "friends"
           );
         } catch (error) {
           throw new ApolloError(

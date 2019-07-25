@@ -34,12 +34,26 @@ const ChatPage = ({ setNotification, match }) => {
       });
 
       if (!resp.loading) {
-        const dataStore = client.readQuery({
+        const dataInStore = client.readQuery({
           query: GET_CHATROOM_INFO,
           variables: { id: match.params.id },
         });
-        console.log('awd', dataStore.getChatroomInfo);
-        console.log('after msg', resp);
+        console.log('BEFORE CACHE MOD', dataInStore);
+        console.log('INCOMING MSG', resp.data);
+        if (
+          !dataInStore.getChatroomInfo.messages
+            .map(msg => msg.id)
+            .includes(resp.data.sendMessage.id)
+        ) {
+          dataInStore.getChatroomInfo.messages = dataInStore.getChatroomInfo.messages.concat(
+            resp.data.sendMessage
+          );
+          client.writeQuery({
+            query: GET_CHATROOM_INFO,
+            data: dataInStore,
+          });
+        }
+        console.log('AFTER CACHE MOD', dataInStore.getChatroomInfo);
         setNotification(`Message sent!`, 'success', 2);
       }
     } catch (error) {
