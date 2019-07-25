@@ -9,7 +9,8 @@ module.exports = {
       }
     ],
     "prettier/prettier": "error",
-    "max-len": ["error", 80]
+    "max-len": ["error", 80],
+    "no-shadow": "off"
   },
   env: {
     browser: true

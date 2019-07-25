@@ -58,7 +58,9 @@ const App = props => {
           <Route
             exact
             path="/chat/:id"
-            render={({ match }) => <ChatPage match={match} />}
+            render={({ match }) => (
+              <ChatPage me={check.data.me} match={match} />
+            )}
           />
         </div>
       </Router>

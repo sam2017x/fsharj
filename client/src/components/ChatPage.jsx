@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { useQuery, useApolloClient, useMutation } from 'react-apollo-hooks';
@@ -12,9 +12,9 @@ import {
 } from 'react-bootstrap';
 import { setNotification } from '../reducers/notification';
 
-import { GET_CHATROOM_INFO, SEND_MSG } from '../services/queries';
+import { GET_CHATROOM_INFO, SEND_MSG, ME } from '../services/queries';
 
-const ChatPage = ({ setNotification, match }) => {
+const ChatPage = ({ setNotification, match, me }) => {
   const [msg, setMsg] = useState('');
   const client = useApolloClient();
   const sendMsg = useMutation(SEND_MSG);
@@ -69,7 +69,8 @@ const ChatPage = ({ setNotification, match }) => {
     return <div>{error.message.substring(14)}</div>;
   }
 
-  console.log(data);
+  console.log('DATA',data);
+  console.log('MEEEE', me)
 
   return (
     <>
@@ -77,7 +78,14 @@ const ChatPage = ({ setNotification, match }) => {
       <Container>
         <Row>
           <Col>
-            <span>awdawdawdawdawd</span>
+            {!loading &&
+              data.getChatroomInfo.messages.map(msg =>
+                me.id === msg.sender.id ? (
+                  <div>{`MY MESSAGE: ${msg.message}`}</div>
+                ) : (
+                  <div>{`FRIEND'S MESSAGE: ${msg.message}`}</div>
+                )
+              )}
           </Col>
         </Row>
       </Container>
