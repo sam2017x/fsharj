@@ -4,16 +4,6 @@ export const LOGIN = gql`
   mutation login($username: String!, $password: String!) {
     login(username: $username, password: $password) {
       value
-      username
-      id
-      friends {
-        username
-        id
-        posts
-        level
-      }
-      level
-      posts
     }
   }
 `;
@@ -88,8 +78,9 @@ export const GET_CHATROOM_INFO = gql`
         message
         sender {
           id
+          username
         }
-        timestamp
+        date
       }
     }
   }
@@ -119,8 +110,9 @@ export const SEND_MSG = gql`
       message
       sender {
         id
+        username
       }
-      timestamp
+      date
     }
   }
 `;

@@ -45,7 +45,7 @@ const Login = props => {
           data: dataInStore,
         });*/
 
-        props.setNotification(`Welcome ${data.login.username}`, 'success', 5);
+        props.setNotification(`Welcome ${ufields.value}`, 'success', 5);
         props.userLogin(data.login);
 
         // resetStore() clears the cached store and refetches all open queries.

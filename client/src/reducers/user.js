@@ -17,11 +17,6 @@ export const userLogin = info => {
       type: 'LOGIN',
       data: {
         token: info.value,
-        username: info.username,
-        id: info.id,
-        level: info.level,
-        posts: info.posts,
-        friends: info.friends,
       },
     });
   };

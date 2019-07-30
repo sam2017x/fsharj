@@ -35,7 +35,7 @@ const App = props => {
   return (
     <div>
       <Router>
-        <Header />
+        <Header user={check.data.me} />
         {notification.text !== undefined && (
           <Alert variant={notification.style}>{notification.text}</Alert>
         )}

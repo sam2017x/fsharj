@@ -10,12 +10,13 @@ import Togglable from './Togglable';
 import Signup from './Signup';
 import Login from './Login';
 
-const Header = props => {
+const Header = ({ history, user, setUser }) => {
   const client = useApolloClient();
-  const { user, history } = props;
   const styles = {
     color: 'white',
   };
+
+  console.log('HEADER USER', user);
 
   // Ref toggle, for reference.
   const formToggle = React.createRef();
@@ -25,7 +26,7 @@ const Header = props => {
 
   const logout = () => {
     window.localStorage.clear();
-    props.setUser({});
+    setUser({});
     client.resetStore();
     history.push('/');
   };
@@ -57,7 +58,7 @@ const Header = props => {
             </Link>
           </Nav.Link>
         </Nav>
-        {user.token === undefined && (
+        {user === undefined && (
           <>
             <Togglable ref={formToggle} color="warning">
               <Login toggleForm={toggleForm} />
@@ -65,7 +66,7 @@ const Header = props => {
             </Togglable>
           </>
         )}
-        {user.token && (
+        {user && (
           <>
             <Navbar.Text as="span">
               <span style={{ color: 'white' }}>Signed in as: </span>
@@ -93,12 +94,6 @@ const Header = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    user: state.user,
-  };
-};
-
 const mapDispatchToProps = {
   setUser,
 };
@@ -115,7 +110,7 @@ Header.propTypes = {
 
 export default withRouter(
   connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
   )(Header)
 );

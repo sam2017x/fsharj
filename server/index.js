@@ -62,7 +62,7 @@ const typeDefs = gql`
     id: ID!
     message: String
     sender: User
-    timestamp: String
+    date: String
     room: Room
   }
 
@@ -142,7 +142,7 @@ const resolvers = {
       const createMessage = new Message({
         message: args.message,
         sender: context.currentUser._id,
-        timestamp: new Date(),
+        date: new Date(),
         room: theroom._id
       });
 
@@ -162,20 +162,14 @@ const resolvers = {
       if (!args.senderId || !args.receiverId)
         throw new UserInputError("Invalid args.");
 
-      console.log("INC ARGS", args);
-
       const sender = await User.findById(args.senderId);
       const receiver = await User.findById(args.receiverId);
 
       const receiverRoomIds = receiver.rooms.map(room => room._id);
 
-      console.log("RECEIVERROOM IDs", receiverRoomIds);
-
       const existingRoom = sender.rooms.filter(room =>
         receiverRoomIds.includes(room._id)
       );
-
-      console.log("EXISTING ROOM", existingRoom);
 
       if (existingRoom.length > 0)
         return Room.findById(existingRoom).populate("users");
@@ -185,8 +179,6 @@ const resolvers = {
         messages: [],
         title: args.title || null
       });
-
-      console.log("CREATED ROOM", newRoom);
 
       try {
         await newRoom.save();
@@ -209,7 +201,7 @@ const resolvers = {
       await context.currentUser.save();
       const userWithFriends = await User.findById(
         context.currentUser._id
-      ).populate("friends", { username: 1, posts: 1, level: 1, id: 1 });
+      ).populate("friends");
       return userWithFriends;
     },
     addUser: async (root, args) => {
@@ -232,8 +224,7 @@ const resolvers = {
     },
     login: async (root, args) => {
       const user = await User.findOne({ username: args.username }).populate(
-        "friends",
-        { username: 1, id: 1, posts: 1, level: 1 }
+        "friends"
       );
 
       if (!user) {
@@ -249,13 +240,7 @@ const resolvers = {
       };
 
       return {
-        value: jwt.sign(userForToken, JWT_SECRET),
-        username: args.username,
-        id: user._id,
-        posts: user.posts,
-        level: user.level,
-        friends: user.friends,
-        rooms: user.rooms
+        value: jwt.sign(userForToken, JWT_SECRET)
       };
     }
   }

@@ -69,8 +69,8 @@ const ChatPage = ({ setNotification, match, me }) => {
     return <div>{error.message.substring(14)}</div>;
   }
 
-  console.log('DATA',data);
-  console.log('MEEEE', me)
+  console.log('DATA', data);
+  console.log('MEEEE', me);
 
   return (
     <>
@@ -81,9 +81,11 @@ const ChatPage = ({ setNotification, match, me }) => {
             {!loading &&
               data.getChatroomInfo.messages.map(msg =>
                 me.id === msg.sender.id ? (
-                  <div>{`MY MESSAGE: ${msg.message}`}</div>
+                  <div>{`Me: ${msg.message} //// ${new Date(+msg.date)}`}</div>
                 ) : (
-                  <div>{`FRIEND'S MESSAGE: ${msg.message}`}</div>
+                  <div>{`${msg.sender.username}: ${msg.message} /// ${new Date(
+                    +msg.date
+                  )}`}</div>
                 )
               )}
           </Col>
