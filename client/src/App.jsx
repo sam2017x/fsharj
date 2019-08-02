@@ -19,14 +19,16 @@ import UserPage from './components/UserPage';
 import UserSearch from './components/UserSearch';
 import ChatPage from './components/ChatPage';
 import { SIGN, ME } from './services/queries';
+import MainPage from './components/MainPage';
+import './css/index.css';
 
-const App = props => {
-  const { notification } = props;
+const App = ({ notification, setUser }) => {
+  const client = useApolloClient();
 
   useEffect(() => {
     const user = JSON.parse(window.localStorage.getItem('loggedUser'));
     if (user) {
-      props.setUser(user);
+      setUser(user);
     }
   });
 
@@ -35,11 +37,13 @@ const App = props => {
   return (
     <div>
       <Router>
-        <Header user={check.data.me} />
+        <Header user={check.data.me} client={client} />
         {notification.text !== undefined && (
-          <Alert variant={notification.style}>{notification.text}</Alert>
+          <Alert className="mb-0" variant={notification.style}>
+            {notification.text}
+          </Alert>
         )}
-        <div className="container">
+        <div>
           <Route
             exact
             path="/user/:username"
@@ -52,14 +56,14 @@ const App = props => {
             exact
             path="/"
             render={() => {
-              return <div>Hello world!</div>;
+              return <MainPage me={check.data.me} client={client} />;
             }}
           />
           <Route
             exact
             path="/chat/:id"
             render={({ match }) => (
-              <ChatPage me={check.data.me} match={match} />
+              <ChatPage me={check.data.me} match={match} client={client} />
             )}
           />
         </div>

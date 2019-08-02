@@ -10,8 +10,7 @@ import Togglable from './Togglable';
 import Signup from './Signup';
 import Login from './Login';
 
-const Header = ({ history, user, setUser }) => {
-  const client = useApolloClient();
+const Header = ({ history, user, setUser, client }) => {
   const styles = {
     color: 'white',
   };
@@ -32,7 +31,7 @@ const Header = ({ history, user, setUser }) => {
   };
 
   return (
-    <Navbar expand="md" collapseOnSelect bg="primary" variant="dark">
+    <Navbar expand="md" collapseOnSelect bg="dark" variant="dark" sticky="top">
       <Navbar.Brand href="/" as="span">
         <Link to="/" style={styles}>
           FSHT
@@ -58,7 +57,7 @@ const Header = ({ history, user, setUser }) => {
             </Link>
           </Nav.Link>
         </Nav>
-        {user === undefined && (
+        {!user && (
           <>
             <Togglable ref={formToggle} color="warning">
               <Login toggleForm={toggleForm} />
@@ -99,6 +98,7 @@ const mapDispatchToProps = {
 };
 
 Header.propTypes = {
+  client: PropTypes.oneOfType([PropTypes.object]).isRequired,
   user: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.string,

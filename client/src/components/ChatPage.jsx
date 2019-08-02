@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { useQuery, useApolloClient, useMutation } from 'react-apollo-hooks';
+import { useQuery, useMutation } from 'react-apollo-hooks';
 import {
   Container,
   Row,
@@ -14,9 +14,8 @@ import { setNotification } from '../reducers/notification';
 
 import { GET_CHATROOM_INFO, SEND_MSG, ME } from '../services/queries';
 
-const ChatPage = ({ setNotification, match, me }) => {
+const ChatPage = ({ setNotification, match, me, client }) => {
   const [msg, setMsg] = useState('');
-  const client = useApolloClient();
   const sendMsg = useMutation(SEND_MSG);
   const { data, error, loading } = useQuery(GET_CHATROOM_INFO, {
     variables: {
@@ -74,8 +73,8 @@ const ChatPage = ({ setNotification, match, me }) => {
 
   return (
     <>
-      <h3>Chatchatchat</h3>
       <Container>
+      <h3>Chatchatchat</h3>
         <Row>
           <Col>
             {!loading &&
@@ -91,7 +90,7 @@ const ChatPage = ({ setNotification, match, me }) => {
           </Col>
         </Row>
       </Container>
-      <div>
+      <div className="container">
         <InputGroup>
           <InputGroup.Prepend>
             <Button onClick={() => handleMessage()}>Send:</Button>

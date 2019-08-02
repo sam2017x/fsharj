@@ -1,16 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { useQuery } from 'react-apollo-hooks';
 import { Container, Col, Row, Spinner, Table } from 'react-bootstrap';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { GET_USER_INFO } from '../services/queries';
 
-const UserPage = props => {
-  const { foo, user } = props;
-
-  console.log(user);
-
+const UserPage = ({ foo }) => {
   const { data, loading, error } = useQuery(GET_USER_INFO, {
     variables: {
       username: foo.params.username,
@@ -91,23 +87,10 @@ const UserPage = props => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    user: state.user,
-    notification: state.notification,
-  };
-};
-
 const mapDispatchToProps = {};
 
 UserPage.propTypes = {
-  user: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   foo: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(UserPage)
-);
+export default withRouter(connect(mapDispatchToProps)(UserPage));

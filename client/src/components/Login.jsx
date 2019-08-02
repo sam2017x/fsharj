@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 import { useMutation, useApolloClient } from 'react-apollo-hooks';
 import { useField } from '../hooks/index';
 import { userLogin } from '../reducers/user';
-import { LOGIN, ME } from '../services/queries';
+import { LOGIN } from '../services/queries';
 import { setNotification } from '../reducers/notification';
 
-const Login = props => {
+const Login = ({ setNotification, userLogin, toggleForm }) => {
   const ufields = useField('text');
   const pfields = useField('password');
 
@@ -45,15 +45,15 @@ const Login = props => {
           data: dataInStore,
         });*/
 
-        props.setNotification(`Welcome ${ufields.value}`, 'success', 5);
-        props.userLogin(data.login);
+        setNotification(`Welcome ${ufields.value}`, 'success', 5);
+        userLogin(data.login);
 
         // resetStore() clears the cached store and refetches all open queries.
         // Important to remember when creating new user session.
         client.resetStore();
       }
     } catch (error) {
-      props.setNotification(`${error.message}`, 'danger', 5);
+      setNotification(`${error.message}`, 'danger', 5);
     }
   };
 
@@ -79,7 +79,7 @@ const Login = props => {
         <Button type="submit" size="sm" variant="warning" className="mr-1">
           Login
         </Button>
-        <Button size="sm" variant="light" onClick={() => props.toggleForm()}>
+        <Button size="sm" variant="light" onClick={() => toggleForm()}>
           Cancel
         </Button>
       </Form>
