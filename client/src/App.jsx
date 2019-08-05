@@ -20,6 +20,7 @@ import UserSearch from './components/UserSearch';
 import ChatPage from './components/ChatPage';
 import { SIGN, ME } from './services/queries';
 import MainPage from './components/MainPage';
+import ServiceChoice from './components/ServiceChoice';
 import './css/index.css';
 
 const App = ({ notification, setUser }) => {
@@ -56,7 +57,10 @@ const App = ({ notification, setUser }) => {
             exact
             path="/"
             render={() => {
-              return <MainPage me={check.data.me} client={client} />;
+              return [
+                <MainPage me={check.data.me} client={client} />,
+                <ServiceChoice />,
+              ];
             }}
           />
           <Route
@@ -68,6 +72,7 @@ const App = ({ notification, setUser }) => {
           />
         </div>
       </Router>
+      <Footer />
     </div>
   );
 };
