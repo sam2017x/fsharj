@@ -20,6 +20,7 @@ import UserSearch from './components/UserSearch';
 import ChatPage from './components/ChatPage';
 import { SIGN, ME } from './services/queries';
 import MainPage from './components/MainPage';
+import Weather from './components/Weather';
 import ServiceChoice from './components/ServiceChoice';
 import './css/index.css';
 
@@ -69,6 +70,11 @@ const App = ({ notification, setUser }) => {
             render={({ match }) => (
               <ChatPage me={check.data.me} match={match} client={client} />
             )}
+          />
+          <Route
+            exact
+            path="/service/weather"
+            render={() => <Weather me={check.data.me} client={client} />}
           />
         </div>
       </Router>

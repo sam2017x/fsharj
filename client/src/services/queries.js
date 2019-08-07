@@ -1,5 +1,21 @@
 import { gql } from 'apollo-boost';
 
+export const WEATHER = gql`
+  query getWeatherData($city: String) {
+    getWeatherData(city: $city) {
+      value
+    }
+  }
+`;
+
+export const COUNTRIES = gql`
+  {
+    getCountries {
+      value
+    }
+  }
+`;
+
 export const LOGIN = gql`
   mutation login($username: String!, $password: String!) {
     login(username: $username, password: $password) {

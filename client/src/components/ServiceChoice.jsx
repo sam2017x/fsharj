@@ -20,10 +20,10 @@ const ServiceChoice = ({ history }) => {
   };
 
   return (
-    <Container>
+    <Container style={{minHeight: '500px'}}>
       <Row>
-        <Col sm={4}>
-          <Card className="text-center">
+        <Col md={4}>
+          <Card className="text-center" bg="secondary">
             <Card.Img variant="top" src="holder.js/100px180" />
             <Card.Body>
               <Card.Title>Impress</Card.Title>
@@ -37,8 +37,8 @@ const ServiceChoice = ({ history }) => {
             </Card.Body>
           </Card>
         </Col>
-        <Col sm={4}>
-          <Card>
+        <Col md={4}>
+          <Card bg="secondary" className="text-center">
             <Card.Img variant="top" src="holder.js/100px180" />
             <Card.Body>
               <Card.Title>Weather</Card.Title>
@@ -52,8 +52,8 @@ const ServiceChoice = ({ history }) => {
             </Card.Body>
           </Card>
         </Col>
-        <Col sm={4}>
-          <Card>
+        <Col md={4}>
+          <Card bg="secondary" className="text-center">
             <Card.Img variant="top" src="holder.js/100px180" />
             <Card.Body>
               <Card.Title>NASA - launches</Card.Title>

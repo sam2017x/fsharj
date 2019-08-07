@@ -8,9 +8,11 @@ import {
   Jumbotron,
   Carousel,
 } from 'react-bootstrap';
-import img from '../util/img/d.png';
-import img2 from '../util/img/coffee.jpg';
+import nasa from '../util/img/nasa.jpg';
+import impress from '../util/img/impress2.jpg';
+import weather from '../util/img/weather.jpg';
 import bg from '../util/img/bg.jpg';
+import d from '../util/img/d.png';
 
 const MainPage = ({ me, client }) => {
   const [index, setIndex] = useState(0);
@@ -44,10 +46,10 @@ const MainPage = ({ me, client }) => {
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         minHeight: '100vh',
-        filter: 'grayscale(70%)',
       }}
+      className="mb-4"
     >
-      <Container style={{ color: 'white' }} className="mt-0">
+      <Container style={{ color: 'white' }} className="mt-0 pb-4">
         <Row>
           <Col>
             <h1>
@@ -82,21 +84,39 @@ const MainPage = ({ me, client }) => {
               onSelect={handleSelect}
             >
               <Carousel.Item>
-                <img className="d-block w-100" src={img} alt="First slide" />
+                <img
+                  className="d-block w-100"
+                  src={impress}
+                  alt="First slide"
+                  style={{
+                    objectFit: 'cover',
+                    maxHeight: '295px',
+                  }}
+                />
                 <Carousel.Caption>
                   <h3>Impress others</h3>
                   <p>You are given five chances to socialize, good luck!</p>
                 </Carousel.Caption>
               </Carousel.Item>
               <Carousel.Item>
-                <img className="d-block w-100" src={img} alt="Second slide" />
+                <img
+                  className="d-block w-100"
+                  src={nasa}
+                  alt="Second slide"
+                  style={{ objectFit: 'cover', maxHeight: '295px' }}
+                />
                 <Carousel.Caption>
                   <h3>NASA watch</h3>
                   <p>List of upcoming flights.</p>
                 </Carousel.Caption>
               </Carousel.Item>
               <Carousel.Item>
-                <img className="d-block w-100" src={img} alt="Third slide" />
+                <img
+                  className="d-block w-100"
+                  src={weather}
+                  alt="Third slide"
+                  style={{ objectFit: 'cover', maxHeight: '295px' }}
+                />
                 <Carousel.Caption>
                   <h3>Weather forecast</h3>
                   <p>Make plans with precision.</p>
