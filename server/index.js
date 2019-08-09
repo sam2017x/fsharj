@@ -3,6 +3,7 @@ const { PubSub } = require("apollo-server");
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const axios = require("axios");
+const dataSource = require("./datasource");
 
 const pubsub = new PubSub();
 const {
@@ -24,7 +25,7 @@ const JWT_SECRET = "NEED_HERE_A_SECRET_KEY";
 const weatherApi =
   "http://api.apixu.com/v1/current.json?key=16fe37087cea4422a8500301191903&q=";
 
-const countryApi = mongoose
+mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true })
   .then(() => console.log("connected to MongoDB"))
   .catch(error => console.log(error.message));
@@ -35,7 +36,7 @@ const typeDefs = gql`
     me: User
     getUserInfo(username: String): User
     getChatroomInfo(id: String): Room
-    getWeatherData(city: String): Weather
+    getCountries: [Country]
   }
 
   type Mutation {
@@ -46,8 +47,8 @@ const typeDefs = gql`
     sendMessage(roomId: String, message: String): Message
   }
 
-  type Weather {
-    value: String
+  type Country {
+    name: String
   }
 
   type User {
@@ -87,14 +88,21 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    getCountries: async (root, args, context) => {
+    getCountries: (root, args, { dataSources }) =>
+      dataSources.countriesAPI.getAllCountries(),
+    /*getCountries: async (root, args, context) => {
       if (!context.currentUser) throw new AuthenticationError("Unauthorized.");
 
       try {
         const response = await axios.get(
           "https://restcountries.eu/rest/v2/all"
         );
-        return { value: response.data };
+
+        return response.data.map(country => {
+          return {
+            value: country
+          };
+        });
       } catch (error) {
         throw new ApolloError("Error while fetching countries.");
       }
@@ -110,7 +118,7 @@ const resolvers = {
       } catch (error) {
         throw new ApolloError("Error while fetching weather data.");
       }
-    },
+    },*/
     getChatroomInfo: async (root, args, context) => {
       if (!args.id) throw new UserInputError("Invalid args.", args);
       if (!context.currentUser) throw new AuthenticationError("Unauthorized.");
@@ -295,7 +303,10 @@ const server = new ApolloServer({
         .populate("rooms");
       return { currentUser };
     }
-  }
+  },
+  dataSources: () => ({
+    countriesAPI: new dataSource.CountriesAPI()
+  })
 });
 
 server.listen().then(({ url, subscriptionsUrl }) => {

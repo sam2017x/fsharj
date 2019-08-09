@@ -11,7 +11,7 @@ export const WEATHER = gql`
 export const COUNTRIES = gql`
   {
     getCountries {
-      value
+      name
     }
   }
 `;

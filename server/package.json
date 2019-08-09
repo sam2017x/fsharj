@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/sam2017x/fsharj#readme",
   "dependencies": {
+    "apollo-datasource-rest": "^0.6.1",
     "apollo-server": "^2.6.7",
     "axios": "^0.19.0",
     "bcrypt": "^3.0.6",
