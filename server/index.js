@@ -49,6 +49,7 @@ const typeDefs = gql`
 
   type Country {
     name: String
+    alpha2Code: String
   }
 
   type User {
@@ -88,8 +89,22 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    getCountries: (root, args, { dataSources }) =>
-      dataSources.countriesAPI.getAllCountries(),
+    getCountries: async (root, args, { dataSources }) => {
+      /*const ok = await axios.get(
+        "https://wft-geo-db.p.rapidapi.com/v1/geo/countries",
+        {
+          headers: {
+            "x-rapidapi-host": "wft-geo-db.p.rapidapi.com",
+            "x-rapidapi-key":
+              "725dc16711mshb82b0d640fd1243p1febfbjsn804312b8f0d2"
+          }
+        }
+      );
+
+      console.log("geodb", ok.data);*/
+
+      return dataSources.countriesAPI.getAllCountries();
+    },
     /*getCountries: async (root, args, context) => {
       if (!context.currentUser) throw new AuthenticationError("Unauthorized.");
 

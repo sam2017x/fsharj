@@ -7,6 +7,7 @@ import {
   InputGroup,
   FormControl,
   Table,
+  Button,
 } from 'react-bootstrap';
 import axios from 'axios';
 import { useQuery } from 'react-apollo-hooks';
@@ -62,26 +63,64 @@ const Weather = ({ me, client }) => {
               <InputGroup.Text id="basic-addon1">Filter</InputGroup.Text>
             </InputGroup.Prepend>
             <FormControl
-              placeholder="City"
-              aria-label="City"
+              placeholder="Country"
+              aria-label="Country"
               aria-describedby="basic-addon1"
               value={val}
-              onChange={event => setVal(event.target.value.toLowerCase())}
+              onChange={event => setVal(event.target.value)}
             />
           </InputGroup>
-          <Table>
-            <thead>
-              <tr>
-                <th>Country</th>
-              </tr>
-            </thead>
-            {data.value &&
-              data.value
-                .filter(country => country.name.toLowerCase().includes(val))
-                .map(c => {
-                  return null;
-                })}
-          </Table>
+          <Row>
+            <Col>
+              <Table>
+                <thead>
+                  <tr>
+                    <th>Country</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {!loading &&
+                    data.getCountries
+                      .filter(country =>
+                        country.name.toLowerCase().includes(val.toLowerCase())
+                      )
+                      .map((c, i) => (
+                        <tr key={`${c.name}-${i}`}>
+                          <td>
+                            <a
+                              href="#"
+                              role="button"
+                              name={c.name}
+                              onClick={event =>
+                                console.log(
+                                  `NAME OF COUNTRY: ${event.target.name}`
+                                )
+                              }
+                            >
+                              {c.name}
+                            </a>
+                          </td>
+                        </tr>
+                      ))}
+                </tbody>
+              </Table>
+            </Col>
+            <Col>
+              <Table>
+                <thead>
+                  <tr>
+                    <th>City</th>
+                  </tr>
+                </thead>
+                {data.value &&
+                  data.value
+                    .filter(country => country.name.toLowerCase().includes(val))
+                    .map(c => {
+                      return null;
+                    })}
+              </Table>
+            </Col>
+          </Row>
         </div>
       )}
     </>

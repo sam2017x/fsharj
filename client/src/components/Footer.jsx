@@ -1,13 +1,13 @@
 import React from 'react';
-import { Container, Row, Col, Navbar, Nav } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 
 const Footer = props => {
   return (
-    <Container className="fixed-bottom">
+    <Container style={{ bottom: '0', position: 'absolute' }}>
       <Row>
         <Col></Col>
         <Col sm={8} style={{ textAlign: 'center' }}>
-          &copy; Samuli J.
+          &copy; SJ.
         </Col>
         <Col></Col>
       </Row>
