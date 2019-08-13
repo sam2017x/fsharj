@@ -1,18 +1,19 @@
 import { gql } from 'apollo-boost';
 
-export const WEATHER = gql`
-  query getWeatherData($city: String) {
-    getWeatherData(city: $city) {
-      value
-    }
-  }
-`;
-
 export const COUNTRIES = gql`
   {
     getCountries {
       name
       alpha2Code
+      capital
+    }
+  }
+`;
+
+export const GET_WEATHER_DATA = gql`
+  mutation getWeatherData($capital: String) {
+    getWeatherData(capital: $capital) {
+      value
     }
   }
 `;

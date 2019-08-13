@@ -10,14 +10,29 @@ import {
   Button,
 } from 'react-bootstrap';
 import axios from 'axios';
-import { useQuery } from 'react-apollo-hooks';
-import { COUNTRIES, WEATHER } from '../services/queries';
+import { useQuery, useMutation } from 'react-apollo-hooks';
+import { COUNTRIES, GET_WEATHER_DATA } from '../services/queries';
 
 const Weather = ({ me, client }) => {
   const [page, setPage] = useState('');
   const [val, setVal] = useState('');
+  const [forecast, setForecast] = useState({});
   const [mockCountries, setMockCountries] = useState([]);
   const { data, loading, error } = useQuery(COUNTRIES);
+  const weatherData = useMutation(GET_WEATHER_DATA);
+
+  const getCountryData = async capital => {
+    try {
+      const data = await weatherData({
+        variables: {
+          capital,
+        },
+      });
+      console.log('weatherdata', data);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   /*useEffect(async () => {
     const response = await axios.get('https://restcountries.eu/rest/v2/all');
@@ -92,9 +107,7 @@ const Weather = ({ me, client }) => {
                               role="button"
                               name={c.name}
                               onClick={event =>
-                                console.log(
-                                  `NAME OF COUNTRY: ${event.target.name}`
-                                )
+                                getCountryData(event.target.name)
                               }
                             >
                               {c.name}
@@ -106,19 +119,7 @@ const Weather = ({ me, client }) => {
               </Table>
             </Col>
             <Col>
-              <Table>
-                <thead>
-                  <tr>
-                    <th>City</th>
-                  </tr>
-                </thead>
-                {data.value &&
-                  data.value
-                    .filter(country => country.name.toLowerCase().includes(val))
-                    .map(c => {
-                      return null;
-                    })}
-              </Table>
+              <h2>Info</h2>
             </Col>
           </Row>
         </div>

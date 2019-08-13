@@ -1,5 +1,4 @@
 const { RESTDataSource } = require("apollo-datasource-rest");
-const axios = require("axios");
 
 class CountriesAPI extends RESTDataSource {
   constructor() {
@@ -28,6 +27,24 @@ class CountriesAPI extends RESTDataSource {
   }*/
 }
 
+class WeatherAPI extends RESTDataSource {
+  constructor() {
+    super();
+    this.baseURL = "http://api.apixu.com/v1/";
+    this.state = { key: "16fe37087cea4422a8500301191903" };
+  }
+
+  async getCurrentWeather(capital) {
+    const resp = await this.get(
+      `current.json?key=${this.state.key}&q=${capital}`
+    );
+    console.log("yay");
+
+    return { value: JSON.stringify(resp) };
+  }
+}
+
 module.exports = {
-  CountriesAPI
+  CountriesAPI,
+  WeatherAPI
 };

@@ -45,11 +45,17 @@ const typeDefs = gql`
     login(username: String!, password: String!): Token
     addFriend(id: ID!): User
     sendMessage(roomId: String, message: String): Message
+    getWeatherData(capital: String): Weather
+  }
+
+  type Weather {
+    value: String
   }
 
   type Country {
     name: String
     alpha2Code: String
+    capital: String
   }
 
   type User {
@@ -186,6 +192,9 @@ const resolvers = {
     }
   },
   Mutation: {
+    getWeatherData: async (root, args, { dataSources }) => {
+      return dataSources.weatherAPI.getCurrentWeather(args.capital);
+    },
     sendMessage: async (root, args, context) => {
       if (!context.currentUser) throw new AuthenticationError("Unauthorized.");
       if (args.message.length === 0)
@@ -320,7 +329,8 @@ const server = new ApolloServer({
     }
   },
   dataSources: () => ({
-    countriesAPI: new dataSource.CountriesAPI()
+    countriesAPI: new dataSource.CountriesAPI(),
+    weatherAPI: new dataSource.WeatherAPI()
   })
 });
 
