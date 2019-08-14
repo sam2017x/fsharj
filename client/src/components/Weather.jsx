@@ -8,6 +8,9 @@ import {
   FormControl,
   Table,
   Button,
+  ListGroup,
+  ListGroupItem,
+  Card,
 } from 'react-bootstrap';
 import axios from 'axios';
 import { useQuery, useMutation } from 'react-apollo-hooks';
@@ -16,28 +19,31 @@ import { COUNTRIES, GET_WEATHER_DATA } from '../services/queries';
 const Weather = ({ me, client }) => {
   const [page, setPage] = useState('');
   const [val, setVal] = useState('');
-  const [forecast, setForecast] = useState({});
+  const [forecast, setForecast] = useState(null);
   const [mockCountries, setMockCountries] = useState([]);
   const { data, loading, error } = useQuery(COUNTRIES);
   const weatherData = useMutation(GET_WEATHER_DATA);
 
-  const getCountryData = async capital => {
+  const getCountryData = async (capital, country) => {
     try {
       const data = await weatherData({
         variables: {
           capital,
         },
       });
-      console.log('weatherdata', data);
+      setForecast({
+        country,
+        weather: JSON.parse(data.data.getWeatherData.value),
+      });
+      console.log('forecast data', {
+        country,
+        weather: JSON.parse(data.data.getWeatherData.value),
+      });
     } catch (error) {
+      setForecast(null);
       console.log(error.message);
     }
   };
-
-  /*useEffect(async () => {
-    const response = await axios.get('https://restcountries.eu/rest/v2/all');
-    console.log('CLIENT GET', response.data);
-  }, []);*/
 
   if (!me) return null;
 
@@ -86,7 +92,7 @@ const Weather = ({ me, client }) => {
             />
           </InputGroup>
           <Row>
-            <Col>
+            <Col sm={3} xs={5}>
               <Table>
                 <thead>
                   <tr>
@@ -105,9 +111,8 @@ const Weather = ({ me, client }) => {
                             <a
                               href="#"
                               role="button"
-                              name={c.name}
                               onClick={event =>
-                                getCountryData(event.target.name)
+                                getCountryData(c.capital, c.name)
                               }
                             >
                               {c.name}
@@ -119,7 +124,49 @@ const Weather = ({ me, client }) => {
               </Table>
             </Col>
             <Col>
-              <h2>Info</h2>
+              {forecast !== null && (
+                <>
+                  <h3>{forecast.country}</h3>
+                  <p>
+                    <strong>Capital:</strong> {forecast.weather.location.name}
+                  </p>
+                  <Container>
+                    <Row>
+                      {forecast.weather.forecast.forecastday.map(day => {
+                        let date = new Date(day.date_epoch * 1000);
+                        console.log('date_olio', date.toDateString());
+                        return (
+                          <Col key={`${day.date}`} className="mb-3">
+                            <Card bg="secondary" style={{ minHeight: '300px' }}>
+                              <Card.Img
+                                variant="top"
+                                src={day.day.condition.icon}
+                                alt={day.day.condition.text}
+                                title={day.day.condition.text}
+                              />
+                              <Card.Body>
+                                <Card.Title>{`${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`}</Card.Title>
+                                <Card.Text>{`${day.day.condition.text}`}</Card.Text>
+                              </Card.Body>
+                              <ListGroup className="list-group-flush">
+                                <ListGroupItem>
+                                  Max temp: {day.day.maxtemp_c}
+                                </ListGroupItem>
+                                <ListGroupItem>
+                                  Min temp: {day.day.mintemp_c}
+                                </ListGroupItem>
+                                <ListGroupItem>
+                                  Avg temp: {day.day.avgtemp_c}
+                                </ListGroupItem>
+                              </ListGroup>
+                            </Card>
+                          </Col>
+                        );
+                      })}
+                    </Row>
+                  </Container>
+                </>
+              )}
             </Col>
           </Row>
         </div>

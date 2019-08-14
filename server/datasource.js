@@ -36,9 +36,8 @@ class WeatherAPI extends RESTDataSource {
 
   async getCurrentWeather(capital) {
     const resp = await this.get(
-      `current.json?key=${this.state.key}&q=${capital}`
+      `forecast.json?key=${this.state.key}&q=${capital}&days=3`
     );
-    console.log("yay");
 
     return { value: JSON.stringify(resp) };
   }

@@ -193,6 +193,7 @@ const resolvers = {
   },
   Mutation: {
     getWeatherData: async (root, args, { dataSources }) => {
+      if (!args.capital) throw new UserInputError("Invalid args.", args);
       return dataSources.weatherAPI.getCurrentWeather(args.capital);
     },
     sendMessage: async (root, args, context) => {

@@ -37,7 +37,7 @@ const App = ({ notification, setUser }) => {
   const check = useQuery(ME);
 
   return (
-    <div>
+    <div className="pb-5">
       <Router>
         <Header user={check.data.me} client={client} />
         {notification.text !== undefined && (
