@@ -77,7 +77,7 @@ const Weather = ({ me, client }) => {
   return (
     <>
       {page === '' && (
-        <div className="container">
+        <div className="container-fluid">
           <h2>Weather</h2>
           <InputGroup>
             <InputGroup.Prepend>
@@ -92,7 +92,7 @@ const Weather = ({ me, client }) => {
             />
           </InputGroup>
           <Row>
-            <Col sm={3} xs={5}>
+            <Col sm={3} xs={3} className="mr-3">
               <Table>
                 <thead>
                   <tr>
@@ -123,21 +123,24 @@ const Weather = ({ me, client }) => {
                 </tbody>
               </Table>
             </Col>
-            <Col>
-              {forecast !== null && (
-                <>
-                  <h3>{forecast.country}</h3>
-                  <p>
-                    <strong>Capital:</strong> {forecast.weather.location.name}
-                  </p>
-                  <Container>
+            <Col className="ml-3">
+              <Container>
+                {forecast !== null && (
+                  <>
+                    <h3>{forecast.country}</h3>
+                    <p>
+                      <strong>Capital:</strong> {forecast.weather.location.name}
+                    </p>
                     <Row>
                       {forecast.weather.forecast.forecastday.map(day => {
                         let date = new Date(day.date_epoch * 1000);
                         console.log('date_olio', date.toDateString());
                         return (
-                          <Col key={`${day.date}`} className="mb-3">
-                            <Card bg="secondary" style={{ minHeight: '300px' }}>
+                          <Col
+                            key={`${day.date}`}
+                            className="mb-3 mr-1 ml-1 pl-0 pr-0"
+                          >
+                            <Card bg="secondary" style={{ width: '10rem', height: '25rem' }}>
                               <Card.Img
                                 variant="top"
                                 src={day.day.condition.icon}
@@ -164,9 +167,9 @@ const Weather = ({ me, client }) => {
                         );
                       })}
                     </Row>
-                  </Container>
-                </>
-              )}
+                  </>
+                )}
+              </Container>
             </Col>
           </Row>
         </div>
