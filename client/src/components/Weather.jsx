@@ -77,9 +77,9 @@ const Weather = ({ me, client }) => {
   return (
     <>
       {page === '' && (
-        <div className="container-fluid">
+        <div className="container pb-4">
           <h2>Weather</h2>
-          <InputGroup>
+          <InputGroup className="mb-2">
             <InputGroup.Prepend>
               <InputGroup.Text id="basic-addon1">Filter</InputGroup.Text>
             </InputGroup.Prepend>
@@ -92,8 +92,18 @@ const Weather = ({ me, client }) => {
             />
           </InputGroup>
           <Row>
-            <Col sm={3} xs={3} className="mr-3">
-              <Table>
+            <Col
+              sm={12}
+              md={3}
+              xs={12}
+              className="mr-2 mb-3 mt-1"
+              style={{
+                overflow: 'auto',
+                fontSize: '0.75rem',
+                maxHeight: '50vh',
+              }}
+            >
+              <Table className="mt-4">
                 <thead>
                   <tr>
                     <th>Country</th>
@@ -123,10 +133,10 @@ const Weather = ({ me, client }) => {
                 </tbody>
               </Table>
             </Col>
-            <Col className="ml-3">
+            <Col style={{ textAlign: 'center' }} sm={12} xs={12} md={true}>
               <Container>
                 {forecast !== null && (
-                  <>
+                  <div className="pt-1 mt-2">
                     <h3>{forecast.country}</h3>
                     <p>
                       <strong>Capital:</strong> {forecast.weather.location.name}
@@ -138,9 +148,18 @@ const Weather = ({ me, client }) => {
                         return (
                           <Col
                             key={`${day.date}`}
-                            className="mb-3 mr-1 ml-1 pl-0 pr-0"
+                            className="mr-auto ml-auto pl-auto pr-auto mb-2 pb-auto"
+                            style={{ maxWidth: '15rem' }}
                           >
-                            <Card bg="secondary" style={{ width: '10rem', height: '25rem' }}>
+                            <Card
+                              bg="secondary"
+                              style={{
+                                width: '100%',
+                                height: '25rem',
+                                position: 'relative',
+                              }}
+                              className="text-center"
+                            >
                               <Card.Img
                                 variant="top"
                                 src={day.day.condition.icon}
@@ -151,7 +170,10 @@ const Weather = ({ me, client }) => {
                                 <Card.Title>{`${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`}</Card.Title>
                                 <Card.Text>{`${day.day.condition.text}`}</Card.Text>
                               </Card.Body>
-                              <ListGroup className="list-group-flush">
+                              <ListGroup
+                                className="list-group-flush"
+                                style={{ fontSize: '0.75rem' }}
+                              >
                                 <ListGroupItem>
                                   Max temp: {day.day.maxtemp_c}
                                 </ListGroupItem>
@@ -167,7 +189,7 @@ const Weather = ({ me, client }) => {
                         );
                       })}
                     </Row>
-                  </>
+                  </div>
                 )}
               </Container>
             </Col>

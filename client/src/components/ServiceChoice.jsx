@@ -20,7 +20,7 @@ const ServiceChoice = ({ history }) => {
   };
 
   return (
-    <Container style={{minHeight: '500px'}}>
+    <Container className="pb-3" style={{minHeight: '500px'}}>
       <Row>
         <Col md={4}>
           <Card className="text-center" bg="secondary">

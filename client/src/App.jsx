@@ -37,7 +37,7 @@ const App = ({ notification, setUser }) => {
   const check = useQuery(ME);
 
   return (
-    <div className="pb-5">
+    <div>
       <Router>
         <Header user={check.data.me} client={client} />
         {notification.text !== undefined && (
@@ -45,7 +45,7 @@ const App = ({ notification, setUser }) => {
             {notification.text}
           </Alert>
         )}
-        <div>
+        <div className="pb-3">
           <Route
             exact
             path="/user/:username"

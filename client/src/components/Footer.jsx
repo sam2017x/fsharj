@@ -3,15 +3,18 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 const Footer = props => {
   return (
-    <Container style={{ bottom: '0', position: 'absolute' }}>
-      <Row>
-        <Col></Col>
-        <Col sm={8} style={{ textAlign: 'center' }}>
-          &copy; SJ.
-        </Col>
-        <Col></Col>
-      </Row>
-    </Container>
+    <div
+      style={{
+        bottom: '0',
+        position: 'absolute',
+        width: '100%',
+        textAlign: 'center',
+        backgroundColor: 'black',
+      }}
+      className="pt-3"
+    >
+      &copy; SJ.
+    </div>
   );
 };
 
