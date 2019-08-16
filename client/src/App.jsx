@@ -1,26 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Alert } from 'react-bootstrap';
-import { gql } from 'apollo-boost';
 import PropTypes from 'prop-types';
-import { useQuery, useMutation, useApolloClient } from 'react-apollo-hooks';
-import { Subscription } from 'react-apollo';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  withRouter,
-  Redirect,
-} from 'react-router-dom';
+import { useQuery, useApolloClient } from 'react-apollo-hooks';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { setUser } from './reducers/user';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import UserPage from './components/UserPage';
 import UserSearch from './components/UserSearch';
 import ChatPage from './components/ChatPage';
-import { SIGN, ME } from './services/queries';
+import { ME } from './services/queries';
 import MainPage from './components/MainPage';
 import Weather from './components/Weather';
+import Space from './components/Space';
 import ServiceChoice from './components/ServiceChoice';
 import './css/index.css';
 
@@ -53,15 +46,20 @@ const App = ({ notification, setUser }) => {
               return <UserPage foo={match} />;
             }}
           />
-          <Route path="/s/users" render={() => <UserSearch me={check} />} />
+          <Route
+            path="/s/users"
+            render={() => <UserSearch me={check.data.me} />}
+          />
           <Route
             exact
             path="/"
             render={() => {
-              return [
-                <MainPage me={check.data.me} client={client} />,
-                <ServiceChoice />,
-              ];
+              return (
+                <>
+                  <MainPage me={check.data.me} client={client} />,
+                  <ServiceChoice />,
+                </>
+              );
             }}
           />
           <Route
@@ -75,6 +73,10 @@ const App = ({ notification, setUser }) => {
             exact
             path="/service/weather"
             render={() => <Weather me={check.data.me} client={client} />}
+          />
+          <Route
+            path="/service/space"
+            render={() => <Space me={check.data.me} />}
           />
         </div>
       </Router>

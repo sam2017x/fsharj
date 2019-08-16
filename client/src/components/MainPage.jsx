@@ -1,18 +1,10 @@
 import React, { useState } from 'react';
-import {
-  Col,
-  Row,
-  Container,
-  Spinner,
-  Table,
-  Jumbotron,
-  Carousel,
-} from 'react-bootstrap';
+import { Col, Row, Container, Jumbotron, Carousel } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import nasa from '../util/img/nasa.jpg';
 import impress from '../util/img/impress2.jpg';
 import weather from '../util/img/weather.jpg';
 import bg from '../util/img/bg.jpg';
-import d from '../util/img/d.png';
 
 const MainPage = ({ me, client }) => {
   const [index, setIndex] = useState(0);
@@ -129,43 +121,15 @@ const MainPage = ({ me, client }) => {
       </Container>
     </div>
   );
+};
 
-  /*return (
-    <div className="container mt-4">
-      <Carousel
-        activeIndex={index}
-        direction={direction}
-        onSelect={handleSelect}
-      >
-        <Carousel.Item>
-          <img className="d-block w-100" src={img} alt="First slide" />
-          <Carousel.Caption>
-            <h4>Impress others</h4>
-            <p>Send five messages. Impress. Be rated.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img className="d-block w-100" src={img} alt="Second slide" />
+MainPage.propTypes = {
+  me: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+  client: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+};
 
-          <Carousel.Caption>
-            <h4>NASA watch</h4>
-            <p>List of upcoming flights.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img className="d-block w-100" src={img} alt="Third slide" />
-
-          <Carousel.Caption>
-            <h3>Interested in weather?</h3>
-            <p>
-              Quick and precise weather information about your desired
-              destination.
-            </p>
-          </Carousel.Caption>
-        </Carousel.Item>
-      </Carousel>
-    </div>
-  );*/
+MainPage.defaultProps = {
+  me: undefined,
 };
 
 export default MainPage;

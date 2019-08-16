@@ -1,17 +1,15 @@
 import React from 'react';
-import { useMutation, useApolloClient } from 'react-apollo-hooks';
-import { Form, Button, Col, Row } from 'react-bootstrap';
+import { useMutation } from 'react-apollo-hooks';
+import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useField } from '../hooks/index';
-import { SIGN, ALL_USERS } from '../services/queries';
+import { SIGN } from '../services/queries';
 import { setNotification } from '../reducers/notification';
 
-const Signup = props => {
+const Signup = ({ toggleForm, setNotification }) => {
   const uname = useField('text');
   const pw = useField('password');
-
-  const client = useApolloClient();
 
   const signup = useMutation(SIGN);
 
@@ -25,17 +23,17 @@ const Signup = props => {
           password: pw.value,
         },
       });
-      props.toggleForm();
+      toggleForm();
 
       if (!loading) {
-        props.setNotification(
+        setNotification(
           `Signed up successfully as ${data.addUser.username}!`,
           'success',
           5
         );
       }
     } catch (error) {
-      props.setNotification(`${error.message}`, 'danger', 5);
+      setNotification(`${error.message}`, 'danger', 5);
     }
   };
 
@@ -58,7 +56,7 @@ const Signup = props => {
         <Button type="submit" size="sm" variant="success" className="mr-1">
           Sign up
         </Button>
-        <Button size="sm" variant="light" onClick={() => props.toggleForm()}>
+        <Button size="sm" variant="light" onClick={() => toggleForm()}>
           Cancel
         </Button>
       </Form>

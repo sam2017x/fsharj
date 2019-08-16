@@ -1,20 +1,21 @@
 import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
 
-const Footer = props => {
+const Footer = () => {
   return (
-    <div
-      style={{
-        bottom: '0',
-        position: 'absolute',
-        width: '100%',
-        textAlign: 'center',
-        backgroundColor: 'black',
-      }}
-      className="pt-3"
-    >
-      &copy; SJ.
-    </div>
+    <>
+      <div style={{ height: '10rem' }}></div>
+      <div
+        style={{
+          bottom: '0',
+          position: 'absolute',
+          width: '100%',
+          textAlign: 'center',
+          backgroundColor: 'black',
+        }}
+      >
+        &copy; SJ.
+      </div>
+    </>
   );
 };
 

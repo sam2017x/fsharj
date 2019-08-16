@@ -10,6 +10,14 @@ export const COUNTRIES = gql`
   }
 `;
 
+export const GET_LAUNCH_DATA = gql`
+  {
+    getLaunchData {
+      value
+    }
+  }
+`;
+
 export const GET_WEATHER_DATA = gql`
   mutation getWeatherData($capital: String) {
     getWeatherData(capital: $capital) {

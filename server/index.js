@@ -37,6 +37,7 @@ const typeDefs = gql`
     getUserInfo(username: String): User
     getChatroomInfo(id: String): Room
     getCountries: [Country]
+    getLaunchData: Launch
   }
 
   type Mutation {
@@ -49,6 +50,10 @@ const typeDefs = gql`
   }
 
   type Weather {
+    value: String
+  }
+
+  type Launch {
     value: String
   }
 
@@ -95,51 +100,10 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    getCountries: async (root, args, { dataSources }) => {
-      /*const ok = await axios.get(
-        "https://wft-geo-db.p.rapidapi.com/v1/geo/countries",
-        {
-          headers: {
-            "x-rapidapi-host": "wft-geo-db.p.rapidapi.com",
-            "x-rapidapi-key":
-              "725dc16711mshb82b0d640fd1243p1febfbjsn804312b8f0d2"
-          }
-        }
-      );
-
-      console.log("geodb", ok.data);*/
-
-      return dataSources.countriesAPI.getAllCountries();
-    },
-    /*getCountries: async (root, args, context) => {
-      if (!context.currentUser) throw new AuthenticationError("Unauthorized.");
-
-      try {
-        const response = await axios.get(
-          "https://restcountries.eu/rest/v2/all"
-        );
-
-        return response.data.map(country => {
-          return {
-            value: country
-          };
-        });
-      } catch (error) {
-        throw new ApolloError("Error while fetching countries.");
-      }
-    },
-    getWeatherData: async (root, args, context) => {
-      if (!args.city) throw new UserInputError("Invalid args.", args);
-
-      if (!context.currentUser) throw new AuthenticationError("Unauthorized.");
-
-      try {
-        const response = await axios.get(`weatherApi${args.city}`);
-        return { value: response.data };
-      } catch (error) {
-        throw new ApolloError("Error while fetching weather data.");
-      }
-    },*/
+    getLaunchData: async (root, args, { dataSources }) =>
+      dataSources.spaceAPI.getLaunches(),
+    getCountries: async (root, args, { dataSources }) =>
+      dataSources.countriesAPI.getAllCountries(),
     getChatroomInfo: async (root, args, context) => {
       if (!args.id) throw new UserInputError("Invalid args.", args);
       if (!context.currentUser) throw new AuthenticationError("Unauthorized.");
@@ -331,7 +295,8 @@ const server = new ApolloServer({
   },
   dataSources: () => ({
     countriesAPI: new dataSource.CountriesAPI(),
-    weatherAPI: new dataSource.WeatherAPI()
+    weatherAPI: new dataSource.WeatherAPI(),
+    spaceAPI: new dataSource.SpaceAPI()
   })
 });
 

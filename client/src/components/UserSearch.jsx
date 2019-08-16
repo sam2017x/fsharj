@@ -12,17 +12,14 @@ import {
   Spinner,
 } from 'react-bootstrap';
 import { Link, withRouter } from 'react-router-dom';
-import { useQuery, useMutation, useApolloClient } from 'react-apollo-hooks';
+import { useQuery, useMutation } from 'react-apollo-hooks';
 import { useField } from '../hooks/index';
 import { setNotification } from '../reducers/notification';
 import { setUser } from '../reducers/user';
 import { ALL_USERS, ADD_FRIEND, CREATE_ROOM, ME } from '../services/queries';
 
-const UserSearch = props => {
+const UserSearch = ({ history, me, setNotification }) => {
   const searchField = useField('text');
-
-  const { history } = props;
-  const { me } = props.me.data;
   const { data, loading } = useQuery(ALL_USERS);
   const addFriend = useMutation(ADD_FRIEND);
   const createRoom = useMutation(CREATE_ROOM);
@@ -46,10 +43,10 @@ const UserSearch = props => {
         refetchQueries: [{ query: ALL_USERS }, { query: ME }],
       });
 
-      props.setNotification(`Chat started.`, 'success', 5);
+      setNotification(`Chat started.`, 'success', 5);
       history.push(`/chat/${room.data.createRoom.id}`);
     } catch (error) {
-      props.setNotification(`${error.message}`, 'danger', 5);
+      setNotification(`${error.message}`, 'danger', 5);
     }
   };
 
@@ -62,12 +59,10 @@ const UserSearch = props => {
       });
 
       if (!afterAdd.loading) {
-        //props.setUser(afterAdd.addFriend.data);
-        props.setNotification(`Friend added!`, 'success', 5);
+        setNotification(`Friend added!`, 'success', 5);
       }
     } catch (error) {
-      console.log(error);
-      props.setNotification(`${error.message}`, 'danger', 5);
+      setNotification(`${error.message}`, 'danger', 5);
     }
   };
 
@@ -229,6 +224,7 @@ UserSearch.propTypes = {
   setNotification: PropTypes.func.isRequired,
   setUser: PropTypes.func.isRequired,
   me: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired,
+  history: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
 };
 
 const mapStateToProps = state => {

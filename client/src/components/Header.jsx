@@ -1,9 +1,7 @@
 import React from 'react';
 import { Nav, Navbar, Button, NavDropdown } from 'react-bootstrap';
-import { useApolloClient } from 'react-apollo-hooks';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { ME } from '../services/queries';
 import PropTypes from 'prop-types';
 import { setUser } from '../reducers/user';
 import Togglable from './Togglable';
@@ -14,8 +12,6 @@ const Header = ({ history, user, setUser, client }) => {
   const styles = {
     color: 'white',
   };
-
-  console.log('HEADER USER', user);
 
   // Ref toggle, for reference.
   const formToggle = React.createRef();
@@ -103,9 +99,13 @@ Header.propTypes = {
     PropTypes.object,
     PropTypes.string,
     PropTypes.string,
-  ]).isRequired,
+  ]),
   history: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   setUser: PropTypes.func.isRequired,
+};
+
+Header.defaultProps = {
+  user: undefined,
 };
 
 export default withRouter(

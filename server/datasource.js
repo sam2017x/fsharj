@@ -43,7 +43,21 @@ class WeatherAPI extends RESTDataSource {
   }
 }
 
+class SpaceAPI extends RESTDataSource {
+  constructor() {
+    super();
+    this.baseURL = "https://api.spacexdata.com/v3";
+  }
+
+  async getLaunches() {
+    const resp = await this.get("launches");
+
+    return { value: JSON.stringify(resp) };
+  }
+}
+
 module.exports = {
   CountriesAPI,
-  WeatherAPI
+  WeatherAPI,
+  SpaceAPI
 };

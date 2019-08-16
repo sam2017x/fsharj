@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { useQuery, useMutation } from 'react-apollo-hooks';
@@ -12,7 +12,7 @@ import {
 } from 'react-bootstrap';
 import { setNotification } from '../reducers/notification';
 
-import { GET_CHATROOM_INFO, SEND_MSG, ME } from '../services/queries';
+import { GET_CHATROOM_INFO, SEND_MSG } from '../services/queries';
 
 const ChatPage = ({ setNotification, match, me, client }) => {
   const [msg, setMsg] = useState('');
@@ -74,7 +74,7 @@ const ChatPage = ({ setNotification, match, me, client }) => {
   return (
     <>
       <Container>
-      <h3>Chatchatchat</h3>
+        <h3>Chatchatchat</h3>
         <Row>
           <Col>
             {!loading &&
