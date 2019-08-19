@@ -98,7 +98,7 @@ const MainPage = ({ me, client }) => {
                   style={{ objectFit: 'cover', maxHeight: '295px' }}
                 />
                 <Carousel.Caption>
-                  <h3>NASA watch</h3>
+                  <h3>SPACE X -missions</h3>
                   <p>List of upcoming flights.</p>
                 </Carousel.Caption>
               </Carousel.Item>

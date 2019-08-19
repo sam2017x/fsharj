@@ -21,17 +21,13 @@ const ServiceChoice = ({ history }) => {
   };
 
   return (
-    <Container className="pb-3 mb-3" style={{ minHeight: '500px' }}>
+    <Container className="pb-3 mb-3">
       <Row>
         <Col md={4}>
           <Card className="text-center" bg="secondary">
-            <Card.Img variant="top" src="holder.js/100px180" />
             <Card.Body>
               <Card.Title>Impress</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </Card.Text>
+              <Card.Text>Chat app.</Card.Text>
               <Button variant="primary" onClick={() => handleClick('impress')}>
                 Go somewhere
               </Button>
@@ -40,12 +36,10 @@ const ServiceChoice = ({ history }) => {
         </Col>
         <Col md={4}>
           <Card bg="secondary" className="text-center">
-            <Card.Img variant="top" src="holder.js/100px180" />
             <Card.Body>
               <Card.Title>Weather</Card.Title>
               <Card.Text>
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
+                Pick a country and see how's the weather in the capital.
               </Card.Text>
               <Button variant="primary" onClick={() => handleClick('weather')}>
                 Go somewhere
@@ -55,13 +49,9 @@ const ServiceChoice = ({ history }) => {
         </Col>
         <Col md={4}>
           <Card bg="secondary" className="text-center">
-            <Card.Img variant="top" src="holder.js/100px180" />
             <Card.Body>
-              <Card.Title>NASA - launches</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </Card.Text>
+              <Card.Title>SPACE X -missions</Card.Title>
+              <Card.Text>Check out the upcoming Space X missions.</Card.Text>
               <Button variant="primary" onClick={() => handleClick('space')}>
                 Go somewhere
               </Button>
