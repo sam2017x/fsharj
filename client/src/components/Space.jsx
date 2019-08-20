@@ -141,10 +141,9 @@ const Space = ({ me }) => {
                           md={{ order: 2 }}
                           className="pb-3 text-center"
                         >
-                          <Image
+                          <img
                             src={rocket}
                             alt="rocket"
-                            rounded
                             style={{ height: '10rem' }}
                           />
                         </Col>

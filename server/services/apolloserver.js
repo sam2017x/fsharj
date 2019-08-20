@@ -18,6 +18,11 @@ const Message = require("../models/message");
 const JWT_SECRET = "NEED_HERE_A_SECRET_KEY";
 
 const resolvers = {
+  Subscription: {
+    newMessage: {
+      subscribe: () => pubsub.asyncIterator(["CHAT_MESSAGE"])
+    }
+  },
   Query: {
     getLaunchData: async (root, args, { dataSources }) =>
       dataSources.spaceAPI.getLaunches(),

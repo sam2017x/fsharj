@@ -19,6 +19,10 @@ module.exports = gql`
     getWeatherData(capital: String): Weather
   }
 
+  type Subscription {
+    newMessage: Message!
+  }
+
   type Weather {
     value: String
   }
