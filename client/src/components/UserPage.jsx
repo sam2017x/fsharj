@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { useQuery } from 'react-apollo-hooks';
 import { Container, Col, Row, Spinner, Table } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
@@ -87,10 +86,8 @@ const UserPage = ({ foo }) => {
   );
 };
 
-const mapDispatchToProps = {};
-
 UserPage.propTypes = {
   foo: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
 };
 
-export default withRouter(connect(mapDispatchToProps)(UserPage));
+export default withRouter(UserPage);
