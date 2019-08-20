@@ -10,8 +10,10 @@ import {
   Row,
   Col,
   Spinner,
+  Image,
 } from 'react-bootstrap';
 import { GET_LAUNCH_DATA } from '../services/queries';
+import rocket from '../util/img/rocket.png';
 
 const Space = ({ me }) => {
   const [t, setT] = useState({});
@@ -102,29 +104,52 @@ const Space = ({ me }) => {
                 </Card.Header>
                 <Accordion.Collapse eventKey={`${i}`}>
                   <Card.Body>
-                    <h4>Mission details</h4>
-                    <dl>
-                      <dt>Description</dt>
-                      {launch.details ? (
-                        <dd>{launch.details}</dd>
-                      ) : (
-                        <dd>TBA</dd>
-                      )}
-                      <dt>Rocket</dt>
-                      {launch.rocket.rocket_id ? (
-                        <dd>{launch.rocket.rocket_name}</dd>
-                      ) : (
-                        <dd>TBA</dd>
-                      )}
-                      <dt>Launch site</dt>
-                      {launch.launch_site.site_id ? (
-                        <dd>{launch.launch_site.site_name_long}</dd>
-                      ) : (
-                        <dd>TBA</dd>
-                      )}
-                      <dt>Countdown</dt>
-                      <dd>{t.time}</dd>
-                    </dl>
+                    <h4 style={{ textAlign: 'center' }}>Mission details</h4>
+                    <Container className="pt-3">
+                      <Row>
+                        <Col
+                          sm={{ span: 12, order: 2 }}
+                          md={{ order: 1, span: 8 }}
+                          xs={{ span: 12, order: 2 }}
+                        >
+                          <dl>
+                            <dt>Description</dt>
+                            {launch.details ? (
+                              <dd>{launch.details}</dd>
+                            ) : (
+                              <dd>TBA</dd>
+                            )}
+                            <dt>Rocket</dt>
+                            {launch.rocket.rocket_id ? (
+                              <dd>{launch.rocket.rocket_name}</dd>
+                            ) : (
+                              <dd>TBA</dd>
+                            )}
+                            <dt>Launch site</dt>
+                            {launch.launch_site.site_id ? (
+                              <dd>{launch.launch_site.site_name_long}</dd>
+                            ) : (
+                              <dd>TBA</dd>
+                            )}
+                            <dt>Countdown</dt>
+                            <dd>{t.time}</dd>
+                          </dl>
+                        </Col>
+                        <Col
+                          xs={{ order: 1, span: 12 }}
+                          sm={{ order: 1, span: 12 }}
+                          md={{ order: 2 }}
+                          className="pb-3 text-center"
+                        >
+                          <Image
+                            src={rocket}
+                            alt="rocket"
+                            rounded
+                            style={{ height: '10rem' }}
+                          />
+                        </Col>
+                      </Row>
+                    </Container>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
