@@ -25,17 +25,8 @@ const Space = ({ me }) => {
 
   useEffect(() => window.scrollTo(0, 0), []);
 
-  const getTime = (launchDate, missionName) => {
-    /*if (launchDate - new Date().getTime() / 1000 < 0) {
-      setT({
-        time: 'Expired',
-        mission: missionName,
-      });
-      return null;
-    }*/
-    console.log('stuff', { date: launchDate, name: missionName });
-    if (missionName === t.mission) {
-      console.log('here');
+  const getTime = (launchDate, missionName, element) => {
+    if (missionName === t.missionName) {
       clearInterval(intervalId);
       setT({});
     } else {
@@ -54,18 +45,23 @@ const Space = ({ me }) => {
         if (distance > 0) {
           setT({
             time: `${days}d : ${hours}h : ${minutes}m : ${seconds}s`,
-            mission: missionName,
+            missionName,
+            element,
+            launchDate,
           });
         } else {
           setT({
             time: 'Expired',
-            mission: missionName,
+            missionName,
+            element,
+            launchDate,
           });
         }
       }, 1000);
 
       setIntervalId(interval);
     }
+
     return null;
   };
 
@@ -91,9 +87,20 @@ const Space = ({ me }) => {
     return missions.sort((a, b) => b.launch_date_unix - a.launch_date_unix);
   };
 
-  if (!me) return null;
+  useEffect(() => {
+    if (!loading) {
+      const openCard = filterMissions();
+      if (openCard[t.element] !== undefined) {
+        getTime(
+          openCard[t.element].launch_date_unix,
+          openCard[t.element].mission_name,
+          t.element
+        );
+      }
+    }
+  }, [filter]);
 
-  if (!loading) console.log(JSON.parse(getLaunchData.value));
+  if (!me) return null;
 
   if (loading) {
     return (
@@ -175,7 +182,7 @@ const Space = ({ me }) => {
                 as={Card.Header}
                 eventKey={`${i}`}
                 onClick={() =>
-                  getTime(launch.launch_date_unix, launch.mission_name)
+                  getTime(launch.launch_date_unix, launch.mission_name, i)
                 }
               >
                 {launch.mission_name}{' '}
