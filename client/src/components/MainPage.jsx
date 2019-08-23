@@ -15,6 +15,23 @@ const MainPage = ({ me, client }) => {
     setDirection(e.direction);
   };
 
+  /*
+
+  Image spreading example:
+
+  <div
+      style={{
+        backgroundImage: `url(${bg})`,
+        backgroundPosition: 'center',
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        minHeight: '100vh',
+      }}
+      className="mb-4"
+    >
+
+    */
+
   if (!bg) return <div>Loading....</div>;
 
   if (!me) {

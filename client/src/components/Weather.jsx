@@ -147,7 +147,7 @@ const Weather = ({ me, client }) => {
                         xs={12}
                         key={`${day.date}`}
                         className="mr-auto ml-auto pl-auto pr-auto mb-2 pb-auto"
-                        style={{maxWidth: '20rem'}}
+                        style={{ maxWidth: '20rem' }}
                       >
                         <Card
                           bg="secondary"
