@@ -31,30 +31,14 @@ const MainPage = ({ me, client }) => {
   }
 
   return (
-    <div
-      style={{
-        backgroundImage: `url(${bg})`,
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        minHeight: '100vh',
-      }}
-      className="mb-4"
-    >
-      <Container style={{ color: 'white' }} className="mt-0 pb-4">
-        <Row>
-          <Col>
-            <h1>
-              <u>ALLROUNDER *</u>
-            </h1>
-          </Col>
-        </Row>
+    <div className="mb-4">
+      <Container className="mt-0 pb-4">
         <Row className="mt-4">
           <Col>
             <h4>
               Ever wanted one place with all the necessary tools to socialize,
-              check the weather and see the upcoming NASA spaceflights? Look no
-              more.
+              check the weather and get knowledge about SpaceX missions? Look no
+              further!
             </h4>
           </Col>
         </Row>
@@ -66,10 +50,7 @@ const MainPage = ({ me, client }) => {
               <li>Upcoming NASA flights in order.</li>
             </ul>
           </Col>
-        </Row>
-        <Row className="mt-4">
-          <Col></Col>
-          <Col sm={8}>
+          <Col md={12} lg={6}>
             <Carousel
               activeIndex={index}
               direction={direction}
@@ -116,7 +97,6 @@ const MainPage = ({ me, client }) => {
               </Carousel.Item>
             </Carousel>
           </Col>
-          <Col></Col>
         </Row>
       </Container>
     </div>

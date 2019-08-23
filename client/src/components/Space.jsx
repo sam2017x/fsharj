@@ -104,7 +104,7 @@ const Space = ({ me }) => {
 
   if (loading) {
     return (
-      <Container>
+      <Container style={{ minHeight: '100vh' }}>
         <Row>
           <Col
             style={{
@@ -122,7 +122,7 @@ const Space = ({ me }) => {
   }
 
   return (
-    <div className="container pt-4 mt-4">
+    <div className="container pt-4 mt-4" style={{ minHeight: '100vh' }}>
       <h2 className="pb-3 mb-3" style={{ textAlign: 'center' }}>
         Space X Missions
       </h2>

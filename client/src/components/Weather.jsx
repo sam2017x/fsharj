@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Container,
@@ -21,6 +21,8 @@ const Weather = ({ me, client }) => {
   const [forecast, setForecast] = useState(null);
   const { data, loading, error } = useQuery(COUNTRIES);
   const weatherData = useMutation(GET_WEATHER_DATA);
+
+  useEffect(() => window.scrollTo(0, 0), []);
 
   const getCountryData = async (capital, country) => {
     try {
@@ -74,9 +76,9 @@ const Weather = ({ me, client }) => {
 
   return (
     <>
-      <div className="container pb-4">
+      <div className="container-fluid pb-4" style={{ minHeight: '100vh' }}>
         <h2>Weather</h2>
-        <InputGroup className="mb-2">
+        <InputGroup style={{ paddingBottom: '25px' }}>
           <InputGroup.Prepend>
             <InputGroup.Text id="basic-addon1">Filter</InputGroup.Text>
           </InputGroup.Prepend>
@@ -90,17 +92,16 @@ const Weather = ({ me, client }) => {
         </InputGroup>
         <Row>
           <Col
-            sm={12}
             md={3}
             xs={12}
             className="mr-2 mb-3 mt-1"
             style={{
               overflow: 'auto',
               fontSize: '0.75rem',
-              maxHeight: '50vh',
+              maxHeight: '40vh',
             }}
           >
-            <Table className="mt-4">
+            <Table className="mt-4" bordered striped>
               <thead>
                 <tr>
                   <th>Country</th>
@@ -129,65 +130,65 @@ const Weather = ({ me, client }) => {
               </tbody>
             </Table>
           </Col>
-          <Col style={{ textAlign: 'center' }} sm={12} xs={12}>
-            <Container>
-              {forecast !== null && (
-                <div className="pt-1 mt-2">
-                  <h3>{forecast.country}</h3>
-                  <p>
-                    <strong>Capital:</strong> {forecast.weather.location.name}
-                  </p>
-                  <Row>
-                    {forecast.weather.forecast.forecastday.map(day => {
-                      let date = new Date(day.date_epoch * 1000);
-                      console.log('date_olio', date.toDateString());
-                      return (
-                        <Col
-                          key={`${day.date}`}
-                          className="mr-auto ml-auto pl-auto pr-auto mb-2 pb-auto"
-                          style={{ maxWidth: '15rem' }}
+          <Col style={{ textAlign: 'center' }} sm={12} xs={12} md={8}>
+            {forecast !== null && (
+              <div className="pt-1 mt-2" style={{ width: '100%' }}>
+                <h3>{forecast.country}</h3>
+                <p>
+                  <strong>Capital:</strong> {forecast.weather.location.name}
+                </p>
+                <Row>
+                  {forecast.weather.forecast.forecastday.map(day => {
+                    let date = new Date(day.date_epoch * 1000);
+                    console.log('date_olio', date.toDateString());
+                    return (
+                      <Col
+                        sm={3}
+                        xs={12}
+                        key={`${day.date}`}
+                        className="mr-auto ml-auto pl-auto pr-auto mb-2 pb-auto"
+                        style={{maxWidth: '20rem'}}
+                      >
+                        <Card
+                          bg="secondary"
+                          style={{
+                            width: '100%',
+                            height: '25rem',
+                            position: 'relative',
+                          }}
+                          className="text-center"
                         >
-                          <Card
-                            bg="secondary"
-                            style={{
-                              width: '100%',
-                              height: '25rem',
-                              position: 'relative',
-                            }}
-                            className="text-center"
+                          <Card.Img
+                            variant="top"
+                            src={day.day.condition.icon}
+                            alt={day.day.condition.text}
+                            title={day.day.condition.text}
+                          />
+                          <Card.Body>
+                            <Card.Title>{`${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`}</Card.Title>
+                            <Card.Text>{`${day.day.condition.text}`}</Card.Text>
+                          </Card.Body>
+                          <ListGroup
+                            className="list-group-flush"
+                            style={{ fontSize: '0.75rem' }}
                           >
-                            <Card.Img
-                              variant="top"
-                              src={day.day.condition.icon}
-                              alt={day.day.condition.text}
-                              title={day.day.condition.text}
-                            />
-                            <Card.Body>
-                              <Card.Title>{`${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`}</Card.Title>
-                              <Card.Text>{`${day.day.condition.text}`}</Card.Text>
-                            </Card.Body>
-                            <ListGroup
-                              className="list-group-flush"
-                              style={{ fontSize: '0.75rem' }}
-                            >
-                              <ListGroupItem>
-                                Max temp: {day.day.maxtemp_c}
-                              </ListGroupItem>
-                              <ListGroupItem>
-                                Min temp: {day.day.mintemp_c}
-                              </ListGroupItem>
-                              <ListGroupItem>
-                                Avg temp: {day.day.avgtemp_c}
-                              </ListGroupItem>
-                            </ListGroup>
-                          </Card>
-                        </Col>
-                      );
-                    })}
-                  </Row>
-                </div>
-              )}
-            </Container>
+                            <ListGroupItem>
+                              Max temp: {day.day.maxtemp_c}
+                            </ListGroupItem>
+                            <ListGroupItem>
+                              Min temp: {day.day.mintemp_c}
+                            </ListGroupItem>
+                            <ListGroupItem>
+                              Avg temp: {day.day.avgtemp_c}
+                            </ListGroupItem>
+                          </ListGroup>
+                        </Card>
+                      </Col>
+                    );
+                  })}
+                </Row>
+              </div>
+            )}
           </Col>
         </Row>
       </div>
