@@ -76,7 +76,10 @@ const Weather = ({ me, client }) => {
 
   return (
     <>
-      <div className="container-fluid pb-4" style={{ minHeight: '100vh' }}>
+      <div
+        className="container-fluid p-4 mt-4 mb-4"
+        style={{ minHeight: '100vh'}}
+      >
         <h2>Weather</h2>
         <InputGroup style={{ paddingBottom: '25px' }}>
           <InputGroup.Prepend>
@@ -94,14 +97,14 @@ const Weather = ({ me, client }) => {
           <Col
             md={3}
             xs={12}
-            className="mr-2 mb-3 mt-1"
+            className="mr-2 mb-0 mt-1"
             style={{
               overflow: 'auto',
               fontSize: '0.75rem',
               maxHeight: '40vh',
             }}
           >
-            <Table className="mt-4" bordered striped>
+            <Table className="mt-4" striped>
               <thead>
                 <tr>
                   <th>Country</th>
@@ -132,12 +135,15 @@ const Weather = ({ me, client }) => {
           </Col>
           <Col style={{ textAlign: 'center' }} sm={12} xs={12} md={8}>
             {forecast !== null && (
-              <div className="pt-1 mt-2" style={{ width: '100%' }}>
-                <h3>{forecast.country}</h3>
+              <div
+                className="pt-2 mt-0"
+                style={{ width: '100%', border: '1px black solid' }}
+              >
+                <h3 className="mt-3">{forecast.country}</h3>
                 <p>
                   <strong>Capital:</strong> {forecast.weather.location.name}
                 </p>
-                <Row>
+                <Row className="pb-3">
                   {forecast.weather.forecast.forecastday.map(day => {
                     let date = new Date(day.date_epoch * 1000);
                     console.log('date_olio', date.toDateString());

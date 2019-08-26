@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Col, Row, Container, Jumbotron, Carousel } from 'react-bootstrap';
+import {
+  Col,
+  Row,
+  Container,
+  Jumbotron,
+  Carousel,
+  Image,
+} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import nasa from '../util/img/nasa.jpg';
 import impress from '../util/img/impress2.jpg';
@@ -49,22 +56,27 @@ const MainPage = ({ me, client }) => {
 
   return (
     <div className="mb-4">
-      <Container className="mt-0 pb-4">
-        <Row className="mt-4">
+      <Container className="mt-3 p-4 fluid" style={{ marginBottom: '80px' }}>
+        <Row>
+          <Col className="p-3">
+            <h2>App Mashup!</h2>
+          </Col>
+        </Row>
+        <Row>
           <Col>
-            <h4>
+            <h5>
               Ever wanted one place with all the necessary tools to socialize,
-              check the weather and get knowledge about SpaceX missions? Look no
-              further!
-            </h4>
+              be informed about weather and get knowledge about SpaceX missions?
+              Look no further!
+            </h5>
           </Col>
         </Row>
         <Row className="mt-4">
           <Col>
             <ul>
-              <li>Impress others and socialize using the FiveMSG tool!</li>
-              <li>Check the weatherforecast. World wide.</li>
-              <li>Upcoming NASA flights in order.</li>
+              <li>Impress others and socialize using the chat app.</li>
+              <li>Check out the weather forecast. World wide.</li>
+              <li>Space X -missions. The past and the future.</li>
             </ul>
           </Col>
           <Col md={12} lg={6}>
@@ -74,7 +86,7 @@ const MainPage = ({ me, client }) => {
               onSelect={handleSelect}
             >
               <Carousel.Item>
-                <img
+                <Image
                   className="d-block w-100"
                   src={impress}
                   alt="First slide"
@@ -89,7 +101,7 @@ const MainPage = ({ me, client }) => {
                 </Carousel.Caption>
               </Carousel.Item>
               <Carousel.Item>
-                <img
+                <Image
                   className="d-block w-100"
                   src={nasa}
                   alt="Second slide"
@@ -101,7 +113,7 @@ const MainPage = ({ me, client }) => {
                 </Carousel.Caption>
               </Carousel.Item>
               <Carousel.Item>
-                <img
+                <Image
                   className="d-block w-100"
                   src={weather}
                   alt="Third slide"

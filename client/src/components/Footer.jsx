@@ -19,7 +19,7 @@ const Footer = () => {
       className="text-center"
     >
       <p>
-        <strong>Application Mash-Up</strong>
+        <strong>Application Mashup</strong>
       </p>
       <p>
         <Image

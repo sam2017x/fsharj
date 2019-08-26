@@ -38,7 +38,7 @@ const App = ({ notification, setUser }) => {
             {notification.text}
           </Alert>
         )}
-        <div className="pb-3">
+        <div>
           <Route
             exact
             path="/user/:username"
@@ -56,8 +56,8 @@ const App = ({ notification, setUser }) => {
             render={() => {
               return (
                 <>
-                  <MainPage me={check.data.me} client={client} />,
-                  <ServiceChoice />,
+                  <MainPage me={check.data.me} client={client} />
+                  <ServiceChoice />
                 </>
               );
             }}

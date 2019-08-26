@@ -21,39 +21,50 @@ const ServiceChoice = ({ history }) => {
   };
 
   return (
-    <Container className="pb-3 mb-3">
+    <Container className="p-4 fluid" style={{ marginBottom: '80px' }}>
       <Row>
-        <Col md={4}>
-          <Card className="text-center" bg="secondary">
+        <Col md={4} xs={12} className="d-flex align-items-stretch mb-3">
+          <Card bg="success" style={{ width: '100%', position: 'relative' }}>
+            <Card.Header>Chat Application</Card.Header>
             <Card.Body>
-              <Card.Title>Impress</Card.Title>
-              <Card.Text>Chat app.</Card.Text>
+              <Card.Title>Socialize</Card.Title>
+              <Card.Text>{`Chat with people on your friendlist.\nYou can add 1 new friend per day.\nFor fun.`}</Card.Text>
               <Button variant="primary" onClick={() => handleClick('impress')}>
-                Go somewhere
+                Chat App
               </Button>
             </Card.Body>
           </Card>
         </Col>
-        <Col md={4}>
-          <Card bg="secondary" className="text-center">
+        <Col md={4} xs={12} className="d-flex align-items-stretch mb-3">
+          <Card
+            bg="info"
+            text="white"
+            style={{ width: '100%', position: 'relative' }}
+          >
+            <Card.Header>Weather Application</Card.Header>
             <Card.Body>
               <Card.Title>Weather</Card.Title>
               <Card.Text>
-                Pick a country and see how's the weather in the capital.
+                Choose the desired country. The app shows the weather forecast
+                of the country&apos;s capital city.
               </Card.Text>
               <Button variant="primary" onClick={() => handleClick('weather')}>
-                Go somewhere
+                Weather App
               </Button>
             </Card.Body>
           </Card>
         </Col>
-        <Col md={4}>
-          <Card bg="secondary" className="text-center">
+        <Col md={4} xs={12} className="d-flex align-items-stretch mb-3">
+          <Card bg="secondary" style={{ width: '100%', position: 'relative' }}>
+            <Card.Header>SpaceX API</Card.Header>
             <Card.Body>
               <Card.Title>SPACE X -missions</Card.Title>
-              <Card.Text>Check out the upcoming Space X missions.</Card.Text>
+              <Card.Text>
+                Check out all the SpaceX -missions that have happened or will
+                happen.
+              </Card.Text>
               <Button variant="primary" onClick={() => handleClick('space')}>
-                Go somewhere
+                SpaceX API
               </Button>
             </Card.Body>
           </Card>
