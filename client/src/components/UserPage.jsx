@@ -1,13 +1,13 @@
 import React from 'react';
 import { useQuery, useMutation } from 'react-apollo-hooks';
-import { Container, Col, Row, Spinner, Table } from 'react-bootstrap';
+import { Container, Col, Row, Spinner, Table, Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setNotification } from '../reducers/notification';
 import { GET_USER_INFO, ALL_USERS, CREATE_ROOM } from '../services/queries';
 
-const UserPage = ({ foo, setNotification, history }) => {
+const UserPage = ({ foo, setNotification, history, me }) => {
   const { data, loading, error } = useQuery(GET_USER_INFO, {
     variables: {
       username: foo.params.username,
@@ -41,8 +41,6 @@ const UserPage = ({ foo, setNotification, history }) => {
       </h2>
     );
 
-  if (!loading) console.log(data);
-
   if (loading)
     return (
       <Container>
@@ -61,7 +59,10 @@ const UserPage = ({ foo, setNotification, history }) => {
       </Container>
     );
 
-  if (!loading) console.log(data);
+  if (!loading) {
+    console.log('me', me);
+    console.log('data', data);
+  }
 
   return (
     <div style={{ minHeight: '100vh' }}>
@@ -79,32 +80,41 @@ const UserPage = ({ foo, setNotification, history }) => {
             <h5>Level: {data.getUserInfo.level || 'beginner'}</h5>
           </Col>
         </Row>
-        <Row>
-          <Col className="mt-4">
-            <h5>Friends: </h5>
-            <Table size="sm">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Username</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.getUserInfo.friends &&
-                  data.getUserInfo.friends.map((friend, i) => {
-                    return (
-                      <>
-                        <tr>
-                          <td>{i + 1}</td>
-                          <td>{friend.username}</td>
-                        </tr>
-                      </>
-                    );
-                  })}
-              </tbody>
-            </Table>
-          </Col>
-        </Row>
+        {me.username === data.getUserInfo.username && (
+          <Row>
+            <Col className="mt-4">
+              <h5>Friends: </h5>
+              <Table size="sm">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Username</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.getUserInfo.friends &&
+                    data.getUserInfo.friends.map((friend, i) => {
+                      return (
+                        <>
+                          <tr>
+                            <td>{i + 1}</td>
+                            <td>{friend.username}</td>
+                            <td>
+                              <Button
+                                onClick={() =>
+                                  handleChat(me.id, data.getUserInfo.id)
+                                }
+                              />
+                            </td>
+                          </tr>
+                        </>
+                      );
+                    })}
+                </tbody>
+              </Table>
+            </Col>
+          </Row>
+        )}
       </Container>
     </div>
   );
@@ -114,6 +124,7 @@ UserPage.propTypes = {
   foo: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   setNotification: PropTypes.func.isRequired,
   history: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+  me: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
 };
 
 const mapDispatchToProps = {

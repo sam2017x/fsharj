@@ -44,7 +44,7 @@ const App = ({ notification, setUser }) => {
             exact
             path="/user/:username"
             render={({ match }) => {
-              return <UserPage foo={match} />;
+              return <UserPage foo={match} me={check.data.me} />;
             }}
           />
           <Route

@@ -53,13 +53,15 @@ const ChatPage = ({ setNotification, match, me, client }) => {
           });
         }
         console.log('AFTER CACHE MOD', dataInStore.getChatroomInfo);
-        setNotification(`Message sent!`, 'success', 2);
+        //setNotification(`Message sent!`, 'success', 2);
       }
     } catch (error) {
       console.log(error);
-      setNotification(`${error.message}`, 'danger', 5);
+      //setNotification(`${error.message}`, 'danger', 5);
     }
   };
+
+  if (!me) return null;
 
   if (loading) return <div>Loading...</div>;
 
@@ -72,26 +74,33 @@ const ChatPage = ({ setNotification, match, me, client }) => {
   console.log('MEEEE', me);
 
   return (
-    <>
+    <div style={{ minHeight: '100vh' }}>
       <Container>
         <h3>Chatchatchat</h3>
-        <Row>
-          <Col>
-            {!loading &&
-              data.getChatroomInfo.messages.map(msg =>
-                me.id === msg.sender.id ? (
-                  <div>{`Me: ${msg.message} //// ${new Date(+msg.date)}`}</div>
-                ) : (
-                  <div>{`${msg.sender.username}: ${msg.message} /// ${new Date(
-                    +msg.date
-                  )}`}</div>
-                )
-              )}
-          </Col>
+        <Row
+          className="d-flex"
+          style={{
+            height: '20rem',
+            overflow: 'scroll',
+            position: 'relative',
+            alignItems: 'flex-end',
+            justifyContent: 'center',
+          }}
+        >
+          {!loading &&
+            data.getChatroomInfo.messages.map(msg =>
+              me.id === msg.sender.id ? (
+                <Col sm={12}>{`Me: ${msg.message} //// ${new Date(
+                  +msg.date
+                )}`}</Col>
+              ) : (
+                <Col sm={12}>{`${msg.sender.username}: ${
+                  msg.message
+                } /// ${new Date(+msg.date)}`}</Col>
+              )
+            )}
         </Row>
-      </Container>
-      <div className="container">
-        <InputGroup>
+        <InputGroup className="sticky-bottom">
           <InputGroup.Prepend>
             <Button onClick={() => handleMessage()}>Send:</Button>
           </InputGroup.Prepend>
@@ -102,8 +111,8 @@ const ChatPage = ({ setNotification, match, me, client }) => {
             aria-label="With textarea"
           />
         </InputGroup>
-      </div>
-    </>
+      </Container>
+    </div>
   );
 };
 
