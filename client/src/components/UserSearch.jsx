@@ -40,7 +40,7 @@ const UserSearch = ({ history, me, setNotification }) => {
           receiverId,
           title: 'awdad',
         },
-        refetchQueries: [{ query: ALL_USERS }, { query: ME }],
+        refetchQueries: [{ query: ALL_USERS }],
       });
 
       setNotification(`Chat started.`, 'success', 5);

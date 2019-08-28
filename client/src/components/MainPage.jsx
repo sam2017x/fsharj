@@ -55,10 +55,13 @@ const MainPage = ({ me, client }) => {
   }
 
   return (
-    <div className="mb-4">
-      <Container className="mt-3 p-4 fluid" style={{ marginBottom: '80px' }}>
+    <div>
+      <Container className="mt-3 p-4 fluid" style={{ marginBottom: '50px' }}>
         <Row>
-          <Col className="p-3">
+          <Col
+            className="p-3"
+            style={{ marginBottom: '40px', borderBottom: '1px solid #bcceeb' }}
+          >
             <h2>App Mashup!</h2>
           </Col>
         </Row>
@@ -72,14 +75,17 @@ const MainPage = ({ me, client }) => {
           </Col>
         </Row>
         <Row className="mt-4">
-          <Col>
+          <Col
+            className="d-flex mb-3"
+            style={{ alignItems: 'center', justifyContent: 'center' }}
+          >
             <ul>
-              <li>Impress others and socialize using the chat app.</li>
+              <li>Socialize using the chat app.</li>
               <li>Check out the weather forecast. World wide.</li>
               <li>Space X -missions. The past and the future.</li>
             </ul>
           </Col>
-          <Col md={12} lg={6}>
+          <Col lg={6}>
             <Carousel
               activeIndex={index}
               direction={direction}
@@ -92,11 +98,11 @@ const MainPage = ({ me, client }) => {
                   alt="First slide"
                   style={{
                     objectFit: 'cover',
-                    maxHeight: '295px',
+                    height: '15rem',
                   }}
                 />
                 <Carousel.Caption>
-                  <h3>Impress others</h3>
+                  <h3>Chat like no tomorrow.</h3>
                   <p>You are given five chances to socialize, good luck!</p>
                 </Carousel.Caption>
               </Carousel.Item>
@@ -105,7 +111,7 @@ const MainPage = ({ me, client }) => {
                   className="d-block w-100"
                   src={nasa}
                   alt="Second slide"
-                  style={{ objectFit: 'cover', maxHeight: '295px' }}
+                  style={{ objectFit: 'cover', height: '15rem' }}
                 />
                 <Carousel.Caption>
                   <h3>SPACE X -missions</h3>
@@ -117,7 +123,7 @@ const MainPage = ({ me, client }) => {
                   className="d-block w-100"
                   src={weather}
                   alt="Third slide"
-                  style={{ objectFit: 'cover', maxHeight: '295px' }}
+                  style={{ objectFit: 'cover', height: '15rem' }}
                 />
                 <Carousel.Caption>
                   <h3>Weather forecast</h3>

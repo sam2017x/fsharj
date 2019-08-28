@@ -49,12 +49,14 @@ const Weather = ({ me, client }) => {
 
   if (loading)
     return (
-      <Container>
+      <Container style={{ minHeight: '100vh' }}>
         <Row>
           <Col
+            className="d-flex"
             style={{
-              textAlign: 'center',
-              marginTop: '20rem',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100vh',
             }}
           >
             <Spinner animation="border" role="status">
@@ -78,7 +80,7 @@ const Weather = ({ me, client }) => {
     <>
       <div
         className="container-fluid p-4 mt-4 mb-4"
-        style={{ minHeight: '100vh'}}
+        style={{ minHeight: '100vh' }}
       >
         <h2>Weather</h2>
         <InputGroup style={{ paddingBottom: '25px' }}>

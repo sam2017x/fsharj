@@ -1,16 +1,38 @@
 import React from 'react';
-import { useQuery } from 'react-apollo-hooks';
+import { useQuery, useMutation } from 'react-apollo-hooks';
 import { Container, Col, Row, Spinner, Table } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { GET_USER_INFO } from '../services/queries';
+import { connect } from 'react-redux';
+import { setNotification } from '../reducers/notification';
+import { GET_USER_INFO, ALL_USERS, CREATE_ROOM } from '../services/queries';
 
-const UserPage = ({ foo }) => {
+const UserPage = ({ foo, setNotification, history }) => {
   const { data, loading, error } = useQuery(GET_USER_INFO, {
     variables: {
       username: foo.params.username,
     },
   });
+
+  const createRoom = useMutation(CREATE_ROOM);
+
+  const handleChat = async (senderId, receiverId) => {
+    try {
+      const room = await createRoom({
+        variables: {
+          senderId,
+          receiverId,
+          title: 'awdad',
+        },
+        refetchQueries: [{ query: ALL_USERS }],
+      });
+
+      setNotification(`Chat started.`, 'success', 5);
+      history.push(`/chat/${room.data.createRoom.id}`);
+    } catch (error) {
+      setNotification(`${error.message}`, 'danger', 5);
+    }
+  };
 
   if (error)
     return (
@@ -18,6 +40,8 @@ const UserPage = ({ foo }) => {
         {error.message.substring(15)}
       </h2>
     );
+
+  if (!loading) console.log(data);
 
   if (loading)
     return (
@@ -40,7 +64,7 @@ const UserPage = ({ foo }) => {
   if (!loading) console.log(data);
 
   return (
-    <>
+    <div style={{ minHeight: '100vh' }}>
       <Container>
         <Row>
           <Col>
@@ -82,12 +106,23 @@ const UserPage = ({ foo }) => {
           </Col>
         </Row>
       </Container>
-    </>
+    </div>
   );
 };
 
 UserPage.propTypes = {
   foo: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
+  setNotification: PropTypes.func.isRequired,
+  history: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
 };
 
-export default withRouter(UserPage);
+const mapDispatchToProps = {
+  setNotification,
+};
+
+export default withRouter(
+  connect(
+    null,
+    mapDispatchToProps
+  )(UserPage)
+);

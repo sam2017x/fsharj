@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Alert } from 'react-bootstrap';
+import { Alert, Image } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { useQuery, useApolloClient } from 'react-apollo-hooks';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
@@ -15,6 +15,7 @@ import MainPage from './components/MainPage';
 import Weather from './components/Weather';
 import Space from './components/Space';
 import ServiceChoice from './components/ServiceChoice';
+import pic1 from './util/img/1.jpg';
 import './css/index.css';
 
 const App = ({ notification, setUser }) => {
@@ -57,6 +58,17 @@ const App = ({ notification, setUser }) => {
               return (
                 <>
                   <MainPage me={check.data.me} client={client} />
+                  <div style={{ marginBottom: '50px' }}>
+                    <Image
+                      src={pic1}
+                      float
+                      style={{
+                        width: '100%',
+                        height: '50vh',
+                        objectFit: 'cover',
+                      }}
+                    />
+                  </div>
                   <ServiceChoice />
                 </>
               );
