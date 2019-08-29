@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { useQuery, useMutation } from 'react-apollo-hooks';
@@ -16,12 +16,32 @@ import { GET_CHATROOM_INFO, SEND_MSG } from '../services/queries';
 
 const ChatPage = ({ setNotification, match, me, client }) => {
   const [msg, setMsg] = useState('');
+  const [renderIndex, setRenderIndex] = useState(1);
   const sendMsg = useMutation(SEND_MSG);
   const { data, error, loading } = useQuery(GET_CHATROOM_INFO, {
     variables: {
       id: match.params.id,
     },
   });
+  const scrollRef = React.useRef(null);
+
+  const scrollToMsg = () => {
+    if (!scrollRef.current) {
+      scrollRef.current = renderIndex;
+    }
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    if (!scrollRef.current) {
+      scrollRef.current = renderIndex;
+      setTimeout(() => {
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      }, 200);
+    }
+  }, []);
 
   const handleMessage = async () => {
     try {
@@ -52,8 +72,8 @@ const ChatPage = ({ setNotification, match, me, client }) => {
             data: dataInStore,
           });
         }
-        console.log('AFTER CACHE MOD', dataInStore.getChatroomInfo);
-        //setNotification(`Message sent!`, 'success', 2);
+        scrollToMsg();
+        setMsg('');
       }
     } catch (error) {
       console.log(error);
@@ -70,49 +90,64 @@ const ChatPage = ({ setNotification, match, me, client }) => {
     return <div>{error.message.substring(14)}</div>;
   }
 
-  console.log('DATA', data);
-  console.log('MEEEE', me);
-
   return (
-    <div style={{ minHeight: '100vh' }}>
-      <Container>
-        <h3>Chatchatchat</h3>
-        <Row
-          className="d-flex"
-          style={{
-            height: '20rem',
-            overflow: 'scroll',
-            position: 'relative',
-            alignItems: 'flex-end',
-            justifyContent: 'center',
-          }}
-        >
-          {!loading &&
-            data.getChatroomInfo.messages.map(msg =>
-              me.id === msg.sender.id ? (
-                <Col sm={12}>{`Me: ${msg.message} //// ${new Date(
-                  +msg.date
-                )}`}</Col>
-              ) : (
-                <Col sm={12}>{`${msg.sender.username}: ${
-                  msg.message
-                } /// ${new Date(+msg.date)}`}</Col>
-              )
-            )}
-        </Row>
-        <InputGroup className="sticky-bottom">
-          <InputGroup.Prepend>
-            <Button onClick={() => handleMessage()}>Send:</Button>
-          </InputGroup.Prepend>
-          <FormControl
-            onChange={event => setMsg(event.target.value)}
-            as="textarea"
-            style={{ resize: 'vertical', maxHeight: '10em' }}
-            aria-label="With textarea"
-          />
-        </InputGroup>
-      </Container>
-    </div>
+    <>
+      <div style={{ minHeight: '80vh' }}>
+        <Container>
+          <Row>
+            <Col
+              className="text-center rounded-top"
+              style={{
+                backgroundColor: 'white',
+                paddingBottom: '20px',
+                marginTop: '40px',
+              }}
+            >
+              <h3>Chatchatchat</h3>
+            </Col>
+          </Row>
+          <Row
+            className="d-flex rounded-bottom"
+            style={{
+              backgroundColor: 'white',
+              overflow: 'auto',
+              height: '50vh',
+              position: 'relative',
+              alignItems: 'flex-end',
+              justifyContent: 'center',
+            }}
+            ref={scrollRef}
+          >
+            <Col className="p-4">
+              {!loading &&
+                data.getChatroomInfo.messages.map(msg =>
+                  me.id === msg.sender.id ? (
+                    <Col sm={12}>{`Me: ${msg.message} //// ${new Date(
+                      +msg.date
+                    )}`}</Col>
+                  ) : (
+                    <Col sm={12}>{`${msg.sender.username}: ${
+                      msg.message
+                    } /// ${new Date(+msg.date)}`}</Col>
+                  )
+                )}
+            </Col>
+          </Row>
+        </Container>
+      </div>
+      <InputGroup className="sticky-bottom">
+        <InputGroup.Prepend>
+          <Button onClick={() => handleMessage()}>Send:</Button>
+        </InputGroup.Prepend>
+        <FormControl
+          value={msg}
+          onChange={event => setMsg(event.target.value)}
+          as="textarea"
+          style={{ resize: 'vertical', maxHeight: '10em' }}
+          aria-label="With textarea"
+        />
+      </InputGroup>
+    </>
   );
 };
 
