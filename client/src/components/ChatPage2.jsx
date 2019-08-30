@@ -36,12 +36,12 @@ const ChatPage = ({ setNotification, match, me, client }) => {
   };
 
   useEffect(() => {
-    /*if (!scrollRef.current) {
+    if (!scrollRef.current) {
       scrollRef.current = renderIndex;
       setTimeout(() => {
         scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-      }, 500);
-    }*/
+      }, 200);
+    }
   }, []);
 
   const handleMessage = async () => {
@@ -117,27 +117,25 @@ const ChatPage = ({ setNotification, match, me, client }) => {
               overflow: 'auto',
               height: '60vh',
               position: 'relative',
-              border: '2px solid red',
+              alignItems: 'flex-end',
+              justifyContent: 'center',
             }}
             ref={scrollRef}
           >
-            <Col className="p-4" style={{ position: 'relative' }}>
-              <div
-                style={{
-                  position: 'absolute',
-                  left: '50%',
-                  top: '0',
-                  backgroundColor: 'black',
-                  width: '0.25rem',
-                  height: '100%',
-                }}
-              ></div>
+            <Col className="p-4">
+              <Col sm={{ order: 5, span: 1 }}></Col>
               {!loading &&
                 data.getChatroomInfo.messages.map(msg => (
-                  <Row>
-                    <Col xs={{ order: 5, span: 1 }} sm={{ order: 5, span: 1 }}></Col>
-                    <Message me={me} message={msg} date={new Date(+msg.date)} />
-                  </Row>
+                  /*me.id === msg.sender.id ? (
+                    <Col sm={12}>{`Me: ${msg.message} //// ${new Date(
+                      +msg.date
+                    )}`}</Col>
+                  ) : (
+                    <Col sm={12}>{`${msg.sender.username}: ${
+                      msg.message
+                    } /// ${new Date(+msg.date)}`}</Col>
+                  )*/
+                  <Message me={me} message={msg} date={new Date(+msg.date)} />
                 ))}
             </Col>
           </Row>

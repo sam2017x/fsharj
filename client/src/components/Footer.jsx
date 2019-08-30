@@ -26,28 +26,28 @@ const Footer = () => {
           src={fb}
           alt="facebook"
           rounded
-          style={{ height: '80px', width: '80px' }}
+          style={{ height: '50px', width: '50px' }}
         />
         <Image
           src={ig}
           alt="instagram"
           rounded
-          style={{ height: '80px', width: '80px' }}
+          style={{ height: '50px', width: '50px' }}
         />
         <Image
           src={twitter}
           alt="twitter"
           rounded
-          style={{ height: '80px', width: '80px' }}
+          style={{ height: '50px', width: '50px' }}
         />
         <Image
           src={whatsapp}
           alt="whatsapp"
           rounded
-          style={{ height: '80px', width: '80px' }}
+          style={{ height: '50px', width: '50px' }}
         />
       </p>
-      <p>&copy; SJ.</p>
+      <p style={{marginBottom: '0'}}>&copy; SJ.</p>
     </div>
   );
 };
