@@ -13,11 +13,14 @@ import {
 import { setNotification } from '../reducers/notification';
 import Message from './Message';
 
-import { GET_CHATROOM_INFO, SEND_MSG } from '../services/queries';
+import {
+  GET_CHATROOM_INFO,
+  SEND_MSG,
+  REMOVE_MESSAGE,
+} from '../services/queries';
 
 const ChatPage = ({ setNotification, match, me, client }) => {
   const [msg, setMsg] = useState('');
-  const [renderIndex, setRenderIndex] = useState(1);
   const sendMsg = useMutation(SEND_MSG);
   const { data, error, loading } = useQuery(GET_CHATROOM_INFO, {
     variables: {
@@ -25,24 +28,49 @@ const ChatPage = ({ setNotification, match, me, client }) => {
     },
   });
   const scrollRef = React.useRef(null);
+  const removeMessage = useMutation(REMOVE_MESSAGE);
 
   const scrollToMsg = () => {
-    if (!scrollRef.current) {
-      scrollRef.current = renderIndex;
-    }
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   };
 
   useEffect(() => {
-    /*if (!scrollRef.current) {
-      scrollRef.current = renderIndex;
-      setTimeout(() => {
-        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-      }, 500);
-    }*/
+    setTimeout(() => {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }, 500);
   }, []);
+
+  const handleRemoveMessage = async id => {
+    try {
+      const rm = removeMessage({
+        variables: {
+          id,
+        },
+      });
+
+      if (!rm.loading) {
+        const dataInStore = client.readQuery({
+          query: GET_CHATROOM_INFO,
+          variables: { id: match.params.id },
+        });
+
+        const idArr = dataInStore.getChatroomInfo.messages.map(msg => msg.id);
+
+        const idx = idArr.indexOf(id);
+
+        dataInStore.getChatroomInfo.messages.splice(idx, 1);
+
+        client.writeQuery({
+          query: GET_CHATROOM_INFO,
+          data: dataInStore,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleMessage = async () => {
     try {
@@ -134,9 +162,16 @@ const ChatPage = ({ setNotification, match, me, client }) => {
               ></div>
               {!loading &&
                 data.getChatroomInfo.messages.map(msg => (
-                  <Row>
-                    <Col xs={{ order: 5, span: 1 }} sm={{ order: 5, span: 1 }}></Col>
-                    <Message me={me} message={msg} date={new Date(+msg.date)} />
+                  <Row key={msg.id}>
+                    <Col
+                      xs={{ order: 5, span: 1 }}
+                      sm={{ order: 5, span: 1 }}
+                    ></Col>
+                    <Message
+                      me={me}
+                      message={msg}
+                      remove={handleRemoveMessage}
+                    />
                   </Row>
                 ))}
             </Col>

@@ -84,6 +84,18 @@ const resolvers = {
       if (!args.capital) throw new UserInputError("Invalid args.", args);
       return dataSources.weatherAPI.getCurrentWeather(args.capital);
     },
+    removeMessage: async (root, args, context) => {
+      if (!context.currentUser) {
+        throw new AuthenticationError("Unauthorized.");
+      }
+      try {
+        const getMsg = await Message.findById(args.id);
+        await Message.deleteOne({ _id: args.id }, () =>  console.log('logitetaan', getMsg));
+        return getMsg;
+      } catch (error) {
+        throw new ApolloError("error");
+      }
+    },
     sendMessage: async (root, args, context) => {
       if (!context.currentUser) throw new AuthenticationError("Unauthorized.");
       if (args.message.length === 0)
