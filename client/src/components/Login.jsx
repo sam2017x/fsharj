@@ -2,18 +2,16 @@ import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useMutation, useApolloClient } from 'react-apollo-hooks';
+import { useMutation, useApolloClient } from '@apollo/react-hooks';
 import { useField } from '../hooks/index';
 import { userLogin } from '../reducers/user';
 import { LOGIN } from '../services/queries';
 import { setNotification } from '../reducers/notification';
 
-const Login = ({ setNotification, userLogin, toggleForm }) => {
+const Login = ({ setNotification, userLogin, toggleForm, client }) => {
   const ufields = useField('text');
   const pfields = useField('password');
-
-  const client = useApolloClient();
-  const loggedUser = useMutation(LOGIN);
+  const [loggedUser] = useMutation(LOGIN);
 
   const handleLogin = async e => {
     e.preventDefault();

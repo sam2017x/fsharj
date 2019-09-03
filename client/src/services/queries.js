@@ -1,5 +1,19 @@
 import { gql } from 'apollo-boost';
 
+export const MESSAGE_SUBSCRIPTION = gql`
+  subscription onMessageAdded($room: String!) {
+    messageAdded(room: $room) {
+      id
+      message
+      sender {
+        id
+        username
+      }
+      date
+    }
+  }
+`;
+
 export const COUNTRIES = gql`
   {
     getCountries {
@@ -138,8 +152,8 @@ export const ADD_FRIEND = gql`
 `;
 
 export const SEND_MSG = gql`
-  mutation sendMessage($id: String, $message: String) {
-    sendMessage(roomId: $id, message: $message) {
+  mutation sendMessage($id: String, $message: String, $senderId: String) {
+    sendMessage(roomId: $id, message: $message, sender: $senderId) {
       id
       message
       sender {

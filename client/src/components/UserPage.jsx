@@ -1,5 +1,5 @@
 import React from 'react';
-import { useQuery, useMutation } from 'react-apollo-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Container, Col, Row, Spinner, Table, Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -14,7 +14,7 @@ const UserPage = ({ foo, setNotification, history, me }) => {
     },
   });
 
-  const createRoom = useMutation(CREATE_ROOM);
+  const [createRoom] = useMutation(CREATE_ROOM);
 
   const handleChat = async (senderId, receiverId) => {
     try {

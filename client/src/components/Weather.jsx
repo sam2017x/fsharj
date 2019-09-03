@@ -13,7 +13,7 @@ import {
   ListGroupItem,
   Card,
 } from 'react-bootstrap';
-import { useQuery, useMutation } from 'react-apollo-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { COUNTRIES, GET_WEATHER_DATA } from '../services/queries';
 
 const Weather = ({ me, client }) => {

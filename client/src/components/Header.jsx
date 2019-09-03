@@ -56,7 +56,7 @@ const Header = ({ history, user, setUser, client }) => {
         {!user && (
           <>
             <Togglable ref={formToggle} color="warning">
-              <Login toggleForm={toggleForm} />
+              <Login toggleForm={toggleForm} client={client} />
               <Signup toggleForm={toggleForm} />
             </Togglable>
           </>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { useQuery, useMutation } from 'react-apollo-hooks';
+import { useQuery, useMutation, useSubscription } from '@apollo/react-hooks';
 import {
   Container,
   Row,
@@ -17,28 +17,42 @@ import {
   GET_CHATROOM_INFO,
   SEND_MSG,
   REMOVE_MESSAGE,
+  MESSAGE_SUBSCRIPTION,
 } from '../services/queries';
 
 const ChatPage = ({ setNotification, match, me, client }) => {
   const [msg, setMsg] = useState('');
-  const sendMsg = useMutation(SEND_MSG);
+  const msgSub = useSubscription(MESSAGE_SUBSCRIPTION, {
+    variables: {
+      room: match.params.id,
+    },
+    onSubscriptionData: ({ subscriptionData }) => {
+      const newMessage = subscriptionData.data.messageAdded;
+      console.log('new message', newMessage);
+    },
+  });
+  const [sendMsg] = useMutation(SEND_MSG);
   const { data, error, loading } = useQuery(GET_CHATROOM_INFO, {
     variables: {
       id: match.params.id,
     },
   });
   const scrollRef = React.useRef(null);
-  const removeMessage = useMutation(REMOVE_MESSAGE);
+  const [removeMessage] = useMutation(REMOVE_MESSAGE);
 
   const scrollToMsg = () => {
     if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      setTimeout(() => {
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      }, 500);
     }
   };
 
   useEffect(() => {
     setTimeout(() => {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      if (scrollRef.current) {
+        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      }
     }, 500);
   }, []);
 
@@ -78,6 +92,7 @@ const ChatPage = ({ setNotification, match, me, client }) => {
         variables: {
           id: match.params.id,
           message: msg,
+          senderId: me.id,
         },
       });
 
@@ -190,6 +205,7 @@ const ChatPage = ({ setNotification, match, me, client }) => {
           aria-label="With textarea"
         />
       </InputGroup>
+      <Button onClick={() => scrollToMsg()}>scroll</Button>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useMutation } from 'react-apollo-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -11,7 +11,7 @@ const Signup = ({ toggleForm, setNotification }) => {
   const uname = useField('text');
   const pw = useField('password');
 
-  const signup = useMutation(SIGN);
+  const [signup] = useMutation(SIGN);
 
   const handleSign = async e => {
     e.preventDefault();

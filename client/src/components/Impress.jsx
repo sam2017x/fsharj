@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useQuery } from 'react-apollo-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import { Col, Container, Row, Spinner, Button } from 'react-bootstrap';
 
 const Impress = props => {

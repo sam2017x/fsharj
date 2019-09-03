@@ -15,13 +15,13 @@ module.exports = gql`
     addUser(username: String!, password: String!): User
     login(username: String!, password: String!): Token
     addFriend(id: ID!): User
-    sendMessage(roomId: String, message: String): Message
+    sendMessage(roomId: String, message: String, sender: String): Message
     getWeatherData(capital: String): Weather
     removeMessage(id: ID): Message
   }
 
   type Subscription {
-    newMessage: Message!
+    messageAdded(room: String!): Message
   }
 
   type Weather {

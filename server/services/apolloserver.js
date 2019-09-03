@@ -19,8 +19,8 @@ const JWT_SECRET = "NEED_HERE_A_SECRET_KEY";
 
 const resolvers = {
   Subscription: {
-    newMessage: {
-      subscribe: () => pubsub.asyncIterator(["CHAT_MESSAGE"])
+    messageAdded: {
+      subscribe: () => pubsub.asyncIterator("messsageAdded")
     }
   },
   Query: {
@@ -90,24 +90,24 @@ const resolvers = {
       }
       try {
         const getMsg = await Message.findById(args.id);
-        await Message.deleteOne({ _id: args.id }, () =>  console.log('logitetaan', getMsg));
+        await Message.deleteOne({ _id: args.id }, () =>
+          console.log("logitetaan", getMsg)
+        );
         return getMsg;
       } catch (error) {
         throw new ApolloError("error");
       }
     },
     sendMessage: async (root, args, context) => {
-      if (!context.currentUser) throw new AuthenticationError("Unauthorized.");
+      //if (!context.currentUser) throw new AuthenticationError("Unauthorized.");
       if (args.message.length === 0)
         throw new UserInputError("The message cannot be null.");
-
-      console.log("SENDMSG", args);
 
       const theroom = await Room.findById(args.roomId);
 
       const createMessage = new Message({
         message: args.message,
-        sender: context.currentUser._id,
+        sender: args.sender,
         date: new Date(),
         room: theroom._id
       });
@@ -117,7 +117,13 @@ const resolvers = {
         const msgToRoom = await Room.findById(args.roomId);
         msgToRoom.messages = msgToRoom.messages.concat(createMessage._id);
         await msgToRoom.save();
-        return Message.findById(createMessage._id).populate("sender");
+        const messg = await Message.findById(createMessage._id).populate(
+          "sender"
+        );
+        console.log("published msg", messg);
+        pubsub.publish("messageAdded", { messageAdded: { messg } });
+        return messg;
+        //return Message.findById(createMessage._id).populate("sender");
       } catch (error) {
         throw new ApolloError("Error.");
       }

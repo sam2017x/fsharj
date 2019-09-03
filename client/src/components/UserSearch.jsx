@@ -12,17 +12,17 @@ import {
   Spinner,
 } from 'react-bootstrap';
 import { Link, withRouter } from 'react-router-dom';
-import { useQuery, useMutation } from 'react-apollo-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useField } from '../hooks/index';
 import { setNotification } from '../reducers/notification';
 import { setUser } from '../reducers/user';
-import { ALL_USERS, ADD_FRIEND, CREATE_ROOM, ME } from '../services/queries';
+import { ALL_USERS, ADD_FRIEND, CREATE_ROOM } from '../services/queries';
 
 const UserSearch = ({ history, me, setNotification }) => {
   const searchField = useField('text');
   const { data, loading } = useQuery(ALL_USERS);
-  const addFriend = useMutation(ADD_FRIEND);
-  const createRoom = useMutation(CREATE_ROOM);
+  const [addFriend] = useMutation(ADD_FRIEND);
+  const [createRoom] = useMutation(CREATE_ROOM);
   const focusRef = React.createRef();
 
   console.log('ME', me);

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Alert, Image } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { useQuery, useApolloClient } from 'react-apollo-hooks';
+import { useQuery, useApolloClient } from '@apollo/react-hooks';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { setUser } from './reducers/user';
 import Header from './components/Header';

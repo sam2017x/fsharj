@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useQuery } from 'react-apollo-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import { Accordion, Card, Container, Row, Col, Spinner } from 'react-bootstrap';
 import { GET_LAUNCH_DATA } from '../services/queries';
 import rocket from '../util/img/rocket.png';
