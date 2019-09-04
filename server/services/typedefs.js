@@ -21,7 +21,7 @@ module.exports = gql`
   }
 
   type Subscription {
-    messageAdded(room: String!): Message
+    messageAdded: Message
   }
 
   type Weather {

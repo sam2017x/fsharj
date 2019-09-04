@@ -23,11 +23,8 @@ import {
 const ChatPage = ({ setNotification, match, me, client }) => {
   const [msg, setMsg] = useState('');
   const msgSub = useSubscription(MESSAGE_SUBSCRIPTION, {
-    variables: {
-      room: match.params.id,
-    },
     onSubscriptionData: ({ subscriptionData }) => {
-      const newMessage = subscriptionData.data.messageAdded;
+      const newMessage = subscriptionData;
       console.log('new message', newMessage);
     },
   });

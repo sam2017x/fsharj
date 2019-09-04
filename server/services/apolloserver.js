@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { PubSub } = require("apollo-server");
+const { withFilter } = require("apollo-server");
 const bcrypt = require("bcrypt");
 const {
   ApolloServer,
@@ -20,7 +21,10 @@ const JWT_SECRET = "NEED_HERE_A_SECRET_KEY";
 const resolvers = {
   Subscription: {
     messageAdded: {
-      subscribe: () => pubsub.asyncIterator("messsageAdded")
+      subscribe: () => {
+        console.log("yay");
+        return pubsub.asyncIterator("messageAdded");
+      }
     }
   },
   Query: {
@@ -44,11 +48,6 @@ const resolvers = {
       }
     },
     allUsers: async (root, args) => {
-      console.log(
-        await User.find({})
-          .populate("friends")
-          .populate("rooms")
-      );
       try {
         return await User.find({})
           .populate("friends")
@@ -120,8 +119,11 @@ const resolvers = {
         const messg = await Message.findById(createMessage._id).populate(
           "sender"
         );
-        console.log("published msg", messg);
-        pubsub.publish("messageAdded", { messageAdded: { messg } });
+        pubsub.publish("messageAdded", {
+          messageAdded: {
+            message: "OHmydog"
+          }
+        });
         return messg;
         //return Message.findById(createMessage._id).populate("sender");
       } catch (error) {
