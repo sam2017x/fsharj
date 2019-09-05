@@ -173,17 +173,27 @@ const ChatPage = ({ setNotification, match, me, client }) => {
         <Container>
           <Row
             className="d-flex"
-            style={{ alignItems: 'center', justifyContent: 'center' }}
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'white',
+              paddingBottom: '20px',
+              marginTop: '40px',
+            }}
           >
-            <Col
-              className="text-center rounded-top"
-              style={{
-                backgroundColor: 'white',
-                paddingBottom: '20px',
-                marginTop: '40px',
-              }}
-            >
-              <h3>Chatchatchat</h3>
+            <Col className="text-center rounded-top">
+              <div style={{ display: 'inline-block', float: 'left' }}>
+                {!loading &&
+                  data.getChatroomInfo.users.map(user =>
+                    user.username !== me.username ? user.username : null
+                  )}
+              </div>
+              <div style={{ display: 'inline-block' }}>
+                <h3>Chatting...</h3>
+              </div>
+              <div style={{ display: 'inline-block', float: 'right' }}>
+                {me && me.username}
+              </div>
             </Col>
           </Row>
           <Row
@@ -222,19 +232,19 @@ const ChatPage = ({ setNotification, match, me, client }) => {
             </Col>
           </Row>
         </Container>
+        <InputGroup className="mt-4">
+          <InputGroup.Prepend>
+            <Button onClick={() => handleMessage()}>Send:</Button>
+          </InputGroup.Prepend>
+          <FormControl
+            value={msg}
+            onChange={event => setMsg(event.target.value)}
+            as="textarea"
+            style={{ resize: 'vertical', maxHeight: '10em' }}
+            aria-label="With textarea"
+          />
+        </InputGroup>
       </div>
-      <InputGroup className="sticky-bottom">
-        <InputGroup.Prepend>
-          <Button onClick={() => handleMessage()}>Send:</Button>
-        </InputGroup.Prepend>
-        <FormControl
-          value={msg}
-          onChange={event => setMsg(event.target.value)}
-          as="textarea"
-          style={{ resize: 'vertical', maxHeight: '10em' }}
-          aria-label="With textarea"
-        />
-      </InputGroup>
       <Button onClick={() => scrollToMsg()}>scroll</Button>
     </>
   );
