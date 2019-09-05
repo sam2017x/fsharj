@@ -3,19 +3,17 @@ import { Col, Toast } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 const Message = ({ message, me, remove }) => {
-
   if (me.id === message.sender.id) {
     return (
       <>
-        <Col xs={{ order: 1, span: 5 }} sm={{ order: 1, span: 5 }}></Col>
-        <Col xs={{ order: 12, span: 5 }} sm={{ order: 12, span: 5 }}>
+        <Col xs={{ order: 1 }} sm={{ order: 1 }}></Col>
+        <Col
+          className="p-1 pl-2"
+          xs={{ order: 12, span: 6 }}
+          sm={{ order: 12, span: 6 }}
+        >
           <Toast onClose={() => remove(message.id)}>
-            <Toast.Header>
-              <img
-                src="holder.js/20x20?text=%20"
-                className="rounded mr-2"
-                alt=""
-              />
+            <Toast.Header style={{backgroundColor: 'black'}}>
               <strong className="mr-auto">{message.sender.username}</strong>
             </Toast.Header>
             <Toast.Body>{message.message}</Toast.Body>
@@ -27,20 +25,19 @@ const Message = ({ message, me, remove }) => {
 
   return (
     <>
-      <Col sm={{ order: 1, span: 5 }}>
+      <Col
+        className="p-1"
+        sm={{ order: 1, span: 6 }}
+        xs={{ order: 1, span: 6 }}
+      >
         <Toast>
           <Toast.Header>
-            <img
-              src="holder.js/20x20?text=%20"
-              className="rounded mr-2"
-              alt=""
-            />
             <strong className="mr-auto">{message.sender.username}</strong>
           </Toast.Header>
           <Toast.Body>{message.message}</Toast.Body>
         </Toast>
       </Col>
-      <Col sm={{ order: 12, span: 5 }}></Col>
+      <Col sm={{ order: 12 }} xs={{ order: 12 }}></Col>
     </>
   );
 };

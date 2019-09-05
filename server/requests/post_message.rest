@@ -3,5 +3,5 @@ Content-Type: application/json
 
 {
       "query": "mutation sendMessage($id: String, $message: String, $senderId: String) { sendMessage(roomId: $id, message: $message, sender: $senderId) {id message sender { id username } date } }",
-      "variables": { "id": "5d6e4e3c5b870426c40f227c", "message": "SUB TEST", "senderId": "5d6e4b255b870426c40f227b"}
+      "variables": { "id": "5d6e4e3c5b870426c40f227c", "message": "SUB TEST5", "senderId": "5d6e4b255b870426c40f227b"}
 }

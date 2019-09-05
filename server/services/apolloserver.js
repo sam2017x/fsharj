@@ -40,7 +40,8 @@ const resolvers = {
       try {
         const room = await Room.findById(args.id)
           .populate("users")
-          .populate({ path: "messages", populate: { path: "sender" } });
+          .populate({ path: "messages", populate: { path: "sender" } })
+          .populate({ path: "messages", populate: { path: "room" } });
         if (!room.users.map(user => user.id).includes(context.currentUser._id))
           throw new AuthenticationError("Unauthorized.");
 

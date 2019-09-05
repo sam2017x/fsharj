@@ -131,6 +131,9 @@ export const GET_CHATROOM_INFO = gql`
           id
           username
         }
+        room {
+          id
+        }
         date
       }
     }

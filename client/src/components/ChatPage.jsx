@@ -27,8 +27,29 @@ const ChatPage = ({ setNotification, match, me, client }) => {
       id: match.params.id,
     },
     onSubscriptionData: ({ subscriptionData }) => {
-      const newMessage = subscriptionData;
-      console.log('new message', newMessage);
+      const {
+        data: { messageAdded },
+      } = subscriptionData;
+      const dataInStore = client.readQuery({
+        query: GET_CHATROOM_INFO,
+        variables: { id: match.params.id },
+      });
+
+      if (
+        !dataInStore.getChatroomInfo.messages
+          .map(msg => msg.id)
+          .includes(messageAdded.id)
+      ) {
+        dataInStore.getChatroomInfo = {
+          ...dataInStore.getChatroomInfo,
+          messages: dataInStore.getChatroomInfo.messages.concat(messageAdded),
+        };
+        client.writeQuery({
+          query: GET_CHATROOM_INFO,
+          variables: { id: match.params.id },
+          data: dataInStore,
+        });
+      }
     },
   });
   const [sendMsg] = useMutation(SEND_MSG);
@@ -137,6 +158,10 @@ const ChatPage = ({ setNotification, match, me, client }) => {
 
   if (loading) return <div>Loading...</div>;
 
+  if (!loading) {
+    console.log('CHATROOM', data);
+  }
+
   if (error) {
     // Could show an image here.
     return <div>{error.message.substring(14)}</div>;
@@ -165,14 +190,15 @@ const ChatPage = ({ setNotification, match, me, client }) => {
             className="d-flex rounded-bottom"
             style={{
               backgroundColor: 'white',
-              overflow: 'auto',
+              overflowY: 'auto',
+              overflowX: 'hidden',
               height: '60vh',
               position: 'relative',
               border: '2px solid red',
             }}
             ref={scrollRef}
           >
-            <Col className="p-4" style={{ position: 'relative' }}>
+            <Col className="p-3" style={{ position: 'relative' }}>
               <div
                 style={{
                   position: 'absolute',
@@ -186,10 +212,6 @@ const ChatPage = ({ setNotification, match, me, client }) => {
               {!loading &&
                 data.getChatroomInfo.messages.map(msg => (
                   <Row key={msg.id}>
-                    <Col
-                      xs={{ order: 5, span: 1 }}
-                      sm={{ order: 5, span: 1 }}
-                    ></Col>
                     <Message
                       me={me}
                       message={msg}
