@@ -1,9 +1,18 @@
 import { gql } from 'apollo-boost';
 
 export const MESSAGE_SUBSCRIPTION = gql`
-  subscription onMessageAdded {
-    messageAdded {
+  subscription onMessageAdded($id: String) {
+    messageAdded(id: $id) {
       message
+      id
+      date
+      sender {
+        id
+        username
+      }
+      room {
+        id
+      }
     }
   }
 `;

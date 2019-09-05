@@ -21,10 +21,12 @@ const JWT_SECRET = "NEED_HERE_A_SECRET_KEY";
 const resolvers = {
   Subscription: {
     messageAdded: {
-      subscribe: () => {
-        console.log("yay");
-        return pubsub.asyncIterator("messageAdded");
-      }
+      subscribe: withFilter(
+        () => pubsub.asyncIterator("messageAdded"),
+        (payload, variables) => {
+          return String(payload.messageAdded.room.id) === variables.id;
+        }
+      )
     }
   },
   Query: {
@@ -116,12 +118,21 @@ const resolvers = {
         const msgToRoom = await Room.findById(args.roomId);
         msgToRoom.messages = msgToRoom.messages.concat(createMessage._id);
         await msgToRoom.save();
-        const messg = await Message.findById(createMessage._id).populate(
-          "sender"
-        );
+        const messg = await Message.findById(createMessage._id)
+          .populate("sender")
+          .populate("room");
         pubsub.publish("messageAdded", {
           messageAdded: {
-            message: "OHmydog"
+            message: messg.message,
+            id: messg._id,
+            date: messg.date,
+            sender: {
+              id: messg.sender._id,
+              username: messg.sender.username
+            },
+            room: {
+              id: messg.room._id
+            }
           }
         });
         return messg;

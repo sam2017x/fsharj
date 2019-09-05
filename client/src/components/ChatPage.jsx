@@ -23,6 +23,9 @@ import {
 const ChatPage = ({ setNotification, match, me, client }) => {
   const [msg, setMsg] = useState('');
   const msgSub = useSubscription(MESSAGE_SUBSCRIPTION, {
+    variables: {
+      id: match.params.id,
+    },
     onSubscriptionData: ({ subscriptionData }) => {
       const newMessage = subscriptionData;
       console.log('new message', newMessage);
@@ -82,6 +85,14 @@ const ChatPage = ({ setNotification, match, me, client }) => {
       console.log(error);
     }
   };
+
+  if (msgSub.error) {
+    console.log(msgSub.error);
+  }
+
+  /*if (!msgSub.loading) {
+    console.log('sub data', msgSub.data);
+  }*/
 
   const handleMessage = async () => {
     try {
