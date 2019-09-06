@@ -12,6 +12,7 @@ import {
 } from 'react-bootstrap';
 import { setNotification } from '../reducers/notification';
 import Message from './Message';
+import Messages from './Messages';
 
 import {
   GET_CHATROOM_INFO,
@@ -22,7 +23,16 @@ import {
 
 const ChatPage = ({ setNotification, match, me, client }) => {
   const [msg, setMsg] = useState('');
-  const msgSub = useSubscription(MESSAGE_SUBSCRIPTION, {
+
+  const scrollRef = React.useRef(null);
+
+  const scrollToMsg = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  };
+
+  useSubscription(MESSAGE_SUBSCRIPTION, {
     variables: {
       id: match.params.id,
     },
@@ -49,6 +59,7 @@ const ChatPage = ({ setNotification, match, me, client }) => {
           variables: { id: match.params.id },
           data: dataInStore,
         });
+        scrollToMsg();
       }
     },
   });
@@ -58,24 +69,7 @@ const ChatPage = ({ setNotification, match, me, client }) => {
       id: match.params.id,
     },
   });
-  const scrollRef = React.useRef(null);
   const [removeMessage] = useMutation(REMOVE_MESSAGE);
-
-  const scrollToMsg = () => {
-    if (scrollRef.current) {
-      setTimeout(() => {
-        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-      }, 500);
-    }
-  };
-
-  useEffect(() => {
-    setTimeout(() => {
-      if (scrollRef.current) {
-        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-      }
-    }, 500);
-  }, []);
 
   const handleRemoveMessage = async id => {
     try {
@@ -107,14 +101,6 @@ const ChatPage = ({ setNotification, match, me, client }) => {
     }
   };
 
-  if (msgSub.error) {
-    console.log(msgSub.error);
-  }
-
-  /*if (!msgSub.loading) {
-    console.log('sub data', msgSub.data);
-  }*/
-
   const handleMessage = async () => {
     try {
       const resp = await sendMsg({
@@ -130,8 +116,6 @@ const ChatPage = ({ setNotification, match, me, client }) => {
           query: GET_CHATROOM_INFO,
           variables: { id: match.params.id },
         });
-        console.log('BEFORE CACHE MOD', dataInStore);
-        console.log('INCOMING MSG', resp.data);
         if (
           !dataInStore.getChatroomInfo.messages
             .map(msg => msg.id)
@@ -156,83 +140,69 @@ const ChatPage = ({ setNotification, match, me, client }) => {
 
   if (!me) return null;
 
-  if (loading) return <div>Loading...</div>;
-
-  if (!loading) {
-    console.log('CHATROOM', data);
-  }
+  if (loading) return <div style={{ minHeight: '100vh' }}>Loading...</div>;
 
   if (error) {
     // Could show an image here.
-    return <div>{error.message.substring(14)}</div>;
+    return (
+      <div style={{ minHeight: '100vh' }}>{error.message.substring(14)}</div>
+    );
   }
 
   return (
     <>
       <div style={{ minHeight: '80vh' }}>
-        <Container>
+        <Container style={{ maxWidth: '50rem' }}>
           <Row
-            className="d-flex"
+            className="d-flex rounded"
             style={{
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: 'white',
               paddingBottom: '20px',
-              marginTop: '40px',
+              marginTop: '20px',
             }}
           >
-            <Col className="text-center rounded-top">
+            <Col className="text-center rounded">
               <div style={{ display: 'inline-block', float: 'left' }}>
-                {!loading &&
-                  data.getChatroomInfo.users.map(user =>
-                    user.username !== me.username ? user.username : null
-                  )}
+                <strong style={{ color: 'red' }}>
+                  {!loading &&
+                    data.getChatroomInfo.users.map(user =>
+                      user.username !== me.username ? user.username : null
+                    )}
+                </strong>
               </div>
               <div style={{ display: 'inline-block' }}>
-                <h3>Chatting...</h3>
+                <h4>Chat</h4>
               </div>
               <div style={{ display: 'inline-block', float: 'right' }}>
-                {me && me.username}
+                <strong style={{ color: 'blue' }}>{me && me.username}</strong>
               </div>
             </Col>
           </Row>
           <Row
-            className="d-flex rounded-bottom"
+            className="d-flex rounded"
             style={{
-              backgroundColor: 'white',
+              backgroundColor: '#d9d7d7',
               overflowY: 'auto',
               overflowX: 'hidden',
               height: '60vh',
               position: 'relative',
-              border: '2px solid red',
+              border: '0.5rem inset #c9a9a7',
+              marginTop: '0.5rem',
             }}
             ref={scrollRef}
           >
-            <Col className="p-3" style={{ position: 'relative' }}>
-              <div
-                style={{
-                  position: 'absolute',
-                  left: '50%',
-                  top: '0',
-                  backgroundColor: 'black',
-                  width: '0.25rem',
-                  height: '100%',
-                }}
-              ></div>
-              {!loading &&
-                data.getChatroomInfo.messages.map(msg => (
-                  <Row key={msg.id}>
-                    <Message
-                      me={me}
-                      message={msg}
-                      remove={handleRemoveMessage}
-                    />
-                  </Row>
-                ))}
-            </Col>
+            {!loading && (
+              <Messages
+                scrollToMsg={scrollToMsg}
+                messages={data.getChatroomInfo.messages}
+                removeMessage={handleRemoveMessage}
+                me={me}
+              />
+            )}
           </Row>
         </Container>
-        <InputGroup className="mt-4">
+        <InputGroup size="sm" className="mt-4 sticky-bottom">
           <InputGroup.Prepend>
             <Button onClick={() => handleMessage()}>Send:</Button>
           </InputGroup.Prepend>
@@ -240,12 +210,11 @@ const ChatPage = ({ setNotification, match, me, client }) => {
             value={msg}
             onChange={event => setMsg(event.target.value)}
             as="textarea"
-            style={{ resize: 'vertical', maxHeight: '10em' }}
+            style={{ resize: 'vertical', maxHeight: '10em', minHeight: '3rem' }}
             aria-label="With textarea"
           />
         </InputGroup>
       </div>
-      <Button onClick={() => scrollToMsg()}>scroll</Button>
     </>
   );
 };
