@@ -101,7 +101,7 @@ const resolvers = {
       }
     },
     sendMessage: async (root, args, context) => {
-      //if (!context.currentUser) throw new AuthenticationError("Unauthorized.");
+      if (!context.currentUser) throw new AuthenticationError("Unauthorized.");
       if (args.message.length === 0)
         throw new UserInputError("The message cannot be null.");
 

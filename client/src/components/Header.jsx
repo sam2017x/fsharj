@@ -35,20 +35,17 @@ const Header = ({ history, user, setUser, client }) => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-          <NavDropdown title="Search" id="collasible-nav-dropdown">
+          <NavDropdown title="Services" id="collasible-nav-dropdown">
             <NavDropdown.Item as="span">
-              <Link to="/s/users">Users</Link>
+              <Link to="/service/space">SpaceX API</Link>
             </NavDropdown.Item>
             <NavDropdown.Item as="span">
-              <Link to="/s/groups">Groups</Link>
-            </NavDropdown.Item>
-            <NavDropdown.Item as="span">
-              <Link to="/s/posts">Posts</Link>
+              <Link to="/service/weather">Weather App</Link>
             </NavDropdown.Item>
           </NavDropdown>
-          <Nav.Link href="/about" as="span">
-            <Link to="/about" style={styles}>
-              About
+          <Nav.Link href="/s/users" as="span">
+            <Link to="/s/users" style={styles}>
+              Users
             </Link>
           </Nav.Link>
         </Nav>

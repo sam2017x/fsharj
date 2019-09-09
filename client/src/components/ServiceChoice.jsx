@@ -7,7 +7,7 @@ const ServiceChoice = ({ history }) => {
   const handleClick = val => {
     switch (val) {
       case 'impress':
-        history.push('/service/impress');
+        history.push('/s/users');
         break;
       case 'space':
         history.push('/service/space');
@@ -28,7 +28,7 @@ const ServiceChoice = ({ history }) => {
             <Card.Header>Chat Application</Card.Header>
             <Card.Body>
               <Card.Title>Socialize</Card.Title>
-              <Card.Text>{`Chat with people on your friendlist.\nYou can add 1 new friend per day.\nFor fun.`}</Card.Text>
+              <Card.Text>{`Chat with people on your friendlist.\n`}</Card.Text>
               <Button variant="primary" onClick={() => handleClick('impress')}>
                 Chat App
               </Button>

@@ -101,7 +101,7 @@ const MainPage = ({ me }) => {
                 />
                 <Carousel.Caption>
                   <h3>Chat like no tomorrow.</h3>
-                  <p>You are given five chances to socialize, good luck!</p>
+                  <p>Limited to people on your friendlist.</p>
                 </Carousel.Caption>
               </Carousel.Item>
               <Carousel.Item>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Container, Col, Row, Spinner, Table, Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
@@ -13,6 +13,8 @@ const UserPage = ({ foo, setNotification, history, me }) => {
       username: foo.params.username,
     },
   });
+
+  useEffect(() => window.scrollTo(0, 0), []);
 
   const [createRoom] = useMutation(CREATE_ROOM);
 
@@ -91,7 +93,7 @@ const UserPage = ({ foo, setNotification, history, me }) => {
                   {data.getUserInfo.friends &&
                     data.getUserInfo.friends.map((friend, i) => {
                       return (
-                        <>
+                        <div key={`${friend.username}`}>
                           <tr>
                             <td>{i + 1}</td>
                             <td>{friend.username}</td>
@@ -106,7 +108,7 @@ const UserPage = ({ foo, setNotification, history, me }) => {
                               </Button>
                             </td>
                           </tr>
-                        </>
+                        </div>
                       );
                     })}
                 </tbody>

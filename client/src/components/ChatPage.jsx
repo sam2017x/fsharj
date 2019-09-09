@@ -10,6 +10,7 @@ import {
   Button,
   FormControl,
 } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import { setNotification } from '../reducers/notification';
 import Messages from './Messages';
 
@@ -136,11 +137,20 @@ const ChatPage = ({ setNotification, match, me, client }) => {
       }
     } catch (error) {
       console.log(error);
-      //setNotification(`${error.message}`, 'danger', 5);
+      setNotification(`${error.message}`, 'danger', 5);
     }
   };
 
-  if (!me) return null;
+  if (!me)
+    return (
+      <div style={{ minHeight: '100vh' }}>
+        <div>Log in to use the chat app!</div>
+      </div>
+    );
+
+  if (!loading) {
+    console.log('me', me);
+  }
 
   if (loading) return <div style={{ minHeight: '100vh' }}>Loading...</div>;
 
@@ -168,6 +178,8 @@ const ChatPage = ({ setNotification, match, me, client }) => {
               <div style={{ display: 'inline-block', float: 'left' }}>
                 <strong style={{ color: 'red' }}>
                   {!loading &&
+                    me &&
+                    data.getChatroomInfo &&
                     data.getChatroomInfo.users.map(user =>
                       user.username !== me.username ? user.username : null
                     )}
@@ -194,7 +206,7 @@ const ChatPage = ({ setNotification, match, me, client }) => {
             }}
             ref={scrollRef}
           >
-            {!loading && (
+            {!loading && data.getChatroomInfo && (
               <Messages
                 scrollToMsg={scrollToMsg}
                 messages={data.getChatroomInfo.messages}
@@ -219,6 +231,25 @@ const ChatPage = ({ setNotification, match, me, client }) => {
       </div>
     </>
   );
+};
+
+ChatPage.propTypes = {
+  setNotification: PropTypes.func.isRequired,
+  match: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.func,
+    PropTypes.object,
+  ]).isRequired,
+  client: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.func,
+    PropTypes.object,
+  ]).isRequired,
+  me: PropTypes.oneOfType([PropTypes.array, PropTypes.func, PropTypes.object]),
+};
+
+ChatPage.defaultProps = {
+  me: undefined,
 };
 
 const mapDispatchToProps = {

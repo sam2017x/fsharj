@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -28,6 +28,8 @@ const UserSearch = ({ history, me, setNotification }) => {
   const focus = () => {
     focusRef.current.focus();
   };
+
+  useEffect(() => window.scrollTo(0, 0), []);
 
   const handleChat = async (senderId, receiverId) => {
     try {
