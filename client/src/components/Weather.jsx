@@ -16,11 +16,11 @@ import {
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { COUNTRIES, GET_WEATHER_DATA } from '../services/queries';
 
-const Weather = ({ me, client }) => {
+const Weather = ({ me }) => {
   const [val, setVal] = useState('');
   const [forecast, setForecast] = useState(null);
   const { data, loading, error } = useQuery(COUNTRIES);
-  const weatherData = useMutation(GET_WEATHER_DATA);
+  const [weatherData] = useMutation(GET_WEATHER_DATA);
 
   useEffect(() => window.scrollTo(0, 0), []);
 
@@ -35,17 +35,17 @@ const Weather = ({ me, client }) => {
         country,
         weather: JSON.parse(data.data.getWeatherData.value),
       });
-      console.log('forecast data', {
-        country,
-        weather: JSON.parse(data.data.getWeatherData.value),
-      });
     } catch (error) {
       setForecast(null);
-      console.log(error.message);
     }
   };
 
-  if (!me) return null;
+  if (!me)
+    return (
+      <div style={{ minHeight: '100vh' }}>
+        <div>Log in to use the weather app!</div>
+      </div>
+    );
 
   if (loading)
     return (
@@ -68,12 +68,7 @@ const Weather = ({ me, client }) => {
     );
 
   if (error) {
-    console.log(error);
     return <div>{error.message}</div>;
-  }
-
-  if (!loading) {
-    console.log('Country data', data);
   }
 
   return (
@@ -99,11 +94,12 @@ const Weather = ({ me, client }) => {
           <Col
             md={3}
             xs={12}
-            className="mr-2 mb-0 mt-1"
+            className="rounded pl-0 pr-0"
             style={{
               overflow: 'auto',
               fontSize: '0.75rem',
-              maxHeight: '40vh',
+              maxHeight: '60vh',
+              border: '1px solid rgb(188, 206, 235)',
             }}
           >
             <Table className="mt-4" striped>
@@ -135,11 +131,20 @@ const Weather = ({ me, client }) => {
               </tbody>
             </Table>
           </Col>
-          <Col style={{ textAlign: 'center' }} sm={12} xs={12} md={8}>
+          <Col
+            style={{ textAlign: 'center' }}
+            sm={12}
+            xs={12}
+            md={8}
+            className="mt-4"
+          >
             {forecast !== null && (
               <div
-                className="pt-2 mt-0"
-                style={{ width: '100%', border: '1px black solid' }}
+                style={{
+                  width: '100%',
+                  border: '1px rgb(188, 206, 235) solid',
+                }}
+                className="rounded"
               >
                 <h3 className="mt-3">{forecast.country}</h3>
                 <p>
@@ -158,7 +163,7 @@ const Weather = ({ me, client }) => {
                         style={{ maxWidth: '20rem' }}
                       >
                         <Card
-                          bg="secondary"
+                          bg="info"
                           style={{
                             width: '100%',
                             height: '25rem',
@@ -166,14 +171,18 @@ const Weather = ({ me, client }) => {
                           }}
                           className="text-center"
                         >
+                          <Card.Header as="h5" style={{ color: 'white' }}>
+                            {date.toDateString().substring(0, 3)}
+                          </Card.Header>
                           <Card.Img
                             variant="top"
                             src={day.day.condition.icon}
                             alt={day.day.condition.text}
                             title={day.day.condition.text}
                           />
-                          <Card.Body>
-                            <Card.Title>{`${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`}</Card.Title>
+                          <Card.Body style={{ color: 'white' }}>
+                            <Card.Title>{`${date.getDate()}.${date.getMonth() +
+                              1}.${date.getFullYear()}`}</Card.Title>
                             <Card.Text>{`${day.day.condition.text}`}</Card.Text>
                           </Card.Body>
                           <ListGroup

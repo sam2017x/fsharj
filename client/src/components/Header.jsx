@@ -13,7 +13,6 @@ const Header = ({ history, user, setUser, client }) => {
     color: 'white',
   };
 
-  // Ref toggle, for reference.
   const formToggle = React.createRef();
   const toggleForm = () => {
     formToggle.current.toggleVisibility();

@@ -8,8 +8,6 @@ const Messages = ({ scrollToMsg, messages, removeMessage, me }) => {
     scrollToMsg();
   }, []);
 
-  console.log('msgs', messages);
-
   return (
     <Col className="p-3">
       {messages.map(msg => (

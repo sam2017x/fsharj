@@ -13,7 +13,7 @@ import impress from '../util/img/impress2.jpg';
 import weather from '../util/img/weather.jpg';
 import bg from '../util/img/bg.jpg';
 
-const MainPage = ({ me, client }) => {
+const MainPage = ({ me }) => {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(null);
 
@@ -46,9 +46,7 @@ const MainPage = ({ me, client }) => {
       <div className="container-fluid">
         <Jumbotron>
           <h1>Hey there! ;)</h1>
-          <p>
-            Welcome to Chatterinos. Please log in to see the service selection.
-          </p>
+          <p>Please log in to gain access to the services.</p>
         </Jumbotron>
       </div>
     );
@@ -140,7 +138,6 @@ const MainPage = ({ me, client }) => {
 
 MainPage.propTypes = {
   me: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  client: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
 };
 
 MainPage.defaultProps = {

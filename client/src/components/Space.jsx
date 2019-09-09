@@ -104,12 +104,13 @@ const Space = ({ me }) => {
 
   if (loading) {
     return (
-      <Container style={{ minHeight: '100vh' }}>
+      <Container style={{ minHeight: '100vh', position: 'relative' }}>
         <Row>
           <Col
             style={{
               textAlign: 'center',
-              marginTop: '50%',
+              top: '50%',
+              position: 'absolute',
             }}
           >
             <Spinner animation="border" role="status">

@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setNotification } from '../reducers/notification';
-import { GET_USER_INFO, ALL_USERS, CREATE_ROOM } from '../services/queries';
+import { GET_USER_INFO, CREATE_ROOM } from '../services/queries';
 
 const UserPage = ({ foo, setNotification, history, me }) => {
   const { data, loading, error } = useQuery(GET_USER_INFO, {
@@ -24,9 +24,7 @@ const UserPage = ({ foo, setNotification, history, me }) => {
           receiverId,
           title: 'awdad',
         },
-        refetchQueries: [{ query: ALL_USERS }],
       });
-
       setNotification(`Chat started.`, 'success', 5);
       history.push(`/chat/${room.data.createRoom.id}`);
     } catch (error) {
@@ -59,17 +57,15 @@ const UserPage = ({ foo, setNotification, history, me }) => {
       </Container>
     );
 
-  if (!loading) {
-    console.log('me', me);
-    console.log('data', data);
-  }
-
   return (
     <div style={{ minHeight: '100vh' }}>
       <Container>
-        <Row>
+        <Row
+          className="mb-4 mt-4"
+          style={{ borderBottom: '1px solid rgb(188, 206, 235)' }}
+        >
           <Col>
-            <h3>{data.getUserInfo.username}</h3>
+            <h3 className="p-3">{data.getUserInfo.username}</h3>
           </Col>
         </Row>
         <Row>
@@ -104,7 +100,10 @@ const UserPage = ({ foo, setNotification, history, me }) => {
                                 onClick={() =>
                                   handleChat(me.id, data.getUserInfo.id)
                                 }
-                              />
+                                size="sm"
+                              >
+                                Chat
+                              </Button>
                             </td>
                           </tr>
                         </>

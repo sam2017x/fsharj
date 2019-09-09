@@ -25,9 +25,6 @@ const UserSearch = ({ history, me, setNotification }) => {
   const [createRoom] = useMutation(CREATE_ROOM);
   const focusRef = React.createRef();
 
-  console.log('ME', me);
-  console.log('ALL USERS', data);
-
   const focus = () => {
     focusRef.current.focus();
   };
@@ -40,7 +37,6 @@ const UserSearch = ({ history, me, setNotification }) => {
           receiverId,
           title: 'awdad',
         },
-        refetchQueries: [{ query: ALL_USERS }],
       });
 
       setNotification(`Chat started.`, 'success', 5);
@@ -73,7 +69,7 @@ const UserSearch = ({ history, me, setNotification }) => {
 
   if (data.allUsers === undefined || data.allUsers === null)
     return (
-      <>
+      <div style={{ minHeight: '100vh' }}>
         <Form>
           <Form.Group>
             <Form.Label>Search with username: </Form.Label>
@@ -102,12 +98,12 @@ const UserSearch = ({ history, me, setNotification }) => {
             </Col>
           </Row>
         </Container>
-      </>
+      </div>
     );
 
   if (me === null || me === undefined)
     return (
-      <>
+      <div style={{ minHeight: '100vh' }}>
         <Form>
           <Form.Group>
             <Form.Label>Search with username: </Form.Label>
@@ -141,11 +137,11 @@ const UserSearch = ({ history, me, setNotification }) => {
               ))}
           </tbody>
         </Table>
-      </>
+      </div>
     );
 
   return (
-    <>
+    <div style={{ minHeight: '100vh' }}>
       <Form>
         <Form.Group>
           <Form.Label>Search with username: </Form.Label>
@@ -182,18 +178,24 @@ const UserSearch = ({ history, me, setNotification }) => {
                   <td>
                     <Link to={`/user/${usr.username}`}>{usr.username}</Link>
                   </td>
-                  {usr.friends !== null &&
-                  me.username === usr.username ? null : me.friends.find(
-                      frd => frd.id === usr.id
-                    ) === undefined ? (
-                    <td>
-                      <Button
-                        variant="primary"
-                        onClick={() => handleFriendAdd(usr.id)}
-                      >
-                        Add friend
-                      </Button>
-                    </td>
+                  {usr.friends !== null && me.username === usr.username ? (
+                    <>
+                      <td></td>
+                      <td></td>
+                    </>
+                  ) : me.friends.find(frd => frd.id === usr.id) ===
+                    undefined ? (
+                    <>
+                      <td>
+                        <Button
+                          variant="primary"
+                          onClick={() => handleFriendAdd(usr.id)}
+                        >
+                          Add friend
+                        </Button>
+                      </td>
+                      <td></td>
+                    </>
                   ) : (
                     <>
                       <td>
@@ -215,7 +217,7 @@ const UserSearch = ({ history, me, setNotification }) => {
               ))}
         </tbody>
       </Table>
-    </>
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { useQuery, useMutation, useSubscription } from '@apollo/react-hooks';
@@ -11,7 +11,6 @@ import {
   FormControl,
 } from 'react-bootstrap';
 import { setNotification } from '../reducers/notification';
-import Message from './Message';
 import Messages from './Messages';
 
 import {
@@ -23,6 +22,7 @@ import {
 
 const ChatPage = ({ setNotification, match, me, client }) => {
   const [msg, setMsg] = useState('');
+  const [update, setUpdate] = useState(true);
 
   const scrollRef = React.useRef(null);
 
@@ -73,7 +73,7 @@ const ChatPage = ({ setNotification, match, me, client }) => {
 
   const handleRemoveMessage = async id => {
     try {
-      const rm = removeMessage({
+      const rm = await removeMessage({
         variables: {
           id,
         },
@@ -95,9 +95,11 @@ const ChatPage = ({ setNotification, match, me, client }) => {
           query: GET_CHATROOM_INFO,
           data: dataInStore,
         });
+
+        setUpdate(!update);
       }
     } catch (error) {
-      console.log(error);
+      setNotification(`The message couldn't be removed.`, 'danger', 5);
     }
   };
 

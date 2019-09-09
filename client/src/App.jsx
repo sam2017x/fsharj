@@ -61,7 +61,6 @@ const App = ({ notification, setUser }) => {
                   <div style={{ marginBottom: '50px' }}>
                     <Image
                       src={pic1}
-                      float
                       style={{
                         width: '100%',
                         height: '50vh',

@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useMutation, useApolloClient } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/react-hooks';
 import { useField } from '../hooks/index';
 import { userLogin } from '../reducers/user';
 import { LOGIN } from '../services/queries';
@@ -90,6 +90,7 @@ Login.propTypes = {
   userLogin: PropTypes.func.isRequired,
   setNotification: PropTypes.func.isRequired,
   toggleForm: PropTypes.func.isRequired,
+  client: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
 };
 
 const mapDispatchToProps = {
