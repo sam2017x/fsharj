@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { useQuery, useMutation, useSubscription } from '@apollo/react-hooks';
@@ -13,6 +13,7 @@ import {
 import PropTypes from 'prop-types';
 import { setNotification } from '../reducers/notification';
 import Messages from './Messages';
+import LoadingIcon from './LoadingIcon';
 
 import {
   GET_CHATROOM_INFO,
@@ -27,11 +28,11 @@ const ChatPage = ({ setNotification, match, me, client }) => {
 
   const scrollRef = React.useRef(null);
 
-  const scrollToMsg = () => {
+  const scrollToMsg = useCallback(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  };
+  }, []);
 
   useSubscription(MESSAGE_SUBSCRIPTION, {
     variables: {
@@ -136,23 +137,22 @@ const ChatPage = ({ setNotification, match, me, client }) => {
         setMsg('');
       }
     } catch (error) {
-      console.log(error);
       setNotification(`${error.message}`, 'danger', 5);
     }
   };
 
   if (!me)
     return (
-      <div style={{ minHeight: '100vh' }}>
-        <div>Log in to use the chat app!</div>
+      <div style={{ minHeight: '100vh' }} className="container text-center">
+        <div style={{ marginTop: '50px' }}>
+          <h4>
+            <u>Log in to use the SpaceX API!</u>
+          </h4>
+        </div>
       </div>
     );
 
-  if (!loading) {
-    console.log('me', me);
-  }
-
-  if (loading) return <div style={{ minHeight: '100vh' }}>Loading...</div>;
+  if (loading) return <LoadingIcon />;
 
   if (error) {
     // Could show an image here.

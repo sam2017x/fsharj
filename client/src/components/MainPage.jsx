@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Col,
   Row,
@@ -11,11 +11,12 @@ import PropTypes from 'prop-types';
 import nasa from '../util/img/nasa.jpg';
 import impress from '../util/img/impress2.jpg';
 import weather from '../util/img/weather.jpg';
-import bg from '../util/img/bg.jpg';
 
 const MainPage = ({ me }) => {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(null);
+
+  useEffect(() => window.scrollTo(0, 0), []);
 
   const handleSelect = (selectedIndex, e) => {
     setIndex(selectedIndex);
@@ -39,15 +40,49 @@ const MainPage = ({ me }) => {
 
     */
 
-  if (!bg) return <div>Loading....</div>;
-
   if (!me) {
     return (
-      <div className="container-fluid">
-        <Jumbotron>
+      <div className="container text-center" style={{ minHeight: '100vh' }}>
+        <Jumbotron className="pb-0 mb-0">
           <h1>Hey there! ;)</h1>
           <p>Please log in to gain access to the services.</p>
         </Jumbotron>
+        <div
+          className="rounded-circle"
+          style={{
+            backgroundColor: 'black',
+            height: '10px',
+            width: '10px',
+            marginLeft: '50%',
+            marginBottom: '30px',
+            marginTop: '50px',
+          }}
+        />
+        <div
+          className="rounded-circle"
+          style={{
+            backgroundColor: 'black',
+            height: '10px',
+            width: '10px',
+            marginLeft: '50%',
+            marginBottom: '30px',
+          }}
+        />
+        <div
+          className="rounded-circle"
+          style={{
+            backgroundColor: 'black',
+            height: '10px',
+            width: '10px',
+            marginLeft: '50%',
+            marginBottom: '50px',
+          }}
+        />
+        <div>
+          <p>SpaceX API</p>
+          <p>Weather App</p>
+          <p>Chat...</p>
+        </div>
       </div>
     );
   }

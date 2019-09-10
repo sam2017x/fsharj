@@ -6,7 +6,7 @@ import Message from './Message';
 const Messages = ({ scrollToMsg, messages, removeMessage, me }) => {
   useEffect(() => {
     scrollToMsg();
-  }, []);
+  }, [scrollToMsg]);
 
   return (
     <Col className="p-3">

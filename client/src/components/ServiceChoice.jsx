@@ -28,7 +28,11 @@ const ServiceChoice = ({ history }) => {
             <Card.Header>Chat Application</Card.Header>
             <Card.Body>
               <Card.Title>Socialize</Card.Title>
-              <Card.Text>{`Chat with people on your friendlist.\n`}</Card.Text>
+              <Card.Text as="div">
+                <p className="p-0 m-0">Find people.</p>
+                <p className="p-0 m-0">Add them to your friendlist.</p>
+                <p className="p-0 m-0">Chat away!</p>
+              </Card.Text>
               <Button variant="primary" onClick={() => handleClick('impress')}>
                 Chat App
               </Button>

@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useQuery } from '@apollo/react-hooks';
-import { Accordion, Card, Container, Row, Col, Spinner } from 'react-bootstrap';
+import { Accordion, Card, Container, Row, Col } from 'react-bootstrap';
 import { GET_LAUNCH_DATA } from '../services/queries';
 import rocket from '../util/img/rocket.png';
+import LoadingIcon from './LoadingIcon';
 
 const Space = ({ me }) => {
   const [t, setT] = useState({});
@@ -25,47 +26,50 @@ const Space = ({ me }) => {
 
   useEffect(() => window.scrollTo(0, 0), []);
 
-  const getTime = (launchDate, missionName, element) => {
-    if (missionName === t.missionName) {
-      clearInterval(intervalId);
-      setT({});
-    } else {
-      clearInterval(intervalId);
-      setT({});
-      const interval = setInterval(() => {
-        let now = new Date().getTime();
-        now /= 1000;
-        const distance = launchDate - now;
+  const getTime = useCallback(
+    (launchDate, missionName, element) => {
+      if (missionName === t.missionName) {
+        clearInterval(intervalId);
+        setT({});
+      } else {
+        clearInterval(intervalId);
+        setT({});
+        const interval = setInterval(() => {
+          let now = new Date().getTime();
+          now /= 1000;
+          const distance = launchDate - now;
 
-        const days = Math.floor(distance / (60 * 60 * 24));
-        const hours = Math.floor((distance % (60 * 60 * 24)) / (60 * 60));
-        const minutes = Math.floor((distance % (60 * 60)) / 60);
-        const seconds = Math.floor(distance % 60);
+          const days = Math.floor(distance / (60 * 60 * 24));
+          const hours = Math.floor((distance % (60 * 60 * 24)) / (60 * 60));
+          const minutes = Math.floor((distance % (60 * 60)) / 60);
+          const seconds = Math.floor(distance % 60);
 
-        if (distance > 0) {
-          setT({
-            time: `${days}d : ${hours}h : ${minutes}m : ${seconds}s`,
-            missionName,
-            element,
-            launchDate,
-          });
-        } else {
-          setT({
-            time: 'Expired',
-            missionName,
-            element,
-            launchDate,
-          });
-        }
-      }, 1000);
+          if (distance > 0) {
+            setT({
+              time: `${days}d : ${hours}h : ${minutes}m : ${seconds}s`,
+              missionName,
+              element,
+              launchDate,
+            });
+          } else {
+            setT({
+              time: 'Expired',
+              missionName,
+              element,
+              launchDate,
+            });
+          }
+        }, 1000);
 
-      setIntervalId(interval);
-    }
+        setIntervalId(interval);
+      }
 
-    return null;
-  };
+      return null;
+    },
+    [intervalId, t]
+  );
 
-  const filterMissions = () => {
+  const filterMissions = useCallback(() => {
     let missions = [];
 
     if (filter.scope === 'all') {
@@ -85,7 +89,7 @@ const Space = ({ me }) => {
     }
 
     return missions.sort((a, b) => b.launch_date_unix - a.launch_date_unix);
-  };
+  }, [filter, getLaunchData]);
 
   useEffect(() => {
     if (!loading) {
@@ -98,28 +102,21 @@ const Space = ({ me }) => {
         );
       }
     }
-  }, [filter]);
+  }, [filter, t, getTime, loading, filterMissions]);
 
-  if (!me) return null;
+  if (!me)
+    return (
+      <div style={{ minHeight: '100vh' }} className="container text-center">
+        <div style={{ marginTop: '50px' }}>
+          <h4>
+            <u>Log in to use the SpaceX API!</u>
+          </h4>
+        </div>
+      </div>
+    );
 
   if (loading) {
-    return (
-      <Container style={{ minHeight: '100vh', position: 'relative' }}>
-        <Row>
-          <Col
-            style={{
-              textAlign: 'center',
-              top: '50%',
-              position: 'absolute',
-            }}
-          >
-            <Spinner animation="border" role="status">
-              <span className="sr-only">Loading...</span>
-            </Spinner>
-          </Col>
-        </Row>
-      </Container>
-    );
+    return <LoadingIcon />;
   }
 
   return (

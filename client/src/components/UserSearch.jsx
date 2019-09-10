@@ -17,6 +17,7 @@ import { useField } from '../hooks/index';
 import { setNotification } from '../reducers/notification';
 import { setUser } from '../reducers/user';
 import { ALL_USERS, ADD_FRIEND, CREATE_ROOM } from '../services/queries';
+import LoadingIcon from './LoadingIcon';
 
 const UserSearch = ({ history, me, setNotification }) => {
   const searchField = useField('text');
@@ -68,6 +69,8 @@ const UserSearch = ({ history, me, setNotification }) => {
     searchField.reset();
     focus();
   };
+
+  if (loading) return <LoadingIcon />;
 
   if (data.allUsers === undefined || data.allUsers === null)
     return (

@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Container,
   Col,
   Row,
-  Spinner,
   InputGroup,
   FormControl,
   Table,
@@ -15,6 +13,7 @@ import {
 } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { COUNTRIES, GET_WEATHER_DATA } from '../services/queries';
+import LoadingIcon from './LoadingIcon';
 
 const Weather = ({ me }) => {
   const [val, setVal] = useState('');
@@ -23,6 +22,8 @@ const Weather = ({ me }) => {
   const [weatherData] = useMutation(GET_WEATHER_DATA);
 
   useEffect(() => window.scrollTo(0, 0), []);
+
+  const weatherRef = React.useRef(null);
 
   const getCountryData = async (capital, country) => {
     try {
@@ -35,6 +36,13 @@ const Weather = ({ me }) => {
         country,
         weather: JSON.parse(data.data.getWeatherData.value),
       });
+      console.log(window.innerWidth);
+      if (window.innerWidth < 768) {
+        weatherRef.current.scrollIntoView({
+          block: 'center',
+          behavior: 'smooth',
+        });
+      }
     } catch (error) {
       setForecast(null);
     }
@@ -42,30 +50,16 @@ const Weather = ({ me }) => {
 
   if (!me)
     return (
-      <div style={{ minHeight: '100vh' }}>
-        <div>Log in to use the weather app!</div>
+      <div style={{ minHeight: '100vh' }} className="container text-center">
+        <div style={{ marginTop: '50px' }}>
+          <h4>
+            <u>Log in to use the weather app!</u>
+          </h4>
+        </div>
       </div>
     );
 
-  if (loading)
-    return (
-      <Container style={{ minHeight: '100vh' }}>
-        <Row>
-          <Col
-            className="d-flex"
-            style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: '100vh',
-            }}
-          >
-            <Spinner animation="border" role="status">
-              <span className="sr-only">Loading...</span>
-            </Spinner>
-          </Col>
-        </Row>
-      </Container>
-    );
+  if (loading) return <LoadingIcon />;
 
   if (error) {
     return <div>{error.message}</div>;
@@ -90,11 +84,11 @@ const Weather = ({ me }) => {
             onChange={event => setVal(event.target.value)}
           />
         </InputGroup>
-        <Row>
+        <Row className="ml-0 mr-0">
           <Col
             md={3}
             xs={12}
-            className="rounded pl-0 pr-0"
+            className="rounded mb-3"
             style={{
               overflow: 'auto',
               fontSize: '0.75rem',
@@ -132,11 +126,12 @@ const Weather = ({ me }) => {
             </Table>
           </Col>
           <Col
-            style={{ textAlign: 'center' }}
+            ref={weatherRef}
+            style={{ textAlign: 'center', float: 'left' }}
             sm={12}
             xs={12}
-            md={8}
-            className="mt-4"
+            md={{ span: 8, offset: 1 }}
+            className="pr-0 pl-0"
           >
             {forecast !== null && (
               <div
@@ -152,8 +147,7 @@ const Weather = ({ me }) => {
                 </p>
                 <Row className="pb-3">
                   {forecast.weather.forecast.forecastday.map(day => {
-                    let date = new Date(day.date_epoch * 1000);
-                    console.log('date_olio', date.toDateString());
+                    const date = new Date(day.date_epoch * 1000);
                     return (
                       <Col
                         sm={3}
@@ -174,12 +168,20 @@ const Weather = ({ me }) => {
                           <Card.Header as="h5" style={{ color: 'white' }}>
                             {date.toDateString().substring(0, 3)}
                           </Card.Header>
-                          <Card.Img
-                            variant="top"
-                            src={day.day.condition.icon}
-                            alt={day.day.condition.text}
-                            title={day.day.condition.text}
-                          />
+                          <div
+                            className="d-flex"
+                            style={{ justifyContent: 'center' }}
+                          >
+                            {' '}
+                            <Card.Img
+                              variant="top"
+                              src={day.day.condition.icon}
+                              alt={day.day.condition.text}
+                              title={day.day.condition.text}
+                              style={{ height: '70px', width: '70px' }}
+                            />
+                          </div>
+
                           <Card.Body style={{ color: 'white' }}>
                             <Card.Title>{`${date.getDate()}.${date.getMonth() +
                               1}.${date.getFullYear()}`}</Card.Title>
@@ -187,16 +189,16 @@ const Weather = ({ me }) => {
                           </Card.Body>
                           <ListGroup
                             className="list-group-flush"
-                            style={{ fontSize: '0.75rem' }}
+                            style={{ fontSize: '0.7rem' }}
                           >
                             <ListGroupItem>
-                              Max temp: {day.day.maxtemp_c}
+                              <strong>Max: {day.day.maxtemp_c}&#8451;</strong>
                             </ListGroupItem>
                             <ListGroupItem>
-                              Min temp: {day.day.mintemp_c}
+                              <strong>Min: {day.day.mintemp_c}&#8451;</strong>
                             </ListGroupItem>
                             <ListGroupItem>
-                              Avg temp: {day.day.avgtemp_c}
+                              <strong>Avg: {day.day.avgtemp_c}&#8451;</strong>
                             </ListGroupItem>
                           </ListGroup>
                         </Card>
@@ -215,7 +217,6 @@ const Weather = ({ me }) => {
 
 Weather.propTypes = {
   me: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  client: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
 };
 
 Weather.defaultProps = {

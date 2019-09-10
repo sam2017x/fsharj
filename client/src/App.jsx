@@ -26,7 +26,7 @@ const App = ({ notification, setUser }) => {
     if (user) {
       setUser(user);
     }
-  });
+  }, [setUser]);
 
   const check = useQuery(ME);
 
@@ -58,17 +58,21 @@ const App = ({ notification, setUser }) => {
               return (
                 <>
                   <MainPage me={check.data.me} client={client} />
-                  <div style={{ marginBottom: '50px' }}>
-                    <Image
-                      src={pic1}
-                      style={{
-                        width: '100%',
-                        height: '50vh',
-                        objectFit: 'cover',
-                      }}
-                    />
-                  </div>
-                  <ServiceChoice />
+                  {check.data.me && (
+                    <>
+                      <div style={{ marginBottom: '50px' }}>
+                        <Image
+                          src={pic1}
+                          style={{
+                            width: '100%',
+                            height: '50vh',
+                            objectFit: 'cover',
+                          }}
+                        />
+                      </div>
+                      <ServiceChoice />
+                    </>
+                  )}
                 </>
               );
             }}
