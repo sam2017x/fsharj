@@ -31,7 +31,7 @@ const ServiceChoice = ({ history }) => {
               <Card.Text as="div">
                 <p className="p-0 m-0">Find people.</p>
                 <p className="p-0 m-0">Add them to your friendlist.</p>
-                <p className="p-0 m-0">Chat away!</p>
+                <p>Chat away!</p>
               </Card.Text>
               <Button variant="primary" onClick={() => handleClick('impress')}>
                 Chat App

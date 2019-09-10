@@ -36,7 +36,6 @@ const Weather = ({ me }) => {
         country,
         weather: JSON.parse(data.data.getWeatherData.value),
       });
-      console.log(window.innerWidth);
       if (window.innerWidth < 768) {
         weatherRef.current.scrollIntoView({
           block: 'center',

@@ -92,9 +92,7 @@ const resolvers = {
       }
       try {
         const getMsg = await Message.findById(args.id);
-        await Message.deleteOne({ _id: args.id }, () =>
-          console.log("logitetaan", getMsg)
-        );
+        await Message.deleteOne({ _id: args.id });
         return getMsg;
       } catch (error) {
         throw new ApolloError("error");

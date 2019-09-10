@@ -31,6 +31,7 @@ export const REMOVE_MESSAGE = gql`
   mutation removeMessage($id: ID) {
     removeMessage(id: $id) {
       message
+      id
     }
   }
 `;

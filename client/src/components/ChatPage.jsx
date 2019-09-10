@@ -98,6 +98,8 @@ const ChatPage = ({ setNotification, match, me, client }) => {
           data: dataInStore,
         });
 
+        console.log('removed msg', rm.data);
+
         setUpdate(!update);
       }
     } catch (error) {
