@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 const { PubSub } = require("apollo-server");
-const { withFilter } = require("apollo-server");
 const bcrypt = require("bcrypt");
 const {
+  withFilter,
   ApolloServer,
   UserInputError,
   AuthenticationError,
@@ -92,6 +92,10 @@ const resolvers = {
       }
       try {
         const getMsg = await Message.findById(args.id);
+        await Room.update(
+          { _id: args.room },
+          { $pullAll: { messages: [args.id] } }
+        );
         await Message.deleteOne({ _id: args.id });
         return getMsg;
       } catch (error) {

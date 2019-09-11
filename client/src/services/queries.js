@@ -28,8 +28,8 @@ export const COUNTRIES = gql`
 `;
 
 export const REMOVE_MESSAGE = gql`
-  mutation removeMessage($id: ID) {
-    removeMessage(id: $id) {
+  mutation removeMessage($id: ID, $room: ID) {
+    removeMessage(id: $id, room: $room) {
       message
       id
     }

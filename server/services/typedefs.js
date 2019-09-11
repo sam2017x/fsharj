@@ -17,7 +17,7 @@ module.exports = gql`
     addFriend(id: ID!): User
     sendMessage(roomId: String, message: String, sender: String): Message
     getWeatherData(capital: String): Weather
-    removeMessage(id: ID): Message
+    removeMessage(id: ID, room: ID): Message
   }
 
   type Subscription {

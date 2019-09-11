@@ -78,6 +78,7 @@ const ChatPage = ({ setNotification, match, me, client }) => {
       const rm = await removeMessage({
         variables: {
           id,
+          room: match.params.id,
         },
       });
 
@@ -97,8 +98,6 @@ const ChatPage = ({ setNotification, match, me, client }) => {
           query: GET_CHATROOM_INFO,
           data: dataInStore,
         });
-
-        console.log('removed msg', rm.data);
 
         setUpdate(!update);
       }

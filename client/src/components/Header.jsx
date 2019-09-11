@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nav, Navbar, Button, NavDropdown } from 'react-bootstrap';
+import { Nav, Navbar, Button, NavDropdown, Image } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import { setUser } from '../reducers/user';
 import Togglable from './Togglable';
 import Signup from './Signup';
 import Login from './Login';
+import logo from '../util/img/logo2.jpg';
 
 const Header = ({ history, user, setUser, client }) => {
   const styles = {
@@ -28,9 +29,17 @@ const Header = ({ history, user, setUser, client }) => {
   return (
     <Navbar expand="md" collapseOnSelect bg="dark" variant="dark" sticky="top">
       <Navbar.Brand href="/" as="span">
-        <Link to="/" style={styles}>
-          FSHT
+        <Link to="/">
+          <Image
+            roundedCircle
+            alt="logo"
+            src={logo}
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+          />
         </Link>
+        {' FSHT'}
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
