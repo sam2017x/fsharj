@@ -47,7 +47,7 @@ const Footer = () => {
           style={{ height: '50px', width: '50px' }}
         />
       </p>
-      <p style={{marginBottom: '0'}}>&copy; SJ.</p>
+      <p style={{ marginBottom: '0' }}>&copy; SJ.</p>
     </div>
   );
 };

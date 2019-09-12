@@ -31,11 +31,11 @@ const Header = ({ history, user, setUser, client }) => {
       <Navbar.Brand href="/" as="span">
         <Link to="/">
           <Image
-            roundedCircle
+            rounded
             alt="logo"
             src={logo}
-            width="30"
-            height="30"
+            width="40"
+            height="40"
             className="d-inline-block align-top"
           />
         </Link>
