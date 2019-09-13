@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setNotification } from '../reducers/notification';
 import { GET_USER_INFO, CREATE_ROOM } from '../services/queries';
+import translate from '../util/localization/i18n';
 import LoadingIcon from './LoadingIcon';
 
 const UserPage = ({ foo, setNotification, history, me }) => {
@@ -40,7 +41,7 @@ const UserPage = ({ foo, setNotification, history, me }) => {
       <div style={{ minHeight: '100vh' }} className="container text-center">
         <div style={{ marginTop: '50px' }}>
           <h4>
-            <u>Log in to see the user profile.</u>
+            <u>{translate('userpage_nolog')}</u>
           </h4>
         </div>
       </div>
@@ -82,7 +83,7 @@ const UserPage = ({ foo, setNotification, history, me }) => {
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Username</th>
+                    <th>{translate('login_username')}</th>
                   </tr>
                 </thead>
                 <tbody>

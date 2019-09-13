@@ -83,7 +83,7 @@ const UserSearch = ({ history, me, setNotification }) => {
               ref={focusRef}
               {...searchField}
               reset={null}
-              placeholder="username"
+              placeholder={translate('login_username')}
             />
           </Form.Group>
           <Button onClick={() => handleClear()} variant="primary">
@@ -117,7 +117,7 @@ const UserSearch = ({ history, me, setNotification }) => {
               ref={focusRef}
               {...searchField}
               reset={null}
-              placeholder="username"
+              placeholder={translate('login_username')}
             />
           </Form.Group>
           <Button onClick={() => handleClear()} variant="primary">
@@ -155,11 +155,11 @@ const UserSearch = ({ history, me, setNotification }) => {
             ref={focusRef}
             {...searchField}
             reset={null}
-            placeholder="username"
+            placeholder={translate('login_username')}
           />
         </Form.Group>
         <Button onClick={() => handleClear()} variant="primary">
-        {translate('usersearch_form_button')}
+          {translate('usersearch_form_button')}
         </Button>
       </Form>
       <Table>
@@ -206,7 +206,7 @@ const UserSearch = ({ history, me, setNotification }) => {
                     <>
                       <td>
                         <Button variant="secondary" disabled>
-                        {translate('usersearch_action_remove')}
+                          {translate('usersearch_action_remove')}
                         </Button>
                       </td>
                       <td>
