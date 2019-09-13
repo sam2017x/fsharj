@@ -6,6 +6,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { useField } from '../hooks/index';
 import { userLogin } from '../reducers/user';
 import { LOGIN } from '../services/queries';
+import translate from '../util/localization/i18n';
 import { setNotification } from '../reducers/notification';
 
 const Login = ({ setNotification, userLogin, toggleForm, client }) => {
@@ -63,7 +64,7 @@ const Login = ({ setNotification, userLogin, toggleForm, client }) => {
           autoFocus
           {...ufields}
           reset={null}
-          placeholder="Username"
+          placeholder={translate('login_username')}
           className="mr-sm-3"
         />
         <Form.Control
@@ -71,14 +72,14 @@ const Login = ({ setNotification, userLogin, toggleForm, client }) => {
           width={10}
           {...pfields}
           reset={null}
-          placeholder="Password"
+          placeholder={translate('login_password')}
           className="mr-sm-3"
         />
         <Button type="submit" size="sm" variant="warning" className="mr-1">
-          Login
+        {translate('login_login')}
         </Button>
         <Button size="sm" variant="light" onClick={() => toggleForm()}>
-          Cancel
+        {translate('login_cancel')}
         </Button>
       </Form>
     </>

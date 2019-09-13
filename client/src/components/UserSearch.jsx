@@ -17,6 +17,7 @@ import { useField } from '../hooks/index';
 import { setNotification } from '../reducers/notification';
 import { setUser } from '../reducers/user';
 import { ALL_USERS, ADD_FRIEND, CREATE_ROOM } from '../services/queries';
+import translate from '../util/localization/i18n';
 import LoadingIcon from './LoadingIcon';
 
 const UserSearch = ({ history, me, setNotification }) => {
@@ -77,7 +78,7 @@ const UserSearch = ({ history, me, setNotification }) => {
       <div style={{ minHeight: '100vh' }}>
         <Form>
           <Form.Group>
-            <Form.Label>Search with username: </Form.Label>
+            <Form.Label>{translate('usersearch_form_label')}</Form.Label>
             <Form.Control
               ref={focusRef}
               {...searchField}
@@ -111,7 +112,7 @@ const UserSearch = ({ history, me, setNotification }) => {
       <div style={{ minHeight: '100vh' }}>
         <Form>
           <Form.Group>
-            <Form.Label>Search with username: </Form.Label>
+            <Form.Label>{translate('usersearch_form_label')}</Form.Label>
             <Form.Control
               ref={focusRef}
               {...searchField}
@@ -149,7 +150,7 @@ const UserSearch = ({ history, me, setNotification }) => {
     <div style={{ minHeight: '100vh' }}>
       <Form>
         <Form.Group>
-          <Form.Label>Search with username: </Form.Label>
+          <Form.Label>{translate('usersearch_form_label')}</Form.Label>
           <Form.Control
             ref={focusRef}
             {...searchField}
@@ -158,14 +159,14 @@ const UserSearch = ({ history, me, setNotification }) => {
           />
         </Form.Group>
         <Button onClick={() => handleClear()} variant="primary">
-          Clear
+        {translate('usersearch_form_button')}
         </Button>
       </Form>
       <Table>
         <thead>
           <tr>
             <th>#</th>
-            <th>Username</th>
+            <th>{translate('login_username')}</th>
           </tr>
         </thead>
         <tbody>
@@ -196,7 +197,7 @@ const UserSearch = ({ history, me, setNotification }) => {
                           variant="primary"
                           onClick={() => handleFriendAdd(usr.id)}
                         >
-                          Add friend
+                          {translate('usersearch_action_add')}
                         </Button>
                       </td>
                       <td></td>
@@ -205,7 +206,7 @@ const UserSearch = ({ history, me, setNotification }) => {
                     <>
                       <td>
                         <Button variant="secondary" disabled>
-                          Remove
+                        {translate('usersearch_action_remove')}
                         </Button>
                       </td>
                       <td>

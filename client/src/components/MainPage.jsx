@@ -110,9 +110,9 @@ const MainPage = ({ me }) => {
             style={{ alignItems: 'center', justifyContent: 'center' }}
           >
             <ul>
-              <li>Socialize using the chat app.</li>
-              <li>Check out the weather forecast. World wide.</li>
-              <li>Space X -missions. The past and the future.</li>
+              <li>{translate('mainpage_li1')}</li>
+              <li>{translate('mainpage_li2')}</li>
+              <li>{translate('mainpage_li3')}</li>
             </ul>
           </Col>
           <Col lg={6}>
@@ -132,8 +132,8 @@ const MainPage = ({ me }) => {
                   }}
                 />
                 <Carousel.Caption>
-                  <h3>Chat like no tomorrow.</h3>
-                  <p>Limited to people on your friendlist.</p>
+                  <h3>{translate('mainpage_carousel1_h3')}</h3>
+                  <p>{translate('mainpage_carousel1_p')}</p>
                 </Carousel.Caption>
               </Carousel.Item>
               <Carousel.Item>
@@ -144,8 +144,8 @@ const MainPage = ({ me }) => {
                   style={{ objectFit: 'cover', height: '15rem' }}
                 />
                 <Carousel.Caption>
-                  <h3>SPACE X -missions</h3>
-                  <p>List of upcoming flights.</p>
+                  <h3>{translate('mainpage_carousel2_h3')}</h3>
+                  <p>{translate('mainpage_carousel2_p')}</p>
                 </Carousel.Caption>
               </Carousel.Item>
               <Carousel.Item>
@@ -156,8 +156,8 @@ const MainPage = ({ me }) => {
                   style={{ objectFit: 'cover', height: '15rem' }}
                 />
                 <Carousel.Caption>
-                  <h3>Weather forecast</h3>
-                  <p>Make plans with precision.</p>
+                  <h3>{translate('mainpage_carousel3_h3')}</h3>
+                  <p>{translate('mainpage_carousel3_p')}</p>
                 </Carousel.Caption>
               </Carousel.Item>
             </Carousel>

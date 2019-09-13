@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Col, Row, Card, Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import translate from '../util/localization/i18n';
 
 const ServiceChoice = ({ history }) => {
   const handleClick = val => {
@@ -25,16 +26,16 @@ const ServiceChoice = ({ history }) => {
       <Row>
         <Col md={4} xs={12} className="d-flex align-items-stretch mb-3">
           <Card bg="success" style={{ width: '100%', position: 'relative' }}>
-            <Card.Header>Chat Application</Card.Header>
+            <Card.Header>{translate('sc_c1_header')}</Card.Header>
             <Card.Body>
-              <Card.Title>Socialize</Card.Title>
+              <Card.Title>{translate('sc_c1_title')}</Card.Title>
               <Card.Text as="div">
-                <p className="p-0 m-0">Find people.</p>
-                <p className="p-0 m-0">Add them to your friendlist.</p>
-                <p>Chat away!</p>
+                <p className="p-0 m-0">{translate('sc_c1_p1')}</p>
+                <p className="p-0 m-0">{translate('sc_c1_p2')}</p>
+                <p>{translate('sc_c1_p3')}</p>
               </Card.Text>
               <Button variant="primary" onClick={() => handleClick('impress')}>
-                Chat App
+                {translate('sc_c1_button')}
               </Button>
             </Card.Body>
           </Card>
@@ -45,15 +46,12 @@ const ServiceChoice = ({ history }) => {
             text="white"
             style={{ width: '100%', position: 'relative' }}
           >
-            <Card.Header>Weather Application</Card.Header>
+            <Card.Header>{translate('sc_c2_header')}</Card.Header>
             <Card.Body>
-              <Card.Title>Weather</Card.Title>
-              <Card.Text>
-                Choose the desired country. The app shows the weather forecast
-                of the country&apos;s capital city.
-              </Card.Text>
+              <Card.Title>{translate('sc_c2_title')}</Card.Title>
+              <Card.Text>{translate('sc_c2_text')}</Card.Text>
               <Button variant="primary" onClick={() => handleClick('weather')}>
-                Weather App
+                {translate('sc_c2_button')}
               </Button>
             </Card.Body>
           </Card>
@@ -62,11 +60,8 @@ const ServiceChoice = ({ history }) => {
           <Card bg="secondary" style={{ width: '100%', position: 'relative' }}>
             <Card.Header>SpaceX API</Card.Header>
             <Card.Body>
-              <Card.Title>SPACE X -missions</Card.Title>
-              <Card.Text>
-                Check out all the SpaceX -missions that have happened or will
-                happen.
-              </Card.Text>
+              <Card.Title>{translate('sc_c3_title')}</Card.Title>
+              <Card.Text>{translate('sc_c3_text')}</Card.Text>
               <Button variant="primary" onClick={() => handleClick('space')}>
                 SpaceX API
               </Button>

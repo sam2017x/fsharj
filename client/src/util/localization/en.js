@@ -1,6 +1,12 @@
+/* eslint-disable import/prefer-default-export */
 export const en = {
   chatpage_send: 'Send',
+  chatpage_nolog: 'Log in to use the chat application.',
   header_users: 'Users',
+  header_weather: 'Weather App',
+  header_space: 'SpaceX API',
+  header_signed: 'Signed in as:',
+  header_logout: 'Logout',
   loadingicon: 'Loading...',
   login_username: 'Username',
   login_password: 'Password',
@@ -26,10 +32,12 @@ export const en = {
   sc_c1_p1: 'Find people.',
   sc_c1_p2: 'Add them to your friendlist.',
   sc_c1_p3: 'Chat away!',
+  sc_c1_button: 'Chat App',
   sc_c2_header: 'Weather Application',
   sc_c2_title: 'Weather',
   sc_c2_text: `Choose the desired country. The app shows the weather forecast
   of the country&apos;s capital city.`,
+  sc_c2_button: 'Weather App',
   sc_c3_title: 'SpaceX missions',
   sc_c3_text: `Check out all the SpaceX -missions that have happened or will
   happen.`,
@@ -47,6 +55,11 @@ export const en = {
   space_accordion3: 'Launch site',
   space_accordion4: 'Countdown',
   space_filter_fail: 'No matches',
+  space_days: 'd',
+  space_hours: 'h',
+  space_minutes: 'm',
+  space_seconds: 's',
+  space_expired: 'Expired',
   toggle_log: 'Log in',
   toggle_sign: 'Sign up',
   userpage_nolog: 'Log in to see the user profile.',
@@ -58,7 +71,7 @@ export const en = {
   usersearch_action_remove: 'Remove',
   weather_nolog: 'Log in to use the weather app!',
   weather_country: 'Country',
-  weather_forecast_capital: 'Capital',
+  weather_capital: 'Capital',
   Mon: 'Mon',
   Tue: 'Tue',
   Wed: 'Wed',
@@ -66,5 +79,5 @@ export const en = {
   Fri: 'Fri',
   Sat: 'Sat',
   Sun: 'Sun',
-  weather_forecast_avg: 'Avg:',
+  weather_avg: 'Avg:',
 };

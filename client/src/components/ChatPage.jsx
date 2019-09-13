@@ -12,6 +12,7 @@ import {
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { setNotification } from '../reducers/notification';
+import translate from '../util/localization/i18n';
 import Messages from './Messages';
 import LoadingIcon from './LoadingIcon';
 
@@ -147,7 +148,7 @@ const ChatPage = ({ setNotification, match, me, client }) => {
       <div style={{ minHeight: '100vh' }} className="container text-center">
         <div style={{ marginTop: '50px' }}>
           <h4>
-            <u>Log in to use the SpaceX API!</u>
+            <u>{translate('chatpage_nolog')}</u>
           </h4>
         </div>
       </div>
@@ -219,7 +220,9 @@ const ChatPage = ({ setNotification, match, me, client }) => {
         </Container>
         <InputGroup size="sm" className="mt-4 sticky-bottom">
           <InputGroup.Prepend>
-            <Button onClick={() => handleMessage()}>Send:</Button>
+            <Button onClick={() => handleMessage()}>
+              {translate('chatpage_send')}
+            </Button>
           </InputGroup.Prepend>
           <FormControl
             value={msg}

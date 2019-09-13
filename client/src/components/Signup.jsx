@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useField } from '../hooks/index';
 import { SIGN } from '../services/queries';
+import translate from '../util/localization/i18n';
 import { setNotification } from '../reducers/notification';
 
 const Signup = ({ toggleForm, setNotification }) => {
@@ -44,20 +45,20 @@ const Signup = ({ toggleForm, setNotification }) => {
           autoFocus
           {...uname}
           reset={null}
-          placeholder="Username"
+          placeholder={translate('login_username')}
           className="mr-sm-3"
         />
         <Form.Control
           {...pw}
           reset={null}
-          placeholder="Password"
+          placeholder={translate('login_password')}
           className="mr-sm-3"
         />
         <Button type="submit" size="sm" variant="success" className="mr-1">
-          Sign up
+          {translate('toggle_sign')}
         </Button>
         <Button size="sm" variant="light" onClick={() => toggleForm()}>
-          Cancel
+          {translate('login_cancel')}
         </Button>
       </Form>
     </>

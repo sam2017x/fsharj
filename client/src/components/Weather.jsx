@@ -53,7 +53,7 @@ const Weather = ({ me }) => {
       <div style={{ minHeight: '100vh' }} className="container text-center">
         <div style={{ marginTop: '50px' }}>
           <h4>
-            <u>Log in to use the weather app!</u>
+            <u>{translate('weather_nolog')}</u>
           </h4>
         </div>
       </div>
@@ -99,7 +99,7 @@ const Weather = ({ me }) => {
             <Table className="mt-4" striped>
               <thead>
                 <tr>
-                  <th>Country</th>
+                  <th>{translate('weather_country')}</th>
                 </tr>
               </thead>
               <tbody>
@@ -143,13 +143,13 @@ const Weather = ({ me }) => {
               >
                 <h3 className="mt-3">{forecast.country}</h3>
                 <p>
-                  <strong>Capital:</strong> {forecast.weather.location.name}
+                  <strong>{translate('weather_capital')}</strong>{' '}
+                  {forecast.weather.location.name}
                 </p>
                 <Row className="pb-3">
                   {forecast.weather.forecast.forecastday.map(day => {
                     const date = new Date(day.date_epoch * 1000);
-                    const weekday = data.toDateString().substring(0, 3);
-
+                    //const weekday = data.toDateString().substring(0, 3);
                     return (
                       <Col
                         sm={3}
@@ -168,7 +168,7 @@ const Weather = ({ me }) => {
                           className="text-center"
                         >
                           <Card.Header as="h5" style={{ color: 'white' }}>
-                            {date.toDateString().substring(0, 3)}
+                            {translate(date.toDateString().substring(0, 3))}
                           </Card.Header>
                           <div
                             className="d-flex"
@@ -200,7 +200,10 @@ const Weather = ({ me }) => {
                               <strong>Min: {day.day.mintemp_c}&#8451;</strong>
                             </ListGroupItem>
                             <ListGroupItem>
-                              <strong>Avg: {day.day.avgtemp_c}&#8451;</strong>
+                              <strong>
+                                {translate('weather_avg')} {day.day.avgtemp_c}
+                                &#8451;
+                              </strong>
                             </ListGroupItem>
                           </ListGroup>
                         </Card>

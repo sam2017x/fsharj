@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 export const fi = {
   chatpage_send: 'Lähetä',
   header_users: 'Käyttäjät',

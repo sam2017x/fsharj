@@ -5,6 +5,7 @@ import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { setUser } from '../reducers/user';
 import Togglable from './Togglable';
+import translate from '../util/localization/i18n';
 import Signup from './Signup';
 import Login from './Login';
 import logo from '../util/img/logo2.jpg';
@@ -46,15 +47,15 @@ const Header = ({ history, user, setUser, client, setLocale }) => {
         <Nav className="mr-auto">
           <NavDropdown title="Services" id="collasible-nav-dropdown">
             <NavDropdown.Item as="span">
-              <Link to="/service/space">SpaceX API</Link>
+              <Link to="/service/space">{translate('header_space')}</Link>
             </NavDropdown.Item>
             <NavDropdown.Item as="span">
-              <Link to="/service/weather">Weather App</Link>
+              <Link to="/service/weather">{translate('header_weather')}</Link>
             </NavDropdown.Item>
           </NavDropdown>
           <Nav.Link href="/s/users" as="span">
             <Link to="/s/users" style={styles}>
-              Users
+              {translate('header_users')}
             </Link>
           </Nav.Link>
           <a href="#" onClick={() => setLocale('en')}>
@@ -76,7 +77,7 @@ const Header = ({ history, user, setUser, client, setLocale }) => {
         {user && (
           <>
             <Navbar.Text as="span">
-              <span style={{ color: 'white' }}>Signed in as: </span>
+              <span style={{ color: 'white' }}>{translate('header_signed')}</span>
               <Link
                 className="mr-2"
                 to={`/user/${user.username}`}
@@ -91,7 +92,7 @@ const Header = ({ history, user, setUser, client, setLocale }) => {
                 onClick={() => logout()}
                 variant="danger"
               >
-                Logout
+                {translate('header_logout')}
               </Button>
             </Navbar.Text>
           </>

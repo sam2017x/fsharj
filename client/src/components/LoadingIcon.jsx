@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Col, Row, Spinner } from 'react-bootstrap';
+import translate from '../util/localization/i18n';
 
 const LoadingIcon = () => (
   <Container style={{ minHeight: '100vh' }}>
@@ -13,7 +14,7 @@ const LoadingIcon = () => (
         }}
       >
         <Spinner animation="border" role="status">
-          <span className="sr-only">Loading...</span>
+          <span className="sr-only">{translate('loadingicon')}</span>
         </Spinner>
       </Col>
     </Row>

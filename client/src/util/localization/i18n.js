@@ -13,6 +13,8 @@ if (locale.includes('-') && locale.length > 2) {
 
 let translations = messages[locale];
 
+console.log('i18n', messages);
+
 const translate = (key, ...vars) => {
   // eslint-disable-next-line
   key += vars.length > 0 ? '.value' : '';

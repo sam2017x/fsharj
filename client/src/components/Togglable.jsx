@@ -1,6 +1,7 @@
 import React, { useState, useImperativeHandle } from 'react';
 import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import translate from '../util/localization/i18n';
 
 const Togglable = React.forwardRef((props, ref) => {
   const [toggle, setToggle] = useState('none');
@@ -23,7 +24,7 @@ const Togglable = React.forwardRef((props, ref) => {
             onClick={() => setToggle('log')}
             className="mr-sm-1"
           >
-            Log in
+            {translate('toggle_log')}
           </Button>
           {` | `}
           <Button
@@ -31,7 +32,7 @@ const Togglable = React.forwardRef((props, ref) => {
             onClick={() => setToggle('sign')}
             className="ml-sm-1"
           >
-            Sign up
+            {translate('toggle_sign')}
           </Button>
         </>
       )}

@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { Accordion, Card, Container, Row, Col } from 'react-bootstrap';
 import { GET_LAUNCH_DATA } from '../services/queries';
 import rocket from '../util/img/rocket.png';
+import translate from '../util/localization/i18n';
 import LoadingIcon from './LoadingIcon';
 
 const Space = ({ me }) => {
@@ -46,14 +47,18 @@ const Space = ({ me }) => {
 
           if (distance > 0) {
             setT({
-              time: `${days}d : ${hours}h : ${minutes}m : ${seconds}s`,
+              time: `${days}${translate('space_days')} : ${hours}${translate(
+                'space_hours'
+              )} : ${minutes}${translate(
+                'space_minutes'
+              )} : ${seconds}${translate('space_seconds')}`,
               missionName,
               element,
               launchDate,
             });
           } else {
             setT({
-              time: 'Expired',
+              time: translate('space_expired'),
               missionName,
               element,
               launchDate,
@@ -109,7 +114,7 @@ const Space = ({ me }) => {
       <div style={{ minHeight: '100vh' }} className="container text-center">
         <div style={{ marginTop: '50px' }}>
           <h4>
-            <u>Log in to use the SpaceX API!</u>
+            <u>{translate('space_nolog')}</u>
           </h4>
         </div>
       </div>
@@ -122,12 +127,12 @@ const Space = ({ me }) => {
   return (
     <div className="container pt-4 mt-4" style={{ minHeight: '100vh' }}>
       <h2 className="pb-3 mb-3" style={{ textAlign: 'center' }}>
-        Space X Missions
+      {translate('space_h1')}
       </h2>
       <Container className="mb-4">
         <Row>
           <Col xs={12} sm={12} md={4}>
-            Rocket:
+          {translate('space_filter1')}
             <select
               style={{ width: '100%' }}
               onChange={event =>
@@ -147,27 +152,27 @@ const Space = ({ me }) => {
             </select>
           </Col>
           <Col xs={12} md={4} sm={12}>
-            Order:
+          {translate('space_filter2')}
             <select
               style={{ width: '100%' }}
               onChange={event =>
                 setFilter({ ...filter, order: event.target.value })
               }
             >
-              <option value="desc">Descending</option>
-              <option value="asc">Ascending</option>
+              <option value="desc">{translate('space_filter2_1')}</option>
+              <option value="asc">{translate('space_filter2_2')}</option>
             </select>
           </Col>
           <Col xs={12} sm={12} md={4}>
-            Scope:
+          {translate('space_filter3')}
             <select
               style={{ width: '100%' }}
               onChange={event =>
                 setFilter({ ...filter, scope: event.target.value })
               }
             >
-              <option value="all">All</option>
-              <option value="upcoming">Upcoming</option>
+              <option value="all">{translate('space_filter3_1')}</option>
+              <option value="upcoming">{translate('space_filter3_2')}</option>
             </select>
           </Col>
         </Row>
@@ -199,25 +204,25 @@ const Space = ({ me }) => {
                         xs={{ span: 12, order: 2 }}
                       >
                         <dl>
-                          <dt>Description</dt>
+                          <dt>{translate('space_accordion1')}</dt>
                           {launch.details ? (
                             <dd>{launch.details}</dd>
                           ) : (
                             <dd>TBA</dd>
                           )}
-                          <dt>Rocket</dt>
+                          <dt>{translate('space_accordion2')}</dt>
                           {launch.rocket.rocket_id ? (
                             <dd>{launch.rocket.rocket_name}</dd>
                           ) : (
                             <dd>TBA</dd>
                           )}
-                          <dt>Launch site</dt>
+                          <dt>{translate('space_accordion3')}</dt>
                           {launch.launch_site.site_id ? (
                             <dd>{launch.launch_site.site_name_long}</dd>
                           ) : (
                             <dd>TBA</dd>
                           )}
-                          <dt>Countdown</dt>
+                          <dt>{translate('space_accordion4')}</dt>
                           <dd>{t.time}</dd>
                         </dl>
                       </Col>
@@ -241,7 +246,7 @@ const Space = ({ me }) => {
           ))}
         {!loading && filterMissions().length === 0 && (
           <div className="text-center mt-5 pt-5">
-            <strong>No matches</strong>
+            <strong>{translate('space_filter_fail')}</strong>
           </div>
         )}
       </Accordion>
