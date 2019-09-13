@@ -13,6 +13,7 @@ import {
 } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { COUNTRIES, GET_WEATHER_DATA } from '../services/queries';
+import translate from '../util/localization/i18n';
 import LoadingIcon from './LoadingIcon';
 
 const Weather = ({ me }) => {
@@ -147,6 +148,8 @@ const Weather = ({ me }) => {
                 <Row className="pb-3">
                   {forecast.weather.forecast.forecastday.map(day => {
                     const date = new Date(day.date_epoch * 1000);
+                    const weekday = data.toDateString().substring(0, 3);
+
                     return (
                       <Col
                         sm={3}

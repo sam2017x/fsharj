@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import nasa from '../util/img/nasa.jpg';
 import impress from '../util/img/impress2.jpg';
 import weather from '../util/img/weather.jpg';
+import translate from '../util/localization/i18n';
 
 const MainPage = ({ me }) => {
   const [index, setIndex] = useState(0);
@@ -100,11 +101,7 @@ const MainPage = ({ me }) => {
         </Row>
         <Row>
           <Col>
-            <h5>
-              Ever wanted one place with all the necessary tools to socialize,
-              be informed about weather and get knowledge about SpaceX missions?
-              Look no further!
-            </h5>
+            <h5>{translate('mainpage_h5')}</h5>
           </Col>
         </Row>
         <Row className="mt-4">

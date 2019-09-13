@@ -9,7 +9,7 @@ import Signup from './Signup';
 import Login from './Login';
 import logo from '../util/img/logo2.jpg';
 
-const Header = ({ history, user, setUser, client }) => {
+const Header = ({ history, user, setUser, client, setLocale }) => {
   const styles = {
     color: 'white',
   };
@@ -57,6 +57,13 @@ const Header = ({ history, user, setUser, client }) => {
               Users
             </Link>
           </Nav.Link>
+          <a href="#" onClick={() => setLocale('en')}>
+            en
+          </a>
+          /
+          <a href="#" onClick={() => setLocale('fi')}>
+            fi
+          </a>
         </Nav>
         {!user && (
           <>

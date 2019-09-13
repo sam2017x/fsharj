@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Alert, Image } from 'react-bootstrap';
+import { Alert, Image, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { useQuery, useApolloClient } from '@apollo/react-hooks';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
@@ -15,6 +15,7 @@ import MainPage from './components/MainPage';
 import Weather from './components/Weather';
 import Space from './components/Space';
 import ServiceChoice from './components/ServiceChoice';
+import { setLocale } from './util/localization/i18n';
 import pic1 from './util/img/1.jpg';
 import './css/index.css';
 
@@ -28,12 +29,16 @@ const App = ({ notification, setUser }) => {
     }
   }, [setUser]);
 
+  const setLanguage = lang => {
+    setLocale(lang);
+  };
+
   const check = useQuery(ME);
 
   return (
     <div>
       <Router>
-        <Header user={check.data.me} client={client} />
+        <Header user={check.data.me} client={client} setLocale={setLanguage} />
         {notification.text !== undefined && (
           <Alert className="mb-0" variant={notification.style}>
             {notification.text}
