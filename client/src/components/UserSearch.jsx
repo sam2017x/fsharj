@@ -43,7 +43,7 @@ const UserSearch = ({ history, me, setNotification }) => {
         },
       });
 
-      setNotification(`Chat started.`, 'success', 5);
+      setNotification(`${translate('chat_started')}`, 'success', 5);
       history.push(`/chat/${room.data.createRoom.id}`);
     } catch (error) {
       setNotification(`${error.message}`, 'danger', 5);
@@ -59,7 +59,7 @@ const UserSearch = ({ history, me, setNotification }) => {
       });
 
       if (!afterAdd.loading) {
-        setNotification(`Friend added!`, 'success', 5);
+        setNotification(`${translate('friend_added')}`, 'success', 5);
       }
     } catch (error) {
       setNotification(`${error.message}`, 'danger', 5);
@@ -87,7 +87,7 @@ const UserSearch = ({ history, me, setNotification }) => {
             />
           </Form.Group>
           <Button onClick={() => handleClear()} variant="primary">
-            Clear
+            {translate('clear')}
           </Button>
         </Form>
         <Container>
@@ -99,7 +99,7 @@ const UserSearch = ({ history, me, setNotification }) => {
               }}
             >
               <Spinner animation="border" role="status">
-                <span className="sr-only">Loading...</span>
+                <span className="sr-only">{translate('loadingicon')}</span>
               </Spinner>
             </Col>
           </Row>
@@ -121,14 +121,14 @@ const UserSearch = ({ history, me, setNotification }) => {
             />
           </Form.Group>
           <Button onClick={() => handleClear()} variant="primary">
-            Clear
+            {translate('clear')}
           </Button>
         </Form>
         <Table>
           <thead>
             <tr>
               <th>#</th>
-              <th>Username</th>
+              <th>{translate('login_username')}</th>
             </tr>
           </thead>
           <tbody>

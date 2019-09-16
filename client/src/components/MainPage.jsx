@@ -45,8 +45,8 @@ const MainPage = ({ me }) => {
     return (
       <div className="container text-center" style={{ minHeight: '100vh' }}>
         <Jumbotron className="pb-0 mb-0">
-          <h1>Hey there! ;)</h1>
-          <p>Please log in to gain access to the services.</p>
+          <h1>{translate('mainpage_nolog_h1')}</h1>
+          <p>{translate('mainpage_nolog_p')}</p>
         </Jumbotron>
         <div
           className="rounded-circle"
@@ -81,7 +81,7 @@ const MainPage = ({ me }) => {
         />
         <div>
           <p>SpaceX API</p>
-          <p>Weather App</p>
+          <p>{translate('sc_c2_header')}</p>
           <p>Chat...</p>
         </div>
       </div>
@@ -125,7 +125,7 @@ const MainPage = ({ me }) => {
                 <Image
                   className="d-block w-100"
                   src={impress}
-                  alt="First slide"
+                  alt={translate('slide1')}
                   style={{
                     objectFit: 'cover',
                     height: '15rem',
@@ -140,7 +140,7 @@ const MainPage = ({ me }) => {
                 <Image
                   className="d-block w-100"
                   src={nasa}
-                  alt="Second slide"
+                  alt={translate('slide2')}
                   style={{ objectFit: 'cover', height: '15rem' }}
                 />
                 <Carousel.Caption>
@@ -152,7 +152,7 @@ const MainPage = ({ me }) => {
                 <Image
                   className="d-block w-100"
                   src={weather}
-                  alt="Third slide"
+                  alt={translate('slide3')}
                   style={{ objectFit: 'cover', height: '15rem' }}
                 />
                 <Carousel.Caption>

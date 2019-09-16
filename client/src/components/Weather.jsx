@@ -71,13 +71,13 @@ const Weather = ({ me }) => {
         className="container-fluid p-4 mt-4 mb-4"
         style={{ minHeight: '100vh' }}
       >
-        <h2>Weather</h2>
+        <h2>{translate('sc_c2_title')}</h2>
         <InputGroup style={{ paddingBottom: '25px' }}>
           <InputGroup.Prepend>
             <InputGroup.Text id="basic-addon1">Filter</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
-            placeholder="Country"
+            placeholder={translate('weather_country')}
             aria-label="Country"
             aria-describedby="basic-addon1"
             value={val}
@@ -149,7 +149,6 @@ const Weather = ({ me }) => {
                 <Row className="pb-3">
                   {forecast.weather.forecast.forecastday.map(day => {
                     const date = new Date(day.date_epoch * 1000);
-                    //const weekday = data.toDateString().substring(0, 3);
                     return (
                       <Col
                         sm={3}

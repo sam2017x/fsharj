@@ -45,7 +45,7 @@ const Header = ({ history, user, setUser, client, setLocale }) => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-          <NavDropdown title="Services" id="collasible-nav-dropdown">
+          <NavDropdown title={translate('header_services')} id="collasible-nav-dropdown">
             <NavDropdown.Item as="span">
               <Link to="/service/space">{translate('header_space')}</Link>
             </NavDropdown.Item>

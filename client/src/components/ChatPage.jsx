@@ -103,7 +103,7 @@ const ChatPage = ({ setNotification, match, me, client }) => {
         setUpdate(!update);
       }
     } catch (error) {
-      setNotification(`The message couldn't be removed.`, 'danger', 5);
+      setNotification(translate('msg_couldnt_remove'), 'danger', 5);
     }
   };
 

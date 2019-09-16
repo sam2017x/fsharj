@@ -29,7 +29,7 @@ const UserPage = ({ foo, setNotification, history, me }) => {
           title: 'awdad',
         },
       });
-      setNotification(`Chat started.`, 'success', 5);
+      setNotification(`${translate('chat_started')}`, 'success', 5);
       history.push(`/chat/${room.data.createRoom.id}`);
     } catch (error) {
       setNotification(`${error.message}`, 'danger', 5);
@@ -69,16 +69,16 @@ const UserPage = ({ foo, setNotification, history, me }) => {
         </Row>
         <Row>
           <Col>
-            <h5>Posts: {data.getUserInfo.posts || 0}</h5>
+            <h5>{translate('userpage_posts')} {data.getUserInfo.posts || 0}</h5>
           </Col>
           <Col>
-            <h5>Level: {data.getUserInfo.level || 'beginner'}</h5>
+            <h5>{translate('userpage_level')} {data.getUserInfo.level || 'beginner'}</h5>
           </Col>
         </Row>
         {me.username === data.getUserInfo.username && (
           <Row>
             <Col className="mt-4">
-              <h5>Friends: </h5>
+              <h5>{translate('userpage_friends')} </h5>
               <Table size="sm">
                 <thead>
                   <tr>

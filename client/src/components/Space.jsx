@@ -107,7 +107,7 @@ const Space = ({ me }) => {
         );
       }
     }
-  }, [filter, t, getTime, loading, filterMissions]);
+  }, [filter]);
 
   if (!me)
     return (
@@ -127,19 +127,19 @@ const Space = ({ me }) => {
   return (
     <div className="container pt-4 mt-4" style={{ minHeight: '100vh' }}>
       <h2 className="pb-3 mb-3" style={{ textAlign: 'center' }}>
-      {translate('space_h1')}
+        {translate('space_h1')}
       </h2>
       <Container className="mb-4">
         <Row>
           <Col xs={12} sm={12} md={4}>
-          {translate('space_filter1')}
+            {translate('space_filter1')}
             <select
               style={{ width: '100%' }}
               onChange={event =>
                 setFilter({ ...filter, rocket: event.target.value })
               }
             >
-              <option value="all">All</option>
+              <option value="all">{translate('space_filter3_1')}</option>
               {!loading &&
                 JSON.parse(getLaunchData.value)
                   .map(mis => mis.rocket.rocket_name)
@@ -152,7 +152,7 @@ const Space = ({ me }) => {
             </select>
           </Col>
           <Col xs={12} md={4} sm={12}>
-          {translate('space_filter2')}
+            {translate('space_filter2')}
             <select
               style={{ width: '100%' }}
               onChange={event =>
@@ -164,7 +164,7 @@ const Space = ({ me }) => {
             </select>
           </Col>
           <Col xs={12} sm={12} md={4}>
-          {translate('space_filter3')}
+            {translate('space_filter3')}
             <select
               style={{ width: '100%' }}
               onChange={event =>
@@ -195,7 +195,9 @@ const Space = ({ me }) => {
               </Accordion.Toggle>
               <Accordion.Collapse eventKey={`${i}`}>
                 <Card.Body>
-                  <h4 style={{ textAlign: 'center' }}>Mission details</h4>
+                  <h4 style={{ textAlign: 'center' }}>
+                    {translate('space_details')}
+                  </h4>
                   <Container className="pt-3">
                     <Row>
                       <Col

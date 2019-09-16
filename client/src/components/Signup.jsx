@@ -28,7 +28,7 @@ const Signup = ({ toggleForm, setNotification }) => {
 
       if (!loading) {
         setNotification(
-          `Signed up successfully as ${data.addUser.username}!`,
+          `${translate('signup_success')} ${data.addUser.username}!`,
           'success',
           5
         );

@@ -44,7 +44,7 @@ const Login = ({ setNotification, userLogin, toggleForm, client }) => {
           data: dataInStore,
         });*/
 
-        setNotification(`Welcome ${ufields.value}`, 'success', 5);
+        setNotification(`${translate('welcome')} ${ufields.value}`, 'success', 5);
         userLogin(data.login);
 
         // resetStore() clears the cached store and refetches all open queries.
