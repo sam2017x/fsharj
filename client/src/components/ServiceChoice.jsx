@@ -56,7 +56,7 @@ const ServiceChoice = ({ history }) => {
             </Card.Body>
           </Card>
         </Col>
-        <Col md={4} xs={12} className="d-flex mb-3">
+        <Col md={4} xs={12} className="d-flex align-items-stretch mb-3">
           <Card bg="secondary" style={{ width: '100%', position: 'relative' }}>
             <Card.Header>SpaceX API</Card.Header>
             <Card.Body>

@@ -19,17 +19,13 @@ import { setUser } from '../reducers/user';
 import { ALL_USERS, ADD_FRIEND, CREATE_ROOM } from '../services/queries';
 import translate from '../util/localization/i18n';
 import LoadingIcon from './LoadingIcon';
+import UserPageSearch from './UserPageSearch';
 
 const UserSearch = ({ history, me, setNotification }) => {
   const searchField = useField('text');
   const { data, loading } = useQuery(ALL_USERS);
   const [addFriend] = useMutation(ADD_FRIEND);
   const [createRoom] = useMutation(CREATE_ROOM);
-  const focusRef = React.createRef();
-
-  const focus = () => {
-    focusRef.current.focus();
-  };
 
   useEffect(() => window.scrollTo(0, 0), []);
 
@@ -68,7 +64,6 @@ const UserSearch = ({ history, me, setNotification }) => {
 
   const handleClear = () => {
     searchField.reset();
-    focus();
   };
 
   if (loading) return <LoadingIcon />;
@@ -80,7 +75,6 @@ const UserSearch = ({ history, me, setNotification }) => {
           <Form.Group>
             <Form.Label>{translate('usersearch_form_label')}</Form.Label>
             <Form.Control
-              ref={focusRef}
               {...searchField}
               reset={null}
               placeholder={translate('login_username')}
@@ -114,7 +108,6 @@ const UserSearch = ({ history, me, setNotification }) => {
           <Form.Group>
             <Form.Label>{translate('usersearch_form_label')}</Form.Label>
             <Form.Control
-              ref={focusRef}
               {...searchField}
               reset={null}
               placeholder={translate('login_username')}
@@ -148,20 +141,7 @@ const UserSearch = ({ history, me, setNotification }) => {
 
   return (
     <div style={{ minHeight: '100vh' }}>
-      <Form>
-        <Form.Group>
-          <Form.Label>{translate('usersearch_form_label')}</Form.Label>
-          <Form.Control
-            ref={focusRef}
-            {...searchField}
-            reset={null}
-            placeholder={translate('login_username')}
-          />
-        </Form.Group>
-        <Button onClick={() => handleClear()} variant="primary">
-          {translate('usersearch_form_button')}
-        </Button>
-      </Form>
+      <UserPageSearch searchField={searchField} handleClear={handleClear} />
       <Table>
         <thead>
           <tr>

@@ -45,7 +45,10 @@ const Header = ({ history, user, setUser, client, setLocale }) => {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto">
-          <NavDropdown title={translate('header_services')} id="collasible-nav-dropdown">
+          <NavDropdown
+            title={translate('header_services')}
+            id="collasible-nav-dropdown"
+          >
             <NavDropdown.Item as="span">
               <Link to="/service/space">{translate('header_space')}</Link>
             </NavDropdown.Item>
@@ -58,14 +61,31 @@ const Header = ({ history, user, setUser, client, setLocale }) => {
               {translate('header_users')}
             </Link>
           </Nav.Link>
-          <a href="#" onClick={() => setLocale('en')}>
-            en
-          </a>
-          /
-          <a href="#" onClick={() => setLocale('fi')}>
-            fi
-          </a>
         </Nav>
+        <div className="ml-auto mr-4">
+          <div>
+            <Button
+              style={{ width: '4rem' }}
+              variant="outline-info"
+              size="sm"
+              active={document.documentElement.lang === 'en'}
+              onClick={() => setLocale('en')}
+            >
+              en
+            </Button>
+          </div>
+          <div>
+            <Button
+              style={{ width: '4rem' }}
+              variant="outline-info"
+              active={document.documentElement.lang === 'fi'}
+              size="sm"
+              onClick={() => setLocale('fi')}
+            >
+              fi
+            </Button>
+          </div>
+        </div>
         {!user && (
           <>
             <Togglable ref={formToggle} color="warning">
@@ -77,7 +97,9 @@ const Header = ({ history, user, setUser, client, setLocale }) => {
         {user && (
           <>
             <Navbar.Text as="span">
-              <span style={{ color: 'white' }}>{translate('header_signed')}</span>
+              <span style={{ color: 'white' }}>
+                {translate('header_signed')}
+              </span>
               <Link
                 className="mr-2"
                 to={`/user/${user.username}`}

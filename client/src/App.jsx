@@ -22,6 +22,8 @@ import './css/index.css';
 const App = ({ notification, setUser }) => {
   const client = useApolloClient();
 
+  const [lang, setLang] = useState(document.documentElement.lang || 'en');
+
   useEffect(() => {
     const user = JSON.parse(window.localStorage.getItem('loggedUser'));
     if (user) {
@@ -31,6 +33,8 @@ const App = ({ notification, setUser }) => {
 
   const setLanguage = lang => {
     setLocale(lang);
+    setLang(lang);
+    document.documentElement.lang = lang;
   };
 
   const check = useQuery(ME);
