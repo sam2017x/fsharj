@@ -19,7 +19,7 @@ import { setUser } from '../reducers/user';
 import { ALL_USERS, ADD_FRIEND, CREATE_ROOM } from '../services/queries';
 import translate from '../util/localization/i18n';
 import LoadingIcon from './LoadingIcon';
-import UserPageSearch from './UserPageSearch';
+import UserSearchField from './UserSearchField';
 
 const UserSearch = ({ history, me, setNotification }) => {
   const searchField = useField('text');
@@ -70,20 +70,8 @@ const UserSearch = ({ history, me, setNotification }) => {
 
   if (data.allUsers === undefined || data.allUsers === null)
     return (
-      <div style={{ minHeight: '100vh' }}>
-        <Form>
-          <Form.Group>
-            <Form.Label>{translate('usersearch_form_label')}</Form.Label>
-            <Form.Control
-              {...searchField}
-              reset={null}
-              placeholder={translate('login_username')}
-            />
-          </Form.Group>
-          <Button onClick={() => handleClear()} variant="primary">
-            {translate('clear')}
-          </Button>
-        </Form>
+      <Container fluid style={{ minHeight: '100vh' }}>
+        <UserSearchField searchField={searchField} handleClear={handleClear} />
         <Container>
           <Row>
             <Col
@@ -98,25 +86,13 @@ const UserSearch = ({ history, me, setNotification }) => {
             </Col>
           </Row>
         </Container>
-      </div>
+      </Container>
     );
 
   if (me === null || me === undefined)
     return (
-      <div style={{ minHeight: '100vh' }}>
-        <Form>
-          <Form.Group>
-            <Form.Label>{translate('usersearch_form_label')}</Form.Label>
-            <Form.Control
-              {...searchField}
-              reset={null}
-              placeholder={translate('login_username')}
-            />
-          </Form.Group>
-          <Button onClick={() => handleClear()} variant="primary">
-            {translate('clear')}
-          </Button>
-        </Form>
+      <Container fluid style={{ minHeight: '100vh' }}>
+        <UserSearchField searchField={searchField} handleClear={handleClear} />
         <Table>
           <thead>
             <tr>
@@ -136,12 +112,12 @@ const UserSearch = ({ history, me, setNotification }) => {
               ))}
           </tbody>
         </Table>
-      </div>
+      </Container>
     );
 
   return (
-    <div style={{ minHeight: '100vh' }}>
-      <UserPageSearch searchField={searchField} handleClear={handleClear} />
+    <Container fluid style={{ minHeight: '100vh' }}>
+      <UserSearchField searchField={searchField} handleClear={handleClear} />
       <Table>
         <thead>
           <tr>
@@ -203,7 +179,7 @@ const UserSearch = ({ history, me, setNotification }) => {
               ))}
         </tbody>
       </Table>
-    </div>
+    </Container>
   );
 };
 

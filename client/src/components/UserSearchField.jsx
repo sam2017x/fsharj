@@ -1,4 +1,4 @@
-import React, { useImperativeHandle } from 'react';
+import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import translate from '../util/localization/i18n';
 

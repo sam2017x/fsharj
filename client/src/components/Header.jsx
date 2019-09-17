@@ -65,6 +65,7 @@ const Header = ({ history, user, setUser, client, setLocale }) => {
         <div className="ml-auto mr-4">
           <div>
             <Button
+              className="mb-1"
               style={{ width: '4rem' }}
               variant="outline-info"
               size="sm"

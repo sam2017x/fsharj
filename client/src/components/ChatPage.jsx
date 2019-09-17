@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { useQuery, useMutation, useSubscription } from '@apollo/react-hooks';
@@ -9,6 +9,7 @@ import {
   InputGroup,
   Button,
   FormControl,
+  Form,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { setNotification } from '../reducers/notification';
@@ -29,83 +30,13 @@ const ChatPage = ({ setNotification, match, me, client }) => {
 
   const scrollRef = React.useRef(null);
 
+  const [sendMsg] = useMutation(SEND_MSG);
+
   const scrollToMsg = useCallback(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, []);
-
-  useSubscription(MESSAGE_SUBSCRIPTION, {
-    variables: {
-      id: match.params.id,
-    },
-    onSubscriptionData: ({ subscriptionData }) => {
-      const {
-        data: { messageAdded },
-      } = subscriptionData;
-      const dataInStore = client.readQuery({
-        query: GET_CHATROOM_INFO,
-        variables: { id: match.params.id },
-      });
-
-      if (
-        !dataInStore.getChatroomInfo.messages
-          .map(msg => msg.id)
-          .includes(messageAdded.id)
-      ) {
-        dataInStore.getChatroomInfo = {
-          ...dataInStore.getChatroomInfo,
-          messages: dataInStore.getChatroomInfo.messages.concat(messageAdded),
-        };
-        client.writeQuery({
-          query: GET_CHATROOM_INFO,
-          variables: { id: match.params.id },
-          data: dataInStore,
-        });
-        scrollToMsg();
-      }
-    },
-  });
-  const [sendMsg] = useMutation(SEND_MSG);
-  const { data, error, loading } = useQuery(GET_CHATROOM_INFO, {
-    variables: {
-      id: match.params.id,
-    },
-  });
-  const [removeMessage] = useMutation(REMOVE_MESSAGE);
-
-  const handleRemoveMessage = async id => {
-    try {
-      const rm = await removeMessage({
-        variables: {
-          id,
-          room: match.params.id,
-        },
-      });
-
-      if (!rm.loading) {
-        const dataInStore = client.readQuery({
-          query: GET_CHATROOM_INFO,
-          variables: { id: match.params.id },
-        });
-
-        const idArr = dataInStore.getChatroomInfo.messages.map(msg => msg.id);
-
-        const idx = idArr.indexOf(id);
-
-        dataInStore.getChatroomInfo.messages.splice(idx, 1);
-
-        client.writeQuery({
-          query: GET_CHATROOM_INFO,
-          data: dataInStore,
-        });
-
-        setUpdate(!update);
-      }
-    } catch (error) {
-      setNotification(translate('msg_couldnt_remove'), 'danger', 5);
-    }
-  };
 
   const handleMessage = async () => {
     try {
@@ -140,6 +71,91 @@ const ChatPage = ({ setNotification, match, me, client }) => {
       }
     } catch (error) {
       setNotification(`${error.message}`, 'danger', 5);
+    }
+  };
+
+  const handleKeyPress = event => {
+    if (event.keyCode === 13 && !event.shiftKey) {
+      handleMessage();
+      event.preventDefault();
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, [handleKeyPress]);
+
+  useSubscription(MESSAGE_SUBSCRIPTION, {
+    variables: {
+      id: match.params.id,
+    },
+    onSubscriptionData: ({ subscriptionData }) => {
+      const {
+        data: { messageAdded },
+      } = subscriptionData;
+      const dataInStore = client.readQuery({
+        query: GET_CHATROOM_INFO,
+        variables: { id: match.params.id },
+      });
+
+      if (
+        !dataInStore.getChatroomInfo.messages
+          .map(msg => msg.id)
+          .includes(messageAdded.id)
+      ) {
+        dataInStore.getChatroomInfo = {
+          ...dataInStore.getChatroomInfo,
+          messages: dataInStore.getChatroomInfo.messages.concat(messageAdded),
+        };
+        client.writeQuery({
+          query: GET_CHATROOM_INFO,
+          variables: { id: match.params.id },
+          data: dataInStore,
+        });
+        scrollToMsg();
+      }
+    },
+  });
+
+  const { data, error, loading } = useQuery(GET_CHATROOM_INFO, {
+    variables: {
+      id: match.params.id,
+    },
+  });
+
+  const [removeMessage] = useMutation(REMOVE_MESSAGE);
+
+  const handleRemoveMessage = async id => {
+    try {
+      const rm = await removeMessage({
+        variables: {
+          id,
+          room: match.params.id,
+        },
+      });
+
+      if (!rm.loading) {
+        const dataInStore = client.readQuery({
+          query: GET_CHATROOM_INFO,
+          variables: { id: match.params.id },
+        });
+
+        const idArr = dataInStore.getChatroomInfo.messages.map(msg => msg.id);
+
+        const idx = idArr.indexOf(id);
+
+        dataInStore.getChatroomInfo.messages.splice(idx, 1);
+
+        client.writeQuery({
+          query: GET_CHATROOM_INFO,
+          data: dataInStore,
+        });
+
+        setUpdate(!update);
+      }
+    } catch (error) {
+      setNotification(translate('msg_couldnt_remove'), 'danger', 5);
     }
   };
 
@@ -218,20 +234,24 @@ const ChatPage = ({ setNotification, match, me, client }) => {
             )}
           </Row>
         </Container>
-        <InputGroup size="sm" className="mt-4 sticky-bottom">
-          <InputGroup.Prepend>
-            <Button onClick={() => handleMessage()}>
-              {translate('chatpage_send')}
-            </Button>
-          </InputGroup.Prepend>
-          <FormControl
-            value={msg}
-            onChange={event => setMsg(event.target.value)}
-            as="textarea"
-            style={{ resize: 'vertical', maxHeight: '10em', minHeight: '3rem' }}
-            aria-label="With textarea"
-          />
-        </InputGroup>
+        <Form onSubmit={() => handleMessage()}>
+          <InputGroup size="sm" className="mt-4 sticky-bottom">
+            <InputGroup.Prepend>
+              <Button type="submit">{translate('chatpage_send')}</Button>
+            </InputGroup.Prepend>
+            <FormControl
+              value={msg}
+              onChange={event => setMsg(event.target.value)}
+              as="textarea"
+              style={{
+                resize: 'vertical',
+                maxHeight: '10em',
+                minHeight: '3rem',
+              }}
+              aria-label="With textarea"
+            />
+          </InputGroup>
+        </Form>
       </div>
     </>
   );
