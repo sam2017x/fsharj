@@ -44,7 +44,11 @@ const Login = ({ setNotification, userLogin, toggleForm, client }) => {
           data: dataInStore,
         });*/
 
-        setNotification(`${translate('welcome')} ${ufields.value}`, 'success', 5);
+        setNotification(
+          `${translate('welcome')} ${ufields.value}`,
+          'success',
+          5
+        );
         userLogin(data.login);
 
         // resetStore() clears the cached store and refetches all open queries.
@@ -76,10 +80,10 @@ const Login = ({ setNotification, userLogin, toggleForm, client }) => {
           className="mr-sm-3"
         />
         <Button type="submit" size="sm" variant="warning" className="mr-1">
-        {translate('login_login')}
+          {translate('login_login')}
         </Button>
         <Button size="sm" variant="light" onClick={() => toggleForm()}>
-        {translate('login_cancel')}
+          {translate('login_cancel')}
         </Button>
       </Form>
     </>

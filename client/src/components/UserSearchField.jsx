@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import translate from '../util/localization/i18n';
+import PropTypes from 'prop-types';
 
 const UserPageSearch = ({ searchField, handleClear }) => {
   const focusRef = React.useRef(null);
@@ -25,6 +26,12 @@ const UserPageSearch = ({ searchField, handleClear }) => {
       </Button>
     </Form>
   );
+};
+
+UserPageSearch.propTypes = {
+  searchField: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
+    .isRequired,
+  handleClear: PropTypes.func.isRequired,
 };
 
 export default UserPageSearch;

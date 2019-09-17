@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Alert, Image, Button } from 'react-bootstrap';
+import { Alert, Image } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { useQuery, useApolloClient } from '@apollo/react-hooks';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
@@ -42,9 +42,18 @@ const App = ({ notification, setUser }) => {
   return (
     <div>
       <Router>
-        <Header user={check.data.me} client={client} setLocale={setLanguage} />
+        <Header
+          user={check.data.me}
+          client={client}
+          setLocale={setLanguage}
+          lang={lang}
+        />
         {notification.text !== undefined && (
-          <Alert className="mb-0" variant={notification.style}>
+          <Alert
+            className="mb-0 fixed-top"
+            variant={notification.style}
+            style={{ width: '6rem' }}
+          >
             {notification.text}
           </Alert>
         )}

@@ -10,7 +10,7 @@ import Signup from './Signup';
 import Login from './Login';
 import logo from '../util/img/logo2.jpg';
 
-const Header = ({ history, user, setUser, client, setLocale }) => {
+const Header = ({ history, user, setUser, client, setLocale, lang }) => {
   const styles = {
     color: 'white',
   };
@@ -69,7 +69,7 @@ const Header = ({ history, user, setUser, client, setLocale }) => {
               style={{ width: '4rem' }}
               variant="outline-info"
               size="sm"
-              active={document.documentElement.lang === 'en'}
+              active={lang === 'en'}
               onClick={() => setLocale('en')}
             >
               en
@@ -79,7 +79,7 @@ const Header = ({ history, user, setUser, client, setLocale }) => {
             <Button
               style={{ width: '4rem' }}
               variant="outline-info"
-              active={document.documentElement.lang === 'fi'}
+              active={lang === 'fi'}
               size="sm"
               onClick={() => setLocale('fi')}
             >
@@ -138,6 +138,7 @@ Header.propTypes = {
   ]),
   history: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   setUser: PropTypes.func.isRequired,
+  setLocale: PropTypes.func.isRequired,
 };
 
 Header.defaultProps = {

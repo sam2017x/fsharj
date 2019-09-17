@@ -2,15 +2,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  Button,
-  Form,
-  Container,
-  Row,
-  Col,
-  Table,
-  Spinner,
-} from 'react-bootstrap';
+import { Button, Container, Row, Col, Table, Spinner } from 'react-bootstrap';
 import { Link, withRouter } from 'react-router-dom';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useField } from '../hooks/index';
@@ -184,9 +176,7 @@ const UserSearch = ({ history, me, setNotification }) => {
 };
 
 UserSearch.propTypes = {
-  user: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   setNotification: PropTypes.func.isRequired,
-  setUser: PropTypes.func.isRequired,
   me: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired,
   history: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
 };

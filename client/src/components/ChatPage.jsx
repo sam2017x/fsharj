@@ -38,7 +38,7 @@ const ChatPage = ({ setNotification, match, me, client }) => {
     }
   }, []);
 
-  const handleMessage = async () => {
+  const handleMessage = React.useCallback(async () => {
     try {
       const resp = await sendMsg({
         variables: {
@@ -72,14 +72,17 @@ const ChatPage = ({ setNotification, match, me, client }) => {
     } catch (error) {
       setNotification(`${error.message}`, 'danger', 5);
     }
-  };
+  }, [match.params.id, msg, scrollToMsg, sendMsg, setNotification, client]);
 
-  const handleKeyPress = event => {
-    if (event.keyCode === 13 && !event.shiftKey) {
-      handleMessage();
-      event.preventDefault();
-    }
-  };
+  const handleKeyPress = React.useCallback(
+    event => {
+      if (event.keyCode === 13 && !event.shiftKey) {
+        handleMessage();
+        event.preventDefault();
+      }
+    },
+    [handleMessage]
+  );
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);

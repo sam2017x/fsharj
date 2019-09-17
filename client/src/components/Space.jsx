@@ -125,7 +125,10 @@ const Space = ({ me }) => {
   }
 
   return (
-    <div className="container pt-4 mt-4" style={{ minHeight: '100vh' }}>
+    <div
+      className="container pt-4 mt-4"
+      style={{ minHeight: '100vh', marginBottom: '40px' }}
+    >
       <h2 className="pb-3 mb-3" style={{ textAlign: 'center' }}>
         {translate('space_h1')}
       </h2>
