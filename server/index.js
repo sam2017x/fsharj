@@ -4,12 +4,12 @@ const server = require("./services/apolloserver");
 
 const app = express();
 
-//app.use(express.static("./build"));
+app.use(express.static("./build"));
 
 mongoose.set("useFindAndModify", false);
 
-//const MONGODB_URI = `mongodb+srv://fs:fs@cluster0-tjvic.mongodb.net/AppMashup?retryWrites=true`;
-const MONGODB_URI = `mongodb://localhost:27017/ChatApp?retryWrites=true`;
+const MONGODB_URI = `mongodb+srv://fs:fs@cluster0-tjvic.mongodb.net/AppMashup?retryWrites=true`;
+//const MONGODB_URI = `mongodb://localhost:27017/ChatApp?retryWrites=true`;
 
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true })
@@ -21,4 +21,4 @@ server.listen().then(({ url, subscriptionsUrl }) => {
   console.log(`Subscriptions active at ${subscriptionsUrl}`);
 });
 
-//app.listen({ port: 3000 }, () => console.log("serving..."));
+app.listen({ port: 3000 }, () => console.log("App operating on port 3000."));
