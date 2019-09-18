@@ -56,16 +56,15 @@ const Header = ({ history, user, setUser, client, setLocale, lang }) => {
               <Link to="/service/weather">{translate('header_weather')}</Link>
             </NavDropdown.Item>
           </NavDropdown>
-          <Nav.Link href="/s/users" as="span">
+          <Nav.Link href="/s/users" as="span" className="mb-sm-2">
             <Link to="/s/users" style={styles}>
               {translate('header_users')}
             </Link>
           </Nav.Link>
         </Nav>
         <div className="ml-auto mr-4">
-          <div>
+          <div className="mb-1">
             <Button
-              className="mb-1"
               style={{ width: '4rem' }}
               variant="outline-info"
               size="sm"
@@ -75,7 +74,7 @@ const Header = ({ history, user, setUser, client, setLocale, lang }) => {
               en
             </Button>
           </div>
-          <div>
+          <div className="mb-1">
             <Button
               style={{ width: '4rem' }}
               variant="outline-info"

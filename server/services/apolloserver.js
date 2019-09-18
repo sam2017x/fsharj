@@ -1,13 +1,12 @@
 const jwt = require("jsonwebtoken");
-const { PubSub } = require("apollo-server");
+const { PubSub, withFilter } = require("apollo-server");
 const bcrypt = require("bcrypt");
 const {
-  withFilter,
   ApolloServer,
   UserInputError,
   AuthenticationError,
   ApolloError
-} = require("apollo-server");
+} = require("apollo-server-express");
 const dataSource = require("../datasource");
 const typeDefs = require("./typedefs");
 

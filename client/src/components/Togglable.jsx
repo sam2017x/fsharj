@@ -18,8 +18,9 @@ const Togglable = React.forwardRef((props, ref) => {
   return (
     <>
       {toggle === 'none' && (
-        <>
+        <div style={{ width: '10rem' }}>
           <Button
+            size="sm"
             variant="warning"
             onClick={() => setToggle('log')}
             className="mr-sm-1"
@@ -28,13 +29,14 @@ const Togglable = React.forwardRef((props, ref) => {
           </Button>
           {` | `}
           <Button
+            size="sm"
             variant="success"
             onClick={() => setToggle('sign')}
             className="ml-sm-1"
           >
             {translate('toggle_sign')}
           </Button>
-        </>
+        </div>
       )}
       {toggle === 'log' && <>{props.children[0]} </>}
       {toggle === 'sign' && <>{props.children[1]}</>}

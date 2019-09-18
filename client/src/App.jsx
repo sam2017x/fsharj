@@ -39,6 +39,8 @@ const App = ({ notification, setUser }) => {
 
   const check = useQuery(ME);
 
+  if (check.data.me === undefined) return (<div> Something went wrong !</div>)
+
   return (
     <div>
       <Router>
@@ -49,11 +51,7 @@ const App = ({ notification, setUser }) => {
           lang={lang}
         />
         {notification.text !== undefined && (
-          <Alert
-            className="mb-0 fixed-top"
-            variant={notification.style}
-            style={{ width: '6rem' }}
-          >
+          <Alert className="mb-0" variant={notification.style}>
             {notification.text}
           </Alert>
         )}

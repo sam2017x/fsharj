@@ -1,10 +1,17 @@
 const mongoose = require("mongoose");
 const express = require("express");
+const http = require("http");
 const server = require("./services/apolloserver");
 
-const app = express();
+const PORT = process.env.PORT || 4000;
 
-app.use(express.static("./build"));
+const app = express();
+//app.use(express.static("./build"));
+
+server.applyMiddleware({ app });
+
+const httpServer = http.createServer(app);
+server.installSubscriptionHandlers(httpServer);
 
 mongoose.set("useFindAndModify", false);
 
@@ -16,9 +23,14 @@ mongoose
   .then(() => console.log("connected to MongoDB"))
   .catch(error => console.log(error.message));
 
-server.listen().then(({ url, subscriptionsUrl }) => {
+/*server.listen().then(({ url, subscriptionsUrl }) => {
   console.log(`Server running at ${url}`);
   console.log(`Subscriptions active at ${subscriptionsUrl}`);
-});
+});*/
 
-app.listen({ port: 3000 }, () => console.log("App operating on port 3000."));
+httpServer.listen(PORT, () => {
+  console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+  console.log(
+    `Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`
+  );
+});
