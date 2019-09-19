@@ -1,10 +1,13 @@
 # FSHT
 
+
+
 ## Sisällysluettelo
 * [Harjoitustyö](#harjoitustyö)
 * [Teknologiat](#teknologiat)
 * [Asennusohjeet](#asennusohjeet)
 * [Tekijä](#tekijä)
+* [Työaikakirjanpito](./tunnit)
 
 ## Harjoitustyö
 
@@ -15,6 +18,7 @@ Full Stack HarjoitusTyö (FSHT). Kokoelma applikaatioita hyödyntäen erilaisia 
 1. Frontend
    - React
    - Redux
+   - Bootstrap
 
 2. Backend
    - Nodejs
