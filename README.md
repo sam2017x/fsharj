@@ -1,8 +1,12 @@
-# Full stack harjoitustyö: Chatterinos
+## Table of contents
+* [Harjoitustyö](#fsht)
+* [Teknologiat](#tekniikat-&-teknologiat)
+* [Asennusohjeet](#asennus)
+* [Tekijä(t)](#tekijä(t))
 
-Chat-applikaatio. Ystävälistat, random-matching aikarajalla, subscription-pohjainen viestien päivitys, sekä muita featureja sitä mukaan kun mieleen tulee.
+## Harjoitustyö
 
----
+Full Stack HarjoitusTyö (FSHT). Kokoelma applikaatioita hyödyntäen erilaisia web-rajapintoja. Chat-app, sää-sovellus & SpaceX-tehtävät -sovellus.
 
 ## Tekniikat & teknologiat
 
@@ -15,7 +19,15 @@ Chat-applikaatio. Ystävälistat, random-matching aikarajalla, subscription-pohj
    - MongoDB
    - GraphQL
 
----
+## Asennusohjeet
+
+Asenna projekti lokaalisti ajaen kommenot:
+
+```
+$ npm i
+$ cd server/ && npm i
+$ cd client/ && npm i
+```
 
 ### Tekijä(t)
 

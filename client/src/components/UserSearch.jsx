@@ -177,8 +177,12 @@ const UserSearch = ({ history, me, setNotification }) => {
 
 UserSearch.propTypes = {
   setNotification: PropTypes.func.isRequired,
-  me: PropTypes.oneOfType([PropTypes.object, PropTypes.func]).isRequired,
+  me: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   history: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
+};
+
+UserSearch.defaultProps = {
+  me: null,
 };
 
 const mapStateToProps = state => {
