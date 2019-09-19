@@ -2,7 +2,7 @@
 
 ## Sisällysluettelo
 * [Harjoitustyö](#harjoitustyö)
-* [Tekniikat & teknologiat](#tekniikat-&-teknologiat)
+* [Tekniikat & teknologiat](#tekniikat & teknologiat)
 * [Asennusohjeet](#asennusohjeet)
 * [Tekijä](#tekijä)
 
@@ -31,6 +31,6 @@ $ cd server/ && npm i
 $ cd client/ && npm i
 ```
 
-### Tekijä(t)
+### Tekijä
 
 Samuli Juppi __015097215__
