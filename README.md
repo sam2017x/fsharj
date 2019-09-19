@@ -2,7 +2,7 @@
 
 ## Sisällysluettelo
 * [Harjoitustyö](#harjoitustyö)
-* [Tekniikat & teknologiat](#tekniikat & teknologiat)
+* [Teknologiat](#teknologiat)
 * [Asennusohjeet](#asennusohjeet)
 * [Tekijä](#tekijä)
 
@@ -10,7 +10,7 @@
 
 Full Stack HarjoitusTyö (FSHT). Kokoelma applikaatioita hyödyntäen erilaisia web-rajapintoja. Chat-app, sää-sovellus & SpaceX-tehtävät -sovellus.
 
-## Tekniikat & teknologiat
+## Teknologiat
 
 1. Frontend
    - React
@@ -26,9 +26,21 @@ Full Stack HarjoitusTyö (FSHT). Kokoelma applikaatioita hyödyntäen erilaisia 
 Asenna projekti lokaalisti ajaen kommenot:
 
 ```
-$ npm i
-$ cd server/ && npm i
-$ cd client/ && npm i
+$ npm install
+$ cd server/ && npm install
+$ cd client/ && npm install
+```
+
+Tuotantoversio:
+
+```
+$ npm run prod
+```
+
+Kehitysversio (palvelin ja käyttöliittymä omina prosesseinaan):
+
+```
+$ npm start
 ```
 
 ### Tekijä
