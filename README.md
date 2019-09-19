@@ -23,12 +23,10 @@ Full Stack HarjoitusTyö (FSHT). Kokoelma applikaatioita hyödyntäen erilaisia 
 
 ## Asennusohjeet
 
-Asenna projekti lokaalisti ajaen kommenot:
+Asenna projekti lokaalisti komennolla:
 
 ```
-$ npm install
-$ cd server/ && npm install
-$ cd client/ && npm install
+$ npm install-all
 ```
 
 Tuotantoversio:
@@ -37,7 +35,7 @@ Tuotantoversio:
 $ npm run prod
 ```
 
-Kehitysversio (palvelin ja käyttöliittymä omina prosesseinaan):
+Kehitysympäristö (palvelin ja käyttöliittymä omina prosesseinaan):
 
 ```
 $ npm start

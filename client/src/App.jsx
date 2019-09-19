@@ -39,8 +39,6 @@ const App = ({ notification, setUser }) => {
 
   const check = useQuery(ME);
 
-  if (check.data.me === undefined) return (<div> Something went wrong !</div>)
-
   return (
     <div>
       <Router>
