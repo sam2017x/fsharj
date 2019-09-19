@@ -7,11 +7,11 @@
 * [Teknologiat](#teknologiat)
 * [Asennusohjeet](#asennusohjeet)
 * [Tekijä](#tekijä)
-* [Työaikakirjanpito](./tunnit)
+* [Työaikakirjanpito](./tunnit.md)
 
 ## Harjoitustyö
 
-Full Stack HarjoitusTyö (FSHT). Kokoelma applikaatioita hyödyntäen erilaisia web-rajapintoja. Chat-app, sää-sovellus & SpaceX-tehtävät -sovellus.
+Full Stack HarjoitusTyö (FSHT). Kokoelma applikaatioita hyödyntäen erilaisia web-rajapintoja. Chat-sovellus, sää-sovellus & SpaceX-tehtävät -sovellus.
 
 ## Teknologiat
 
