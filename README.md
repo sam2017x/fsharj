@@ -1,10 +1,10 @@
 # FSHT
 
-## Sisällys
-* [Harjoitustyö](#Harjoitustyö)
-* [Teknologiat](#Tekniikat-&-teknologiat)
-* [Asennusohjeet](#Asennusohjeet)
-* [Tekijä(t)](#Tekijä(t))
+## Sisällysluettelo
+* [Harjoitustyö](#harjoitustyö)
+* [Tekniikat & teknologiat](#tekniikat-&-teknologiat)
+* [Asennusohjeet](#asennusohjeet)
+* [Tekijä](#tekijä)
 
 ## Harjoitustyö
 
