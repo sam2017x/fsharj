@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
-import translate from '../util/localization/i18n';
 import PropTypes from 'prop-types';
+import translate from '../util/localization/i18n';
 
 const UserPageSearch = ({ searchField, handleClear }) => {
   const focusRef = React.useRef(null);

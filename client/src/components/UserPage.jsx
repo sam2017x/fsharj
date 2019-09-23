@@ -69,10 +69,15 @@ const UserPage = ({ foo, setNotification, history, me }) => {
         </Row>
         <Row>
           <Col>
-            <h5>{translate('userpage_posts')} {data.getUserInfo.posts || 0}</h5>
+            <h5>
+              {translate('userpage_posts')} {data.getUserInfo.posts || 0}
+            </h5>
           </Col>
           <Col>
-            <h5>{translate('userpage_level')} {data.getUserInfo.level || 'beginner'}</h5>
+            <h5>
+              {translate('userpage_level')}{' '}
+              {data.getUserInfo.level || 'beginner'}
+            </h5>
           </Col>
         </Row>
         {me.username === data.getUserInfo.username && (

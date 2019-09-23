@@ -25,25 +25,6 @@ const Login = ({ setNotification, userLogin, toggleForm, client }) => {
         },
       });
       if (!loading) {
-        // Cache manipulation code reference below.
-
-        /*const dataInStore = client.readQuery({ query: ME });
-        console.log('DATA CACHESSA ALUKSI', dataInStore);
-        console.log('INCOMING DATA', data);
-        dataInStore.me = {
-          id: data.login.id,
-          username: data.login.username,
-          posts: data.login.posts,
-          level: data.login.level,
-          friends: data.login.friends,
-          __typename: 'User',
-        };
-        console.log('MUOKKAUKSEN JALKEEN', dataInStore);
-        client.writeQuery({
-          query: ME,
-          data: dataInStore,
-        });*/
-
         setNotification(
           `${translate('welcome')} ${ufields.value}`,
           'success',

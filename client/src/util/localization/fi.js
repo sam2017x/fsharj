@@ -38,7 +38,8 @@ export const fi = {
   sc_c1_button: 'Chat App',
   sc_c2_button: 'Sää-sovellus',
   sc_c2_title: 'Sää',
-  sc_c2_text: `Valitse haluttu maa. Sovellus kertoo sinulle kyseisen maan pääkaupungin sääennusteen.`,
+  sc_c2_text: `Valitse haluttu maa. 
+  Sovellus kertoo sinulle kyseisen maan pääkaupungin sääennusteen.`,
   sc_c3_title: 'SpaceX operaatiot',
   sc_c3_text: `Tutki kaikkia menneitä sekä tulevia SpaceX -tehtäviä.`,
   space_nolog: 'Log in to use the SpaceX API!',

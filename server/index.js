@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 4000;
 const app = express();
 
 if (process.env.NODE_ENV !== "development") {
-  app.use(express.static("../client/build"));
+  app.use(express.static("./../client/build"));
 }
 
 server.applyMiddleware({ app });

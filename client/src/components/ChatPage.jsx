@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState, useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';

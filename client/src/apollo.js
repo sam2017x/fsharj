@@ -6,16 +6,14 @@ import { split } from 'apollo-link';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 
-const PORT = process.env.PORT || 4000;
-
-console.log('logi', process.env.PORT);
+// const PORT = process.env.PORT || 4000;
 // eslint-disable-next-line new-cap
 const httpLink = new createHttpLink({
-  uri: `http://localhost:${PORT}/graphql`,
+  uri: `http://localhost:4000/graphql`,
 });
 
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:${PORT}/graphql`,
+  uri: `ws://localhost:4000/graphql`,
   options: { reconnect: true },
 });
 
