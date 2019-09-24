@@ -93,5 +93,5 @@ export const en = {
   userpage_level: 'Level:',
   friend_added: 'Friend added.',
   clear: 'Clear',
-  friend_removed: 'Friend removed successfully!',
+  friend_removed: 'Friend removed.',
 };
