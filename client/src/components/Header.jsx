@@ -138,7 +138,7 @@ Header.propTypes = {
   history: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
   setUser: PropTypes.func.isRequired,
   setLocale: PropTypes.func.isRequired,
-  lang: PropTypes.objectOf(PropTypes.object).isRequired,
+  lang: PropTypes.string.isRequired,
 };
 
 Header.defaultProps = {
