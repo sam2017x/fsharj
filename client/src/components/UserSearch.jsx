@@ -8,7 +8,12 @@ import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useField } from '../hooks/index';
 import { setNotification } from '../reducers/notification';
 import { setUser } from '../reducers/user';
-import { ALL_USERS, ADD_FRIEND, CREATE_ROOM } from '../services/queries';
+import {
+  ALL_USERS,
+  ADD_FRIEND,
+  CREATE_ROOM,
+  REMOVE_FRIEND,
+} from '../services/queries';
 import translate from '../util/localization/i18n';
 import LoadingIcon from './LoadingIcon';
 import UserSearchField from './UserSearchField';
@@ -18,6 +23,7 @@ const UserSearch = ({ history, me, setNotification }) => {
   const { data, loading } = useQuery(ALL_USERS);
   const [addFriend] = useMutation(ADD_FRIEND);
   const [createRoom] = useMutation(CREATE_ROOM);
+  const [removeFriend] = useMutation(REMOVE_FRIEND);
 
   useEffect(() => window.scrollTo(0, 0), []);
 
@@ -48,6 +54,7 @@ const UserSearch = ({ history, me, setNotification }) => {
 
       if (!afterAdd.loading) {
         setNotification(`${translate('friend_added')}`, 'success', 5);
+        document.activeElement.blur();
       }
     } catch (error) {
       setNotification(`${error.message}`, 'danger', 5);
@@ -56,6 +63,23 @@ const UserSearch = ({ history, me, setNotification }) => {
 
   const handleClear = () => {
     searchField.reset();
+  };
+
+  const handleRemoveFriend = async id => {
+    try {
+      const response = await removeFriend({
+        variables: {
+          id,
+        },
+      });
+
+      if (!response.loading) {
+        console.log(response.data);
+        setNotification(`${translate('friend_removed')}`, 'success', 5);
+      }
+    } catch (error) {
+      setNotification(`${error.message}`, 'danger', 5);
+    }
   };
 
   if (loading) return <LoadingIcon />;
@@ -153,7 +177,10 @@ const UserSearch = ({ history, me, setNotification }) => {
                   ) : (
                     <>
                       <td>
-                        <Button variant="secondary" disabled>
+                        <Button
+                          variant="secondary"
+                          onClick={() => handleRemoveFriend(usr.id)}
+                        >
                           {translate('usersearch_action_remove')}
                         </Button>
                       </td>

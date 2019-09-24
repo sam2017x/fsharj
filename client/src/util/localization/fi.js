@@ -93,4 +93,5 @@ export const fi = {
   userpage_level: 'Taso:',
   friend_added: 'Ystävä lisätty.',
   clear: 'Tyhjennä',
+  friend_removed: 'Ystävä poistettu onnistuneesti!',
 };

@@ -40,77 +40,79 @@ const App = ({ notification, setUser }) => {
   const check = useQuery(ME);
 
   return (
-    <div>
-      <Router>
-        <Header
-          user={check.data.me}
-          client={client}
-          setLocale={setLanguage}
-          lang={lang}
-        />
-        {notification.text !== undefined && (
-          <Alert className="mb-0" variant={notification.style}>
-            {notification.text}
-          </Alert>
-        )}
-        <div>
-          <Route
-            exact
-            path="/user/:username"
-            render={({ match }) => {
-              return <UserPage foo={match} me={check.data.me} />;
-            }}
+    !check.loading && (
+      <div>
+        <Router>
+          <Header
+            user={check.data.me}
+            client={client}
+            setLocale={setLanguage}
+            lang={lang}
           />
-          <Route
-            path="/s/users"
-            render={() => <UserSearch me={check.data.me} />}
-          />
-          <Route
-            exact
-            path="/"
-            render={() => {
-              return (
-                <>
-                  <MainPage me={check.data.me} client={client} />
-                  {check.data.me && (
-                    <>
-                      <div style={{ marginBottom: '50px' }}>
-                        <Image
-                          src={pic1}
-                          style={{
-                            width: '100%',
-                            height: '50vh',
-                            objectFit: 'cover',
-                          }}
-                        />
-                      </div>
-                      <ServiceChoice />
-                    </>
-                  )}
-                </>
-              );
-            }}
-          />
-          <Route
-            exact
-            path="/chat/:id"
-            render={({ match }) => (
-              <ChatPage me={check.data.me} match={match} client={client} />
-            )}
-          />
-          <Route
-            exact
-            path="/service/weather"
-            render={() => <Weather me={check.data.me} client={client} />}
-          />
-          <Route
-            path="/service/space"
-            render={() => <Space me={check.data.me} />}
-          />
-        </div>
-      </Router>
-      <Footer />
-    </div>
+          {notification.text !== undefined && (
+            <Alert className="mb-0" variant={notification.style}>
+              {notification.text}
+            </Alert>
+          )}
+          <div>
+            <Route
+              exact
+              path="/user/:username"
+              render={({ match }) => {
+                return <UserPage foo={match} me={check.data.me} />;
+              }}
+            />
+            <Route
+              path="/s/users"
+              render={() => <UserSearch me={check.data.me} />}
+            />
+            <Route
+              exact
+              path="/"
+              render={() => {
+                return (
+                  <>
+                    <MainPage me={check.data.me} client={client} />
+                    {check.data.me && (
+                      <>
+                        <div style={{ marginBottom: '50px' }}>
+                          <Image
+                            src={pic1}
+                            style={{
+                              width: '100%',
+                              height: '50vh',
+                              objectFit: 'cover',
+                            }}
+                          />
+                        </div>
+                        <ServiceChoice />
+                      </>
+                    )}
+                  </>
+                );
+              }}
+            />
+            <Route
+              exact
+              path="/chat/:id"
+              render={({ match }) => (
+                <ChatPage me={check.data.me} match={match} client={client} />
+              )}
+            />
+            <Route
+              exact
+              path="/service/weather"
+              render={() => <Weather me={check.data.me} client={client} />}
+            />
+            <Route
+              path="/service/space"
+              render={() => <Space me={check.data.me} />}
+            />
+          </div>
+        </Router>
+        <Footer />
+      </div>
+    )
   );
 };
 

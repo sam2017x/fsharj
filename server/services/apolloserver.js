@@ -185,10 +185,22 @@ const resolvers = {
         friend._id
       );
       await context.currentUser.save();
-      const userWithFriends = await User.findById(
-        context.currentUser._id
-      ).populate("friends");
-      return userWithFriends;
+
+      return User.findById(context.currentUser._id).populate("friends");
+    },
+    removeFriend: async (root, args, context) => {
+      if (!context.currentUser) throw new AuthenticationError(`Unauthorized`);
+
+      try {
+        await User.update(
+          { _id: context.currentUser._id },
+          { $pullAll: { friends: [args.id] } }
+        );
+      } catch (error) {
+        throw new ApolloError("Action could not be completed.");
+      }
+
+      return User.findById(context.currentUser._id).populate("friends");
     },
     addUser: async (root, args) => {
       const hashedPw = await bcrypt.hash(args.password, 10);

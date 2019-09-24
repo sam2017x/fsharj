@@ -158,6 +158,23 @@ export const ADD_FRIEND = gql`
   }
 `;
 
+export const REMOVE_FRIEND = gql`
+  mutation removeFriend($id: ID!) {
+    removeFriend(id: $id) {
+      id
+      username
+      posts
+      level
+      friends {
+        username
+        id
+        posts
+        level
+      }
+    }
+  }
+`;
+
 export const SEND_MSG = gql`
   mutation sendMessage($id: String, $message: String, $senderId: String) {
     sendMessage(roomId: $id, message: $message, sender: $senderId) {

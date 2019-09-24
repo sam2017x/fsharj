@@ -18,6 +18,7 @@ module.exports = gql`
     sendMessage(roomId: String, message: String, sender: String): Message
     getWeatherData(capital: String): Weather
     removeMessage(id: ID, room: ID): Message
+    removeFriend(id: ID!): User
   }
 
   type Subscription {
