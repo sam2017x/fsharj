@@ -74,7 +74,6 @@ const UserSearch = ({ history, me, setNotification }) => {
       });
 
       if (!response.loading) {
-        console.log(response.data);
         setNotification(`${translate('friend_removed')}`, 'success', 5);
       }
     } catch (error) {

@@ -17,6 +17,7 @@ const translate = (key, ...vars) => {
   // eslint-disable-next-line
   key += vars.length > 0 ? '.value' : '';
   if (!translations[key]) {
+    // eslint-disable-next-line no-console
     console.warn(`Translation ${key} is missing`);
     return '';
   }
