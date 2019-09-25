@@ -16,10 +16,7 @@ const Space = ({ me }) => {
     scope: 'all',
   });
   const [intervalId, setIntervalId] = useState(null);
-  const {
-    data: { getLaunchData },
-    loading,
-  } = useQuery(GET_LAUNCH_DATA);
+  const { data, loading } = useQuery(GET_LAUNCH_DATA);
 
   useEffect(() => {
     return () => clearInterval(intervalId);
@@ -78,9 +75,11 @@ const Space = ({ me }) => {
     let missions = [];
 
     if (filter.scope === 'all') {
-      missions = JSON.parse(getLaunchData.value);
+      missions = JSON.parse(data.getLaunchData.value);
     } else {
-      missions = JSON.parse(getLaunchData.value).filter(msn => msn.upcoming);
+      missions = JSON.parse(data.getLaunchData.value).filter(
+        msn => msn.upcoming
+      );
     }
 
     if (filter.rocket !== 'all') {
@@ -94,7 +93,7 @@ const Space = ({ me }) => {
     }
 
     return missions.sort((a, b) => b.launch_date_unix - a.launch_date_unix);
-  }, [filter, getLaunchData]);
+  }, [filter, data]);
 
   useEffect(() => {
     if (!loading) {
@@ -144,7 +143,7 @@ const Space = ({ me }) => {
             >
               <option value="all">{translate('space_filter3_1')}</option>
               {!loading &&
-                JSON.parse(getLaunchData.value)
+                JSON.parse(data.getLaunchData.value)
                   .map(mis => mis.rocket.rocket_name)
                   .filter((v, i, a) => a.indexOf(v) === i)
                   .map(rname => (

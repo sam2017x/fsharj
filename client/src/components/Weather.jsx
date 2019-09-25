@@ -33,21 +33,24 @@ const Weather = ({ me }) => {
           capital,
         },
       });
-      setForecast({
-        country,
-        weather: JSON.parse(data.data.getWeatherData.value),
-      });
-      if (window.innerWidth <= 768 && window.innerWidth >= 576) {
-        weatherRef.current.scrollIntoView({
-          block: 'center',
-          behavior: 'smooth',
+
+      if (!data.loading) {
+        setForecast({
+          country,
+          weather: JSON.parse(data.data.getWeatherData.value),
         });
-      }
-      if (window.innerWidth < 576) {
-        weatherRef.current.scrollIntoView({
-          block: 'top',
-          behavior: 'smooth',
-        });
+        if (window.innerWidth < 768 && window.innerWidth >= 576) {
+          weatherRef.current.scrollIntoView({
+            block: 'center',
+            behavior: 'smooth',
+          });
+        }
+        if (window.innerWidth < 576) {
+          weatherRef.current.scrollIntoView({
+            block: 'start',
+            behavior: 'smooth',
+          });
+        }
       }
     } catch (error) {
       setForecast(null);
