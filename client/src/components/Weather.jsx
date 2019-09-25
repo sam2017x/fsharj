@@ -37,9 +37,15 @@ const Weather = ({ me }) => {
         country,
         weather: JSON.parse(data.data.getWeatherData.value),
       });
-      if (window.innerWidth < 768) {
+      if (window.innerWidth <= 768 && window.innerWidth >= 576) {
         weatherRef.current.scrollIntoView({
           block: 'center',
+          behavior: 'smooth',
+        });
+      }
+      if (window.innerWidth < 576) {
+        weatherRef.current.scrollIntoView({
+          block: 'top',
           behavior: 'smooth',
         });
       }
@@ -133,6 +139,7 @@ const Weather = ({ me }) => {
             md={{ span: 8, offset: 1 }}
             className="pr-0 pl-0"
           >
+            {forecast === null && <div>No data available.</div>}
             {forecast !== null && (
               <div
                 style={{

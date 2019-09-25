@@ -18,6 +18,7 @@ import ServiceChoice from './components/ServiceChoice';
 import { setLocale } from './util/localization/i18n';
 import pic1 from './util/img/1.jpg';
 import './css/index.css';
+import LoadingIcon from './components/LoadingIcon';
 
 const App = ({ notification, setUser }) => {
   const client = useApolloClient();
@@ -38,6 +39,10 @@ const App = ({ notification, setUser }) => {
   };
 
   const check = useQuery(ME);
+
+  if (check.loading) {
+    return <LoadingIcon />;
+  }
 
   return (
     !check.loading && (

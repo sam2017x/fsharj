@@ -72,6 +72,7 @@ export const fi = {
   usersearch_action_remove: 'Poista',
   weather_nolog: 'Kirjaudu sisään käyttääksesi Sää-sovellusta.',
   weather_country: 'Maa',
+  weather_capital: 'Pääkaupunki',
   weather_forecast_capital: 'Pääkaupunki',
   Mon: 'Ma',
   Tue: 'Ti',
