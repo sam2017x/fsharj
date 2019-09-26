@@ -17,6 +17,7 @@ import translate from '../util/localization/i18n';
 import LoadingIcon from './LoadingIcon';
 
 const Weather = ({ me }) => {
+  const [dirty, setDirty] = useState(false);
   const [val, setVal] = useState('');
   const [forecast, setForecast] = useState(null);
   const { data, loading, error } = useQuery(COUNTRIES);
@@ -39,6 +40,7 @@ const Weather = ({ me }) => {
           country,
           weather: JSON.parse(data.data.getWeatherData.value),
         });
+        setDirty(true);
         if (window.innerWidth < 768 && window.innerWidth >= 576) {
           weatherRef.current.scrollIntoView({
             block: 'center',
@@ -53,6 +55,7 @@ const Weather = ({ me }) => {
         }
       }
     } catch (error) {
+      setDirty(true);
       setForecast(null);
     }
   };
@@ -142,7 +145,7 @@ const Weather = ({ me }) => {
             md={{ span: 8, offset: 1 }}
             className="pr-0 pl-0"
           >
-            {forecast === null && <div>No data available.</div>}
+            {forecast === null && dirty && <div>{translate('nodata')}</div>}
             {forecast !== null && (
               <div
                 style={{

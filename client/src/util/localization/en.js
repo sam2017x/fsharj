@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 export const en = {
+  nodata: 'No data available.',
   header_services: 'Services',
   chatpage_send: 'Send',
   chatpage_nolog: 'Log in to use the chat application.',
@@ -37,7 +38,7 @@ export const en = {
   sc_c2_header: 'Weather Application',
   sc_c2_title: 'Weather',
   sc_c2_text: `Choose the desired country. The app shows the weather forecast
-  of the country&apos;s capital city.`,
+  of the country's capital city.`,
   sc_c2_button: 'Weather App',
   sc_c3_title: 'SpaceX missions',
   sc_c3_text: `Check out all the SpaceX -missions that have happened or will

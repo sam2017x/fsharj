@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 export const fi = {
+  nodata: 'Dataa ei saatavilla.',
   header_services: 'Palvelut',
   chatpage_nolog: 'Kirjaudu sisään käyttääksesi chat-toimintoa.',
   header_users: 'Käyttäjät',
@@ -14,7 +15,7 @@ export const fi = {
   login_login: 'Kirjaudu',
   login_cancel: 'Peruuta',
   mainpage_nolog_h1: 'Hei siellä! ;)',
-  mainpage_nolog_p: 'Kirjaudu sisään nähdäksesi palvelutarjonnan.',
+  mainpage_nolog_p: 'Kirjaudu sisään käyttääksesi palveluita.',
   mainpage_title: 'App Mashup!',
   mainpage_h5: `Oletko koskaan kaivannut yhtä paikkaa, 
   josta löydät kaikki tarpeelliset työkalut viestittelyyn, 
@@ -70,7 +71,7 @@ export const fi = {
   usersearch_form_button: 'Tyhjennä',
   usersearch_action_add: 'Lisää ystävä',
   usersearch_action_remove: 'Poista',
-  weather_nolog: 'Kirjaudu sisään käyttääksesi Sää-sovellusta.',
+  weather_nolog: 'Kirjaudu sisään käyttääksesi sää-sovellusta.',
   weather_country: 'Maa',
   weather_capital: 'Pääkaupunki',
   weather_forecast_capital: 'Pääkaupunki',
