@@ -8,6 +8,7 @@ import { getMainDefinition } from 'apollo-utilities';
 
 const PORT = process.env.PORT || 4000;
 
+// eslint-disable-next-line new-cap
 const httpLink = new createHttpLink({
   uri: `http://localhost:${PORT}/graphql`,
 });
