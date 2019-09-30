@@ -31,10 +31,12 @@
 | 16.9. | 3 | Lokalisointi |
 | 17.9. | 2 | Refaktorointia, testausta |
 | 18.9. | 3 | Heroku deploy |
-| 19.9. | xx | Viilausta, testausta, asennusohjeet |
-| 20.9. | xx | Webpackin eriyttäminen create react apista, jotta frontista pääsee käsiksi haluttuihin ympäristömuuttujiin |
-| 23.9. | xx | Subscriptioneiden muuttaminen pollaukseen (herokussa websocket ei suostunut toimimaan) |
-| 24.9. - 26.9. | xx | Lokalisaatio, Proptyypit, varoitusten hoitaminen kuntoon, testaus, refaktorointia, readme |
+| 19.9. | 4 | Viilausta, testausta, asennusohjeet |
+| 20.9. | 4 | Webpackin eriyttäminen create react apista, jotta frontista pääsee käsiksi haluttuihin ympäristömuuttujiin |
+| 23.9. | 2 | Subscriptioneiden muuttaminen pollaukseen (herokussa ws-yhteys ei suostunut toimimaan) |
+| 24.9. - 26.9. | 5 | Lokalisaatio, Proptyypit, varoitusten hoitaminen kuntoon, testaus, refaktorointia, readme |
+| 30.9. | 2 | Readme, testaus, viimeistely |
+| yht. | 190 |
 
 
 
