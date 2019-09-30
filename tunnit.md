@@ -15,14 +15,13 @@
 | 17.7. - 25.7. | 23   | Testausta, GraphQL cachen muokkaamista ja tutkimista, Chatin rakentamista, Database-yhteys ja datan sinne vienti |
 | 30.7.         | 2    | Refaktorointia ja frontend duunia                                                                                |
 | 2.8.          | 6    | Bootstrap & käytettävien ulkopuolisten rajapintojen haku ja valinta                                              |
-| 5.8. - 7.8.   | 11   | Frontend; responsiivisuus, komponenttien tyylittely, bootstrapin opiskelu                                       |
-
+| 5.8. - 7.8.   | 11   | Frontend; responsiivisuus, komponenttien tyylittely, bootstrapin opiskelu |
 | 9.8. | 6 | Backend; RESTDataSource kirjaston käyttöönotto; piilotetaan ulkoiset rajapinnat GraphQL-rajapinnan taakse |
 | 12.8. - 13.8. | 5 | RESTDataSource |
 | 14.8. - 15.8. | 6 | Frontendia |
 | 16.8. | 4 | Frontend työtä, refaktorointia |
 | 19.8. | 5 | setIntervalin ja useEffectin kanssa taistelua (componentWillUnmount toiminnallisuus) |
-| 20.8 | 2 | Refaktorointia |
+| 20.8. | 2 | Refaktorointia |
 | 21.8. - 23.8. | 11 | Frontend testausta, kuvankäsittelyä, tyylittelyä |
 | 28.8. - 30.8. | 7 | Front & Back, chat-sovellus |
 | 2.9. - 6.9. | 13 | Subscriptions, Apollo hooks kirjaston vaihto, tyylittelyä, testausta |
