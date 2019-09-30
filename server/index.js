@@ -23,8 +23,7 @@ server.installSubscriptionHandlers(httpServer);
 mongoose.set("useFindAndModify", false);
 
 // Use local or cloud DB.
-// const MONGODB_URI = `mongodb+srv://fs:fs@cluster0-tjvic.mongodb.net/AppMashup?retryWrites=true`;
-const MONGODB_URI = `mongodb://localhost:27017/ChatApp?retryWrites=true`;
+const MONGODB_URI = `mongodb+srv://fs:fs@cluster0-tjvic.mongodb.net/AppMashup?retryWrites=true`;
 
 mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true })
