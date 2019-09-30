@@ -43,7 +43,7 @@ export const fi = {
   Sovellus kertoo sinulle kyseisen maan pääkaupungin sääennusteen.`,
   sc_c3_title: 'SpaceX operaatiot',
   sc_c3_text: `Tutki kaikkia menneitä sekä tulevia SpaceX -tehtäviä.`,
-  space_nolog: 'Log in to use the SpaceX API!',
+  space_nolog: 'Kirjaudu käyttääksesi SpaceX APIa.',
   space_h1: 'SpaceX-tehtävät',
   space_filter1: 'Raketti',
   space_filter2: 'Järjestys',
