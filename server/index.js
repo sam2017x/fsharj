@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const express = require("express");
+const path = require("path");
 const http = require("http");
 const server = require("./services/apolloserver");
 
@@ -9,6 +10,9 @@ const app = express();
 
 if (process.env.NODE_ENV !== "development") {
   app.use(express.static("./../client/build"));
+  app.get("/*", (req, res) => {
+    res.sendFile(path.join(__dirname, "./../client/build/index.html"));
+  });
 }
 
 server.applyMiddleware({ app });
